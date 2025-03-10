@@ -1,0 +1,96 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#system{
+    
+    font-family: "Great Vibes", cursive !important;
+    color:#8b5e83 !important;
+}
+
+.background-img{
+    position: relative;
+    background-image: url(/assets/img/login.jpg);
+    background-size: cover; 
+    background-position: center;
+    height:100vh;
+}
+
+.background-img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+}
+
+.container{
+    position: relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    height: 100vh;
+   
+}
+
+.log{
+    padding: 20px 30px;
+    box-shadow: 0 0 10px 4px rgba(139, 94, 131, 0.1),
+    0 0 10px 30px rgba(139, 94, 131, 0.1),
+    30px 0 20px 30px rgba(139, 94, 131, 0.1);
+    border-radius: 10px;
+    width:450px;
+    display: block;
+}
+
+.log .log-name {
+    
+    width: 100%;
+    display: block;
+}
+
+.log .log-name h2{
+    padding: 10px 5px 30px 5px;
+    text-align: center;
+    font-size: 30px;
+}
+
+#name, #email, #password, #confirm-password{
+    margin: 5px 0;
+    padding: 2px;
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid #8b5e83;
+}
+
+.log .button-log{
+    text-align: center;
+}
+
+.log .button-log-in, .log .button-log-up{
+    margin: 10px;
+    padding: 5px;
+    background-color: #e1a0d4;
+    color: #8b5e83;
+    font-family: "Great Vibes", cursive;
+    border-radius: 2px;
+    border: 2px solid #8b5e83;
+}
+
+.log .button-log-in:hover, .log .button-log-up:hover{
+    background-color:  #8b5e83;
+    color: #e1a0d4;
+}
+
+.log .button-log a{
+    color: #8b5e83;
+}
+
+.log .button-log a:hover{
+    color: #e1a0d4;
+}
