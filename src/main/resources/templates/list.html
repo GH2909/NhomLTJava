@@ -9,40 +9,157 @@
     <link rel="stylesheet" href="/static/assets/css/list.css">
 </head>
 <body>
-    <div id="system">
-        <div id="header">
-            <div class="header-container"><h1>Skincare Booking System</h1></div>
-        </div>
-        <div id="nav">
-        </div>
-        <div id="slidebar">
-            <ul class="nav">
-                <li><a href="home.html">
-                    Trang chủ</a></li>
-                <li><a href="account.html">
-                    Tài khoản</a>
-                    <ul class="subnav">
-                        <li><a href="">Khách hàng</a></li>
-                        <li><a href="">Chuyên gia trị liệu</a></li>
-                        <li><a href="">Nhân viên</a></li>
-                        <li><a href="">Quản lý</a></li>
-                    </ul>
-                </li>
-                <li><a href="list.html">
-                    Dịch vụ</a>
-                </li>
-                <li><a href="order.html">
-                    Đặt hàng</a></li>
-                <li><a href="logout.html">
-                    Đăng xuất
-                </a></li>
-            </ul>
-            <div class="content">
-                
-            </div>
-        </div>
-        
-        <div id="footer"></div>
+<div id="system">
+    <div id="header">
+        <div class="header-container"><h1>Skincare Booking System</h1></div>
     </div>
+    <div id="nav">
+    </div>
+    <div id="slidebar">
+        <ul class="nav">
+            <li><a href="home.html">
+                Trang chủ</a></li>
+            <li><a href="account.html">
+                Tài khoản</a>
+                <ul class="subnav">
+                    <li><a href="">Khách hàng</a></li>
+                    <li><a href="">Chuyên gia trị liệu</a></li>
+                    <li><a href="">Nhân viên</a></li>
+                    <li><a href="">Quản lý</a></li>
+                </ul>
+            </li>
+            <li><a href="list.html">
+                Dịch vụ</a>
+            </li>
+            <li><a href="order.html">
+                Đặt hàng</a></li>
+            <li><a href="logout.html">
+                Đăng xuất
+            </a></li>
+        </ul>
+        <div class="content">
+            <h2>
+            </h2>
+            <div class="container">
+                <h2>Danh sách dich vụ</h2>
+                <div class="top-bar">
+                    <button class="add-service-btn" onclick="openForm()">+ Thêm Dịch Vụ</button>
+                </div>
+
+                <div class="container2">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên dịch vụ</th>
+                            <th>Mô tả</th>
+                            <th>Giá</th>
+                            <th>Thời lượng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Trị mụn chuyên sâu</td>
+                            <td>Dịch vụ trị mụn hiệu quả với công nghệ tiên tiến</td>
+                            <td>500000.00</td>
+                            <td>60</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Chăm sóc da cơ bản</td>
+                            <td>Giúp da sạch sâu, mềm mịn và sáng khỏe</td>
+                            <td>300000.00</td>
+                            <td>45</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Liệu trình trẻ hóa da</td>
+                            <td>Công nghệ nâng cơ giúp da săn chắc</td>
+                            <td>1200000.00</td>
+                            <td>90</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Điều trị nám và tàn nhang</td>
+                            <td>Loại bỏ sắc tố da bằng laser</td>
+                            <td>1500000.00</td>
+                            <td>75</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Chăm sóc da nhạy cảm</td>
+                            <td>Phục hồi và làm dịu da bị kích ứng</td>
+                            <td>400000.00</td>
+                            <td>50</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="form-popup" id="serviceForm">
+                <div class="form-container">
+                    <span class="close-btn" onclick="closeForm()">&#10006;</span>
+                    <h3>Thêm Dịch Vụ Mới</h3>
+                    <label for="ServiceName">Tên dịch vụ:</label>
+                    <input type="text" id="ServiceName" placeholder="Nhập tên dịch vụ">
+
+                    <label for="Descriptions">Mô tả:</label>
+                    <input type="text" id="Descriptions" placeholder="Nhập mô tả">
+
+                    <label for="Price">Giá:</label>
+                    <input type="text" id="Price" placeholder="Nhập giá">
+
+                    <label for="Duration">Thời lượng:</label>
+                    <input type="text" id="Duration" placeholder="Nhập thời lượng">
+                    <!-- Nút OK -->
+                    <button class="ok-btn" onclick="addService()">OK</button>
+                </div>
+            </div>
+
+            <script>
+                function openForm() {
+                    document.getElementById("serviceForm").style.display = "block";
+                }
+
+                function closeForm() {
+                    document.getElementById("serviceForm").style.display = "none";
+                }
+
+                function addService() {
+                    var name = document.getElementById("ServiceName").value;
+                    var name = document.getElementById("Descriptions").value;
+                    var name = document.getElementById("Price").value;
+                    var name = document.getElementById("Duration").value;
+
+                    if (name === "") {
+                        alert("Vui lòng điền đầy đủ thông tin!");
+                        return;
+                    }
+
+                    var table = document.getElementById("serviceTable");
+                    var newRow = table.insertRow();
+
+                    var idCell = newRow.insertCell(0);
+                    var nameCell = newRow.insertCell(1);
+
+                    idCell.innerHTML = table.rows.length;
+                    nameCell.innerHTML = name;
+
+                    // Xóa dữ liệu trong form
+                    document.getElementById("serviceName").value = "";
+                    document.getElementById("serviceImage").value = "";
+                    document.getElementById("serviceType").selectedIndex = 0;
+
+                    // Đóng form sau khi thêm
+                    closeForm();
+                }
+            </script>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+</div>
 </body>
 </html>
