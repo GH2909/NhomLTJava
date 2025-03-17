@@ -20,4 +20,9 @@ public class CustomerprofileService {
     public Customerprofile UpdateCustomerprofile(Customerprofile customerprofile) {
         return customerprofileRepository.save(customerprofile);
     }
+
+    public void deleteCustomerprofile(Long id) {
+        customerprofileRepository.deleteById(id);
+    }
+
 }
