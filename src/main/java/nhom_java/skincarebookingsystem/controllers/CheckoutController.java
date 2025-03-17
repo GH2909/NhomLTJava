@@ -1,7 +1,8 @@
 package nhom_java.skincarebookingsystem.controllers;
 import nhom_java.skincarebookingsystem.models.Checkout;
-import nhom_java.skincarebookingsystem.services.CheckoutService;
 import nhom_java.skincarebookingsystem.repositories.CheckoutRepository;
+import nhom_java.skincarebookingsystem.services.CheckoutService;
+import nhom_java.skincarebookingsystem.repositories.CheckinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

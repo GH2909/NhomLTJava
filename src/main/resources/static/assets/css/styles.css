@@ -3,6 +3,13 @@
     margin: 0;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
 #system{
     font-family: "Great Vibes", cursive;
     font-size: 16px;
@@ -15,6 +22,7 @@
     left:0;
     right:0;
     height: 46px;
+    z-index: 1;
     background: linear-gradient(to bottom, #FFEBE9, #FFF5E1);
     border-bottom: 3px solid rgba(139, 94, 131,0.5);
 }
@@ -30,13 +38,14 @@
 
 #slidebar{
     position: absolute;
-    top:46px;
+    top:49px;
 }
 
 #slidebar .nav{
     position: fixed;
     height:100vh;
     width: 260px;
+    background-color: #fff;
     box-shadow: 10px 0 15px -5px rgba(139, 94, 131, 0.3);
     display: block;
     
@@ -84,10 +93,11 @@
 #slidebar .nav .subnav li:hover{
     background-color: #c381b7;
     display: block;
-    
-
 }
 
+.content{
+    margin: 0 0 0 260px;
+}
 
 
 

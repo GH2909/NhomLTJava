@@ -1,10 +1,10 @@
 package nhom_java.skincarebookingsystem.controllers;
 import nhom_java.skincarebookingsystem.models.Checkin;
-import nhom_java.skincarebookingsystem.services.CheckinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import nhom_java.skincarebookingsystem.services.CheckinService;
 
-import java.util.*;
+import java.util.List;
 
 
 @RestController
@@ -27,6 +27,7 @@ public class CheckinController {
     public Checkin updateCheckin(@RequestBody Checkin checkin){
         return checkinService.CreateCheckin(checkin);
     }
+
     @DeleteMapping("/checkin/{id}")
     public String deleteCheckin(@PathVariable Long id){
         checkinService.deleteCheckin(id);

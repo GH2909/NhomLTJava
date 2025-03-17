@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import nhom_java.skincarebookingsystem.services.CustomerprofileService;
 import java.util.List;
 import nhom_java.skincarebookingsystem.models.Customerprofile;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 //REST API
@@ -38,5 +39,12 @@ public class CustomerprofileController {
     public Customerprofile updateCustomerprofile(@RequestBody Customerprofile customerprofile) {
         return customerprofileService.CreateCustomerprofile(customerprofile);
     }
+
+    @DeleteMapping("/cuspro/{id}")
+    public ResponseEntity<String> deleteCustomerprofile(@PathVariable Long id) {
+        customerprofileService.deleteCustomerprofile(id);
+        return ResponseEntity.ok("Deleted successfully!");
+    }
+
 }
 

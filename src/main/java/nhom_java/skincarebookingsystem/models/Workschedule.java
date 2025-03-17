@@ -15,7 +15,7 @@ public class Workschedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WorkScheduleID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "WorkDate", nullable = false)
     private LocalDate workDate;

@@ -1,6 +1,7 @@
 package nhom_java.skincarebookingsystem.controllers;
 import nhom_java.skincarebookingsystem.models.Report;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import nhom_java.skincarebookingsystem.services.ReportService;
 import java.util.List;
@@ -28,15 +29,26 @@ public class ReportController {
      */
     @GetMapping("/reports")
     public List<Report> getAllReports() {
+
         return reportService.findAll();
     }
+
     @PostMapping("/report")
     public Report addReport(@RequestBody Report report) {
+
         return reportService.CreateReport(report);
     }
+
     @PutMapping("/report/{id}")
     public Report updateReport(@RequestBody Report report) {
+
         return reportService.CreateReport(report);
+    }
+
+    @DeleteMapping("/report/{id}")
+    public ResponseEntity<String> deleteReport(@PathVariable Long id) {
+        reportService.deleteReport(id);
+        return ResponseEntity.ok("Deleted successfully!");
     }
 }
 

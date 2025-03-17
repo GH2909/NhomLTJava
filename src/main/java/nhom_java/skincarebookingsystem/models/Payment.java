@@ -12,11 +12,11 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class  Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PaymentID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BookingID", nullable = false)

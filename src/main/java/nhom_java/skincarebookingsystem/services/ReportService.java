@@ -14,11 +14,17 @@ public class ReportService {
     }
 
     public Report CreateReport(Report report) {
+
         return reportRepository.save(report);
     }
 
     public Report UpdateReport(Report report) {
+
         return reportRepository.save(report);
+    }
+
+    public void deleteReport(Long id) {
+        reportRepository.deleteById(id);
     }
 }
 

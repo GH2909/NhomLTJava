@@ -12,7 +12,7 @@ public class Skintherapist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TherapistID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID")

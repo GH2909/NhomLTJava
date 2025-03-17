@@ -9,16 +9,6 @@
     position: relative;
 }
 
-.content{
-    margin: 0 0 0 260px;
-}
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
 .container {
     width: 120%;
     margin: 10% auto auto 7%;
