@@ -27,4 +27,5 @@ public class ServicesController {
     public Service updateService(@RequestBody Service service) {
         return servicesService.updateService(service);
     }
+//    @DeleteMapping ty lam
 }
