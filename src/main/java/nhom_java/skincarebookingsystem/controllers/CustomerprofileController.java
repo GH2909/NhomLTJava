@@ -38,5 +38,7 @@ public class CustomerprofileController {
     public Customerprofile updateCustomerprofile(@RequestBody Customerprofile customerprofile) {
         return customerprofileService.CreateCustomerprofile(customerprofile);
     }
+
+//    @DeleteMapping("/")
 }
 
