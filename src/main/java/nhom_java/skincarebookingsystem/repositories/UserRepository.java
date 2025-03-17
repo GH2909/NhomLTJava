@@ -1,4 +1,4 @@
-package nhom_java.skincarebookingsystem.Repositories;
+package nhom_java.skincarebookingsystem.repositories;
 
 public class UserRepository {
 }
