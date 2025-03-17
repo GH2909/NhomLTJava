@@ -1,4 +1,5 @@
 package nhom_java.skincarebookingsystem.repositories;
+
 import jakarta.persistence.Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import nhom_java.skincarebookingsystem.models.User;
@@ -12,4 +13,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User createUser(User user);
     User updateUser(User user);
     ResponseEntity<String> deleteByUsername(String username);
+
 }

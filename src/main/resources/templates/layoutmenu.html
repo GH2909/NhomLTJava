@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<body>
+<ul th:fragment="layout-menu" class="nav layout-menu">
+    <li><a href="home.html">
+        Trang chủ</a></li>
+    <li><a href="account.html">
+        Tài khoản</a>
+        <ul class="subnav">
+            <li><a href="">Khách hàng</a></li>
+            <li><a href="">Chuyên gia trị liệu</a></li>
+            <li><a href="">Nhân viên</a></li>
+            <li><a href="">Quản lý</a></li>
+        </ul>
+    </li>
+    <li><a href="list.html">
+        Dịch vụ</a>
+    </li>
+    <li><a href="order.html">
+        Đặt hàng</a></li>
+    <li><a href="logout.html">
+        Đăng xuất
+    </a></li>
+</ul>
+</body>
+</html>
