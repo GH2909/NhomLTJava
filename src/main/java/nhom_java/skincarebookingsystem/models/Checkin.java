@@ -13,8 +13,9 @@ import java.time.Instant;
 @Table(name = "checkin")
 public class Checkin {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CheckInID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BookingID", nullable = false)

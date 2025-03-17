@@ -15,7 +15,7 @@ public class Checkout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CheckOutID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BookingID", nullable = false)

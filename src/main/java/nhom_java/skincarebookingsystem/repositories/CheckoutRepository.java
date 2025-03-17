@@ -1,6 +1,5 @@
 package nhom_java.skincarebookingsystem.repositories;
 
-import nhom_java.skincarebookingsystem.models.Checkin;
 import nhom_java.skincarebookingsystem.models.Checkout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

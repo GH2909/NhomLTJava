@@ -11,13 +11,20 @@ import java.util.List;
 public class CheckoutService {
     @Autowired
     private CheckoutRepository checkoutRepository;
+
     public List<Checkout> findAll() {
         return checkoutRepository.findAll();
     }
+
     public Checkout CreateCheckout(Checkout checkout) {
         return checkoutRepository.save(checkout);
     }
+
     public Checkout UpdateCheckout(Checkout checkout) {
         return checkoutRepository.save(checkout);
+    }
+
+    public void DeleteCheckout(Long id) {
+        checkoutRepository.deleteById(id);
     }
 }
