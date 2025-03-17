@@ -1,10 +1,12 @@
 package nhom_java.skincarebookingsystem.controllers;
 import nhom_java.skincarebookingsystem.models.Feedback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import nhom_java.skincarebookingsystem.services.FeedbackService;
 import java.util.List;
 import nhom_java.skincarebookingsystem.models.Feedback;
+
 
 @RestController
 //REST API
@@ -37,5 +39,11 @@ public class FeedbackController {
     @PutMapping("/feedback/{id}")
     public Feedback updateFeedback(@RequestBody Feedback feedback) {
         return feedbackService.CreateFeedback(feedback);
+    }
+
+    @DeleteMapping("/feedback/{id}")
+    public ResponseEntity<String> deleteFeedback(@PathVariable Long id) {
+        feedbackService.deleteFeedback(id);
+        return ResponseEntity.ok("Deleted successfully!");
     }
 }

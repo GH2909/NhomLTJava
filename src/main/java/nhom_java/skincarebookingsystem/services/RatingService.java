@@ -14,11 +14,17 @@ public class RatingService {
     }
 
     public Rating CreateRating(Rating rating) {
+
         return ratingRepository.save(rating);
     }
 
     public Rating UpdateRating(Rating rating) {
+
         return ratingRepository.save(rating);
+    }
+
+    public void deleteRating(Long id) {
+        ratingRepository.deleteById(id);
     }
 }
 

@@ -14,10 +14,16 @@ public class FeedbackService {
     }
 
     public Feedback CreateFeedback(Feedback feedback) {
+
         return feedbackRepository.save(feedback);
     }
 
     public Feedback UpdateFeedback(Feedback feedback) {
+
         return feedbackRepository.save(feedback);
+    }
+
+    public void deleteFeedback(Long id) {
+        feedbackRepository.deleteById(id);
     }
 }
