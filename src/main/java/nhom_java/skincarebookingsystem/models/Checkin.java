@@ -13,13 +13,16 @@ import java.time.Instant;
 @Table(name = "checkin")
 public class Checkin {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CheckInID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BookingID", nullable = false)
     private Booking bookingID;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "StaffID", nullable = false)
+    private Staff staffID;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "CheckInTime")

@@ -1,4 +1,4 @@
-package nhom_java.skincarebookingsystem.Services;
+package nhom_java.skincarebookingsystem.services;
 
 public class UserService {
 }
