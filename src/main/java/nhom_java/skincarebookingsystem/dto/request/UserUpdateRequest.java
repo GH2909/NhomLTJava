@@ -1,40 +1,12 @@
-package nhom_java.skincarebookingsystem.models;
+package nhom_java.skincarebookingsystem.dto.request;
 
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "UserID", nullable = false)
-    private String id;
-
-    private String username;
+public class UserUpdateRequest {
 
     private String userPassword;
-
     private String email;
-
     private String phoneNumber;
-
     private String userRole;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getUserPassword() {
         return userPassword;

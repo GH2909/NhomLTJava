@@ -1,40 +1,53 @@
 package nhom_java.skincarebookingsystem.services;
+
+import nhom_java.skincarebookingsystem.dto.request.UserCreationRequest;
+import nhom_java.skincarebookingsystem.dto.request.UserUpdateRequest;
 import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.repositories.UserRepository;
-import  org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    public Optional<User> findUserByName(String username) {
-        return userRepository.findByUsername(username);
+
+
+    public User createUser(UserCreationRequest request){
+        User user = new User();
+
+        user.setUsername(request.getUsername());
+        user.setUserPassword(request.getUserPassword());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setUserRole(request.getUserRole());
+
+        return userRepository.save(user);
     }
 
-    public List<User> findAllByUser(){
+    public User updateUser(String name, UserUpdateRequest request){
+        User user = getUser(name);
+        user.setUserPassword(request.getUserPassword());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setUserRole(request.getUserRole());
+
+        return userRepository.save(user);
+    }
+
+    public void  deleteUser(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
+    public List<User> getUsers(){
         return userRepository.findAll();
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public User getUser(String username){
+        return  userRepository.findByUsername(username) .orElseThrow(() -> new RuntimeException("User not found"));
     }
-
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public ResponseEntity<String> deleteByUsername(String username){
-        Optional<User> user =findUserByName(username);
-        if (user.isPresent()){
-            userRepository.delete(user.get());
-            return ResponseEntity.ok("Đã được xóa");
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User ko ton tai");
-    }
-
-
 
 }
