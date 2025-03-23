@@ -18,6 +18,11 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    public User() {
+    }
+    public User(String email, String password, String role) {
+        this.email = email;
+    }
     public Long getId() {
         return id;
     }

@@ -4,20 +4,11 @@ import jakarta.persistence.Column;
 
 public class CustomerUpdateRequest {
     @Column
-    private String role;
     private String password;
     private String fullName;
     private String phoneNumber;
     private String address;
 
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getPassword() {
         return password;

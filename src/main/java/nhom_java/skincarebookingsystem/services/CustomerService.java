@@ -4,7 +4,6 @@ import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.repositories.CustomerRepository;
-import nhom_java.skincarebookingsystem.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Service;
@@ -29,10 +28,9 @@ public class CustomerService{
          return customerRepository.save(customer);
      }
 
-     public Customer updateCustomer(String customername, CustomerUpdateRequest request) {
-         Customer customer= getCustomer(customername);
+     public Customer updateCustomer(String email, CustomerUpdateRequest request) {
+         Customer customer= getCustomer(email);
          customer.setPassword(request.getPassword());
-         customer.setRole(request.getRole());
          customer.setFullName(request.getFullName());
          customer.setPhoneNumber(request.getPhoneNumber());
          customer.setAddress(request.getAddress());

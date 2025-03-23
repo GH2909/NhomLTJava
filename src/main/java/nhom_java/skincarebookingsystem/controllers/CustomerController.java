@@ -3,7 +3,6 @@ package nhom_java.skincarebookingsystem.controllers;
 import jakarta.transaction.Transactional;
 import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
-import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

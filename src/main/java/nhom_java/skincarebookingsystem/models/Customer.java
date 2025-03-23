@@ -1,7 +1,6 @@
 package nhom_java.skincarebookingsystem.models;
 
 import jakarta.persistence.*;
-import nhom_java.skincarebookingsystem.models.User;
 
 
 @Entity
@@ -15,7 +14,7 @@ public class Customer extends User {
     @Column(nullable = false)
     private String address;
 
-
+    public Customer() {}
     public String getFullName() {
         return fullName;
     }
