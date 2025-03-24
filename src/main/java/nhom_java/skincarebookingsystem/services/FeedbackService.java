@@ -21,6 +21,7 @@ public class FeedbackService {
         Feedback feedback = new Feedback();
         feedback.setEmail(cusFeed.getEmail());
         feedback.setContent(request.getContent());
+        feedback.setRating(request.getRating());
         feedback.setFeedbackDate(request.getFeedbackDate());
         return feedbackRepository.save(feedback);
     }
@@ -28,6 +29,7 @@ public class FeedbackService {
     public Feedback updateFeedback(String email, FeedbackUpdateRequest request) {
         Feedback feedback = getFeedback(email);
         feedback.setContent(request.getContent());
+        feedback.setRating(request.getRating());
         feedback.setFeedbackDate(request.getFeedbackDate());
         return feedbackRepository.save(feedback);
     }

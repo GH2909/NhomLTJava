@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/feed")
 public class FeedbackController {
     @Autowired
-    private FeedbackService feedbackService;
+    FeedbackService feedbackService;
 
     @PostMapping
     Feedback createFeedback(@RequestBody FeedbackCreationRequest request){
