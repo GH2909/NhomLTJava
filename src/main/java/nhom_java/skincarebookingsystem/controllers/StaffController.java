@@ -13,32 +13,62 @@ import java.util.List;
 @RequestMapping("/staff")
 public class StaffController {
 
-    @Autowired
-    private StaffService staffService;
+    private final StaffService staffService;
 
+    @Autowired
+    public StaffController(StaffService staffService) {
+        this.staffService = staffService;
+    }
+
+    // Tạo mới nhân viên
     @PostMapping
     public Staff createStaff(@RequestBody StaffCreationRequest request) {
-        return staffService.createStaff(request);
+        // Kiểm tra đầu vào nếu cần
+        if (request.getFullName() == null || request.getEmail() == null) {
+            throw new IllegalArgumentException("Full name and email are required.");
+        }
+
+        Staff staff = new Staff();
+        staff.setFullName(request.getFullName());
+        staff.setEmail(request.getEmail());
+        staff.setPhone(request.getPhone());
+        staff.setPassword(request.getPassword());
+        return staffService.createStaff(staff);
     }
 
-    @PutMapping("/{email}")
-    public Staff updateStaff(@PathVariable String email, @RequestBody StaffUpdateRequest request) {
-        return staffService.updateStaff(email, request);
+    @PutMapping("/{id}")
+    public Staff updateStaff(@PathVariable Long id, @RequestBody StaffUpdateRequest request) {
+        // Kiểm tra đầu vào nếu cần
+        if (request.getFullName() == null || request.getEmail() == null) {
+            throw new IllegalArgumentException("Full name and email are required.");
+        }
+
+        Staff updatedStaff = new Staff();
+        updatedStaff.setFullName(request.getFullName());
+        updatedStaff.setEmail(request.getEmail());
+        updatedStaff.setPhone(request.getPhone());
+        updatedStaff.setPassword(request.getPassword());
+        return staffService.updateStaff(id, updatedStaff);
     }
 
+
+    // Lấy danh sách tất cả nhân viên
     @GetMapping
     public List<Staff> getAllStaff() {
         return staffService.getAllStaff();
     }
 
-    @GetMapping("/{email}")
-    public Staff getStaff(@PathVariable String email) {
-        return staffService.getStaff(email);
+    // Lấy thông tin nhân viên theo id
+    @GetMapping("/{id}")
+    public Staff getStaff(@PathVariable Long id) {
+        return staffService.getStaffById(id)
+                .orElseThrow(() -> new RuntimeException("Staff not found with ID: " + id));
     }
 
-    @DeleteMapping("/{email}")
-    public String deleteStaff(@PathVariable String email) {
-        staffService.deleteStaff(email);
+    // Xóa nhân viên theo id
+    @DeleteMapping("/{id}")
+    public String deleteStaff(@PathVariable Long id) {
+        staffService.deleteStaff(id);
         return "Staff has been deleted";
     }
 }

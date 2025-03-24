@@ -4,7 +4,7 @@ import nhom_java.skincarebookingsystem.dto.request.BookingRequest;
 import nhom_java.skincarebookingsystem.dto.request.BookingUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Booking;
 import nhom_java.skincarebookingsystem.models.Customer;
-import nhom_java.skincarebookingsystem.models.Service;
+import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.models.SkinTherapist;
 import nhom_java.skincarebookingsystem.repositories.BookingRepository;
 import nhom_java.skincarebookingsystem.repositories.CustomerRepository;
@@ -12,28 +12,34 @@ import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
 import nhom_java.skincarebookingsystem.repositories.SkinTherapistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
+    private final CustomerRepository customerRepository;
+    private final ServiceRepository serviceRepository;
+    private final SkinTherapistRepository skinTherapistRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private ServiceRepository serviceRepository;
-
-    @Autowired
-    private SkinTherapistRepository skinTherapistRepository;
+    public BookingService(
+            BookingRepository bookingRepository,
+            CustomerRepository customerRepository,
+            ServiceRepository serviceRepository,
+            SkinTherapistRepository skinTherapistRepository) {
+        this.bookingRepository = bookingRepository;
+        this.customerRepository = customerRepository;
+        this.serviceRepository = serviceRepository;
+        this.skinTherapistRepository = skinTherapistRepository;
+    }
 
     public Booking createBooking(BookingRequest request) {
         Customer customer = customerRepository.findByEmail(request.getCustomerEmail())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        Service service = serviceRepository.findById(request.getServiceId())
+        ServiceEntity service = serviceRepository.findById(request.getServiceId())
                 .orElseThrow(() -> new RuntimeException("Service not found"));
 
         SkinTherapist therapist = null;
@@ -58,7 +64,7 @@ public class BookingService {
     }
 
     public List<Booking> getBookingsByCustomer(String email) {
-        return bookingRepository.findByCustomerEmail(email);
+        return bookingRepository.findByCustomer_Email(email);
     }
 
     public Booking getBookingById(Long id) {

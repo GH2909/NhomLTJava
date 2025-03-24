@@ -1,7 +1,7 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
-import nhom_java.skincarebookingsystem.models.Service;
+import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,32 +12,36 @@ import java.util.List;
 @RequestMapping("/services")
 public class ServiceController {
 
+    private final ServiceService serviceService;
+
     @Autowired
-    private ServiceService serviceService;
+    public ServiceController(ServiceService serviceService) {
+        this.serviceService = serviceService;
+    }
 
     @PostMapping
-    public Service createService(@RequestBody ServiceRequest request) {
+    public ServiceEntity createService(@RequestBody ServiceRequest request) {
         return serviceService.createService(request);
     }
 
     @PutMapping("/{id}")
-    public Service updateService(@PathVariable Long id, @RequestBody ServiceRequest request) {
+    public ServiceEntity updateService(@PathVariable Long id, @RequestBody ServiceRequest request) {
         return serviceService.updateService(id, request);
     }
 
     @GetMapping
-    public List<Service> getAllServices() {
+    public List<ServiceEntity> getAllServices() {
         return serviceService.getAllServices();
     }
 
     @GetMapping("/{id}")
-    public Service getServiceById(@PathVariable Long id) {
+    public ServiceEntity getServiceById(@PathVariable Long id) {
         return serviceService.getServiceById(id);
     }
 
     @DeleteMapping("/{id}")
     public String deleteService(@PathVariable Long id) {
         serviceService.deleteService(id);
-        return "Service has been deleted";
+        return "Service has been deleted successfully.";
     }
 }

@@ -6,14 +6,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)  // Thêm kế thừa nếu cần
 @PrimaryKeyJoinColumn(name = "skintherapist_id")
 public class WorkSchedule extends SkinTherapist {
-
     private LocalDate workDate;
     private LocalTime startTime;
     private LocalTime endTime;
 
     public WorkSchedule() {}
+
     public LocalDate getWorkDate() {
         return workDate;
     }

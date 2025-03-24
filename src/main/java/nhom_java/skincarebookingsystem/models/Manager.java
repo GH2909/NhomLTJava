@@ -6,10 +6,6 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "user_id") // Kế thừa từ User
 public class Manager extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long managerId; // Khóa chính riêng của Manager
-
     @Column(nullable = false)
     private boolean manageServices;
 
@@ -31,30 +27,63 @@ public class Manager extends User {
     @Column(nullable = false)
     private boolean manageCustomers;
 
-    public Manager() {}
+    public Manager() {
+    }
 
-    // Getters and Setters
-    public Long getManagerId() { return managerId; }
-    public void setManagerId(Long managerId) { this.managerId = managerId; }
+    // Getter và Setter
+    public boolean isManageServices() {
+        return manageServices;
+    }
 
-    public boolean isManageServices() { return manageServices; }
-    public void setManageServices(boolean manageServices) { this.manageServices = manageServices; }
+    public void setManageServices(boolean manageServices) {
+        this.manageServices = manageServices;
+    }
 
-    public boolean isManageWorkSchedule() { return manageWorkSchedule; }
-    public void setManageWorkSchedule(boolean manageWorkSchedule) { this.manageWorkSchedule = manageWorkSchedule; }
+    public boolean isManageWorkSchedule() {
+        return manageWorkSchedule;
+    }
 
-    public boolean isManageTherapists() { return manageTherapists; }
-    public void setManageTherapists(boolean manageTherapists) { this.manageTherapists = manageTherapists; }
+    public void setManageWorkSchedule(boolean manageWorkSchedule) {
+        this.manageWorkSchedule = manageWorkSchedule;
+    }
 
-    public boolean isManagePayments() { return managePayments; }
-    public void setManagePayments(boolean managePayments) { this.managePayments = managePayments; }
+    public boolean isManageTherapists() {
+        return manageTherapists;
+    }
 
-    public boolean isMonitorFeedback() { return monitorFeedback; }
-    public void setMonitorFeedback(boolean monitorFeedback) { this.monitorFeedback = monitorFeedback; }
+    public void setManageTherapists(boolean manageTherapists) {
+        this.manageTherapists = manageTherapists;
+    }
 
-    public boolean isViewReports() { return viewReports; }
-    public void setViewReports(boolean viewReports) { this.viewReports = viewReports; }
+    public boolean isManagePayments() {
+        return managePayments;
+    }
 
-    public boolean isManageCustomers() { return manageCustomers; }
-    public void setManageCustomers(boolean manageCustomers) { this.manageCustomers = manageCustomers; }
+    public void setManagePayments(boolean managePayments) {
+        this.managePayments = managePayments;
+    }
+
+    public boolean isMonitorFeedback() {
+        return monitorFeedback;
+    }
+
+    public void setMonitorFeedback(boolean monitorFeedback) {
+        this.monitorFeedback = monitorFeedback;
+    }
+
+    public boolean isViewReports() {
+        return viewReports;
+    }
+
+    public void setViewReports(boolean viewReports) {
+        this.viewReports = viewReports;
+    }
+
+    public boolean isManageCustomers() {
+        return manageCustomers;
+    }
+
+    public void setManageCustomers(boolean manageCustomers) {
+        this.manageCustomers = manageCustomers;
+    }
 }
