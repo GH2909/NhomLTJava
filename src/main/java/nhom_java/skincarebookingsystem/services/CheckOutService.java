@@ -34,7 +34,7 @@ public class CheckOutService {
         Staff staff = staffRepository.findById(request.getStaffId())
                 .orElseThrow(() -> new RuntimeException("Staff not found with ID: " + request.getStaffId()));
 
-        if (checkOutRepository.findByBookingId(request.getBookingId()).isPresent()) {
+        if (checkOutRepository.findById(request.getBookingId()).isPresent()) {
             throw new RuntimeException("CheckOut already exists for Booking ID: " + request.getBookingId());
         }
 
@@ -50,25 +50,26 @@ public class CheckOutService {
         return checkOutRepository.findAll();
     }
 
-    public CheckOut getCheckOutByBookingId(Long bookingId) {
-        return checkOutRepository.findByBookingId(bookingId)
-                .orElseThrow(() -> new RuntimeException("CheckOut not found for Booking ID: " + bookingId));
+    public CheckOut getCheckOutByBookingId(String email) {
+        return checkOutRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("CheckIn không tìm thấy cho email: " + email));
     }
 
-    public CheckOut updateCheckOut(Long id, CheckOutUpdateRequest request) {
-        CheckOut checkOut = checkOutRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CheckOut not found with ID: " + id));
+    public CheckOut updateCheckOut(String email, CheckOutUpdateRequest request) {
+        CheckOut checkOut = checkOutRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("CheckOut không tìm thấy cho email: " + email));
 
-        checkOut.setCheckOutTime(request.getCheckOutTime());
+        if (request.getCheckOutTime() != null) {
+            checkOut.setCheckOutTime(request.getCheckOutTime());
+        }
         return checkOutRepository.save(checkOut);
     }
 
     @Transactional
-    public void deleteCheckOut(Long id) {
-        if (!checkOutRepository.existsById(id)) {
-            throw new RuntimeException("CheckOut with ID " + id + " not found");
+    public void deleteCheckOut(String email) {
+        if (checkOutRepository.findByEmail(email).isEmpty()) {
+            throw new RuntimeException("CheckOut not found with email: " + email);
         }
-
-        checkOutRepository.deleteById(id);
+        checkOutRepository.delete(checkOutRepository.findByEmail(email).get());
     }
 }

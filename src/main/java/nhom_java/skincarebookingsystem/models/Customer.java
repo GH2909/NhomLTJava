@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Customer extends User {
 
     @Column(nullable = false)

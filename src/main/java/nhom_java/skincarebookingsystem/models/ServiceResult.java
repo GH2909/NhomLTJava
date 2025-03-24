@@ -5,11 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "service_result")
-public class ServiceResult {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ServiceResult extends SkinTherapist{
 
     @OneToOne
     @JoinColumn(name = "booking_id", nullable = false, unique = true)
@@ -27,13 +23,6 @@ public class ServiceResult {
 
     public ServiceResult() {}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Booking getBooking() {
         return booking;

@@ -26,19 +26,19 @@ public class CheckOutController {
         return checkOutService.getAllCheckOuts();
     }
 
-    @GetMapping("/booking/{bookingId}")
-    public CheckOut getCheckOutByBookingId(@PathVariable Long bookingId) {
-        return checkOutService.getCheckOutByBookingId(bookingId);
+    @GetMapping("/{email}")
+    public CheckOut getCheckOutByBookingId(@PathVariable String email) {
+        return checkOutService.getCheckOutByBookingId(email);
     }
 
-    @PutMapping("/{id}")
-    public CheckOut updateCheckOut(@PathVariable Long id, @RequestBody CheckOutUpdateRequest request) {
-        return checkOutService.updateCheckOut(id, request);
+    @PutMapping("/{email}")
+    public CheckOut updateCheckOut(@PathVariable String email, @RequestBody CheckOutUpdateRequest request) {
+        return checkOutService.updateCheckOut(email, request);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteCheckOut(@PathVariable Long id) {
-        checkOutService.deleteCheckOut(id);
+    @DeleteMapping("/{email}")
+    public String deleteCheckOut(@PathVariable String email) {
+        checkOutService.deleteCheckOut(email);
         return "CheckOut deleted successfully";
     }
 }

@@ -26,19 +26,19 @@ public class ServiceResultController {
         return serviceResultService.getAllServiceResults();
     }
 
-    @GetMapping("/booking/{bookingId}")
-    public ServiceResult getServiceResultByBookingId(@PathVariable Long bookingId) {
-        return serviceResultService.getServiceResultByBookingId(bookingId);
+    @GetMapping("/{email}")
+    public ServiceResult getServiceResultByBookingId(@PathVariable String email) {
+        return serviceResultService.getServiceResultByBookingId(email);
     }
 
-    @PutMapping("/{id}")
-    public ServiceResult updateServiceResult(@PathVariable Long id, @RequestBody ServiceResultUpdateRequest request) {
-        return serviceResultService.updateServiceResult(id, request);
+    @PutMapping("/{email}")
+    public ServiceResult updateServiceResult(@PathVariable String email, @RequestBody ServiceResultUpdateRequest request) {
+        return serviceResultService.updateServiceResult(email, request);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteServiceResult(@PathVariable Long id) {
-        serviceResultService.deleteServiceResult(id);
+    @DeleteMapping("/{email}")
+    public String deleteServiceResult(@PathVariable String email) {
+        serviceResultService.deleteServiceResult(email);
         return "ServiceResult deleted successfully";
     }
 }

@@ -1,12 +1,12 @@
 package nhom_java.skincarebookingsystem.repositories;
 
-import nhom_java.skincarebookingsystem.models.CheckOut;
+import nhom_java.skincarebookingsystem.models.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CheckOutRepository extends JpaRepository<CheckOut, Long> {
-    Optional<CheckOut> findByEmail(String email);
+public interface ServiceRepository extends JpaRepository<Service, Long> {
+    Optional<Service> findByName(String name);
 }

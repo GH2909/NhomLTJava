@@ -5,11 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "check_in")
-public class CheckIn {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CheckIn extends Customer{
 
     @OneToOne
     @JoinColumn(name = "booking_id", nullable = false, unique = true)
@@ -24,13 +20,12 @@ public class CheckIn {
 
     public CheckIn() {}
 
-    public Long getId() {
-        return id;
+    public CheckIn(Booking booking, Staff staff, LocalDateTime checkInTime) {
+        this.booking = booking;
+        this.staff = staff;
+        this.checkInTime = checkInTime;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Booking getBooking() {
         return booking;

@@ -46,14 +46,14 @@ public class ServiceResultService {
         return serviceResultRepository.findAll();
     }
 
-    public ServiceResult getServiceResultByBookingId(Long bookingId) {
-        return serviceResultRepository.findByBookingId(bookingId)
-                .orElseThrow(() -> new RuntimeException("ServiceResult not found for Booking ID: " + bookingId));
+    public ServiceResult getServiceResultByBookingId(String email) {
+        return serviceResultRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("ServiceResult không tìm thấy email: " + email));
     }
 
-    public ServiceResult updateServiceResult(Long id, ServiceResultUpdateRequest request) {
-        ServiceResult serviceResult = serviceResultRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ServiceResult not found with ID: " + id));
+    public ServiceResult updateServiceResult(String email, ServiceResultUpdateRequest request) {
+        ServiceResult serviceResult = serviceResultRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("ServiceResult không tìm thấy email: " + email));
 
         serviceResult.setResultDescription(request.getResultDescription());
         serviceResult.setCompletionDate(request.getCompletionDate());
@@ -61,11 +61,10 @@ public class ServiceResultService {
     }
 
     @Transactional
-    public void deleteServiceResult(Long id) {
-        if (!serviceResultRepository.existsById(id)) {
-            throw new RuntimeException("ServiceResult with ID " + id + " not found");
+    public void deleteServiceResult(String email) {
+        if (!serviceResultRepository.existsByEmail(email)) {
+            throw new RuntimeException("ServiceResult không tìm thấy email: " + email);
         }
-
-        serviceResultRepository.deleteById(id);
+        serviceResultRepository.findByEmail(email);
     }
 }

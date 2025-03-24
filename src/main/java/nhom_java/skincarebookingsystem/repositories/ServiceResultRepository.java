@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ServiceResultRepository extends JpaRepository<ServiceResult, Long> {
-    Optional<ServiceResult> findByBookingId(Long bookingId);
+    Optional<ServiceResult> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

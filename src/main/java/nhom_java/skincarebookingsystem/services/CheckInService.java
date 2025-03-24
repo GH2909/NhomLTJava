@@ -10,9 +10,6 @@ import nhom_java.skincarebookingsystem.repositories.CheckInRepository;
 import nhom_java.skincarebookingsystem.repositories.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,20 +26,12 @@ public class CheckInService {
 
     public CheckIn createCheckIn(CheckInCreationRequest request) {
         Booking booking = bookingRepository.findById(request.getBookingId())
-                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + request.getBookingId()));
+                .orElseThrow(() -> new RuntimeException("Booking không tồn tại"));
 
         Staff staff = staffRepository.findById(request.getStaffId())
-                .orElseThrow(() -> new RuntimeException("Staff not found with ID: " + request.getStaffId()));
+                .orElseThrow(() -> new RuntimeException("Staff không tồn tại"));
 
-        if (checkInRepository.findByBookingId(request.getBookingId()).isPresent()) {
-            throw new RuntimeException("CheckIn already exists for Booking ID: " + request.getBookingId());
-        }
-
-        CheckIn checkIn = new CheckIn();
-        checkIn.setBooking(booking);
-        checkIn.setStaff(staff);
-        checkIn.setCheckInTime(request.getCheckInTime() != null ? request.getCheckInTime() : LocalDateTime.now());
-
+        CheckIn checkIn = new CheckIn(booking, staff, request.getCheckInTime());
         return checkInRepository.save(checkIn);
     }
 
@@ -50,25 +39,19 @@ public class CheckInService {
         return checkInRepository.findAll();
     }
 
-    public CheckIn getCheckInByBookingId(String email) {
+    public CheckIn getCheckIn(String email) {
         return checkInRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("CheckIn not found for Booking ID: " + email));
+                .orElseThrow(() -> new RuntimeException("CheckIn không tìm thấy cho email: " + email));
     }
 
     public CheckIn updateCheckIn(String email, CheckInUpdateRequest request) {
-        CheckIn checkIn = checkInRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("CheckIn not found with ID: " + email));
-
+        CheckIn checkIn = getCheckIn(email);
         checkIn.setCheckInTime(request.getCheckInTime());
         return checkInRepository.save(checkIn);
     }
 
-    @Transactional
-    public void deleteCheckIn(Long id) {
-        if (!checkInRepository.existsById(id)) {
-            throw new RuntimeException("CheckIn with ID " + id + " not found");
-        }
-
-        checkInRepository.deleteById(id);
+    public void deleteCheckIn(String email) {
+        CheckIn checkIn = getCheckIn(email);
+        checkInRepository.delete(checkIn);
     }
 }
