@@ -6,6 +6,10 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "user_id") // Kế thừa từ User
 public class Staff extends User {
 
+    @OneToOne
+    @JoinColumn(name = "work_schedule_id")
+    private WorkSchedule workSchedule; // Liên kết với WorkSchedule
+
     @Column(nullable = false)
     private String fullName;
 
@@ -17,8 +21,8 @@ public class Staff extends User {
 
     public Staff() {}
 
-    // Getters and Setter
-
+    public WorkSchedule getWorkSchedule() { return workSchedule; }
+    public void setWorkSchedule(WorkSchedule workSchedule) { this.workSchedule = workSchedule; }
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 

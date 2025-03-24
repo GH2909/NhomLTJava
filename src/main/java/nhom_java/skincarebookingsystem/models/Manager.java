@@ -52,3 +52,4 @@ public class Manager extends User {
     public boolean isManageCustomers() { return manageCustomers; }
     public void setManageCustomers(boolean manageCustomers) { this.manageCustomers = manageCustomers; }
 }
+
