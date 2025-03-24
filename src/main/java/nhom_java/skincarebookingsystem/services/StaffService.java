@@ -2,7 +2,7 @@ package nhom_java.skincarebookingsystem.services;
 
 import nhom_java.skincarebookingsystem.models.Staff;
 import nhom_java.skincarebookingsystem.repositories.StaffRepository;
-import nhom_java.skincarebookingsystem.repositories.WorkScheduleRepository;
+import nhom_java.skincarebookingsystem.repositories. ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.Optional;
 public class StaffService {
 
     private final StaffRepository staffRepository;
-    private final WorkScheduleRepository workScheduleRepository;
+    private final  ScheduleRepository  ScheduleRepository;
 
     @Autowired
-    public StaffService(StaffRepository staffRepository, WorkScheduleRepository workScheduleRepository) {
+    public StaffService(StaffRepository staffRepository,  ScheduleRepository  ScheduleRepository) {
         this.staffRepository = staffRepository;
-        this.workScheduleRepository = workScheduleRepository;
+        this. ScheduleRepository =  ScheduleRepository;
     }
 
     // Lấy tất cả nhân viên

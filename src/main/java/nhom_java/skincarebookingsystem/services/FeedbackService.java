@@ -1,5 +1,4 @@
 package nhom_java.skincarebookingsystem.services;
-
 import nhom_java.skincarebookingsystem.dto.request.FeedbackCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.FeedbackUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Feedback;
@@ -12,7 +11,7 @@ import java.util.List;
 @Service
 public class FeedbackService {
     @Autowired
-    private FeedbackRepository feedbackRepository;
+    private FeedbackRepository feedbackRepository ;
 
     @Autowired
     private CustomerService customerService;
@@ -21,6 +20,7 @@ public class FeedbackService {
         Feedback feedback = new Feedback();
         feedback.setEmail(cusFeed.getEmail());
         feedback.setContent(request.getContent());
+        feedback.setRating(request.getRating());
         feedback.setFeedbackDate(request.getFeedbackDate());
         return feedbackRepository.save(feedback);
     }
@@ -28,6 +28,7 @@ public class FeedbackService {
     public Feedback updateFeedback(String email, FeedbackUpdateRequest request) {
         Feedback feedback = getFeedback(email);
         feedback.setContent(request.getContent());
+        feedback.setRating(request.getRating());
         feedback.setFeedbackDate(request.getFeedbackDate());
         return feedbackRepository.save(feedback);
     }
@@ -44,3 +45,4 @@ public class FeedbackService {
         feedbackRepository.deleteByEmail(email);
     }
 }
+

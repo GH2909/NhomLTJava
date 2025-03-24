@@ -1,3 +1,4 @@
+
 package nhom_java.skincarebookingsystem.controllers;
 import jakarta.transaction.Transactional;
 import nhom_java.skincarebookingsystem.dto.request.FeedbackUpdateRequest;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping("/feed")
 public class FeedbackController {
     @Autowired
-    private FeedbackService feedbackService;
+    FeedbackService feedbackService;
 
     @PostMapping
     Feedback createFeedback(@RequestBody FeedbackCreationRequest request){
