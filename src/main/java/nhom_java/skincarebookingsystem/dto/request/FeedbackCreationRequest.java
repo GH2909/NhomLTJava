@@ -3,13 +3,14 @@ package nhom_java.skincarebookingsystem.dto.request;
 import jakarta.persistence.Column;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 public class FeedbackCreationRequest {
     @Column
 
     private String email;
     private String content;
-    private Instant feedbackDate;
+    private LocalDateTime feedbackDate;
 
     public String getEmail() {
         return email;
@@ -27,11 +28,11 @@ public class FeedbackCreationRequest {
         this.content = content;
     }
 
-    public Instant getFeedbackDate() {
+    public LocalDateTime getFeedbackDate() {
         return feedbackDate;
     }
 
-    public void setFeedbackDate(Instant feedbackDate) {
+    public void setFeedbackDate(LocalDateTime feedbackDate) {
         this.feedbackDate = feedbackDate;
     }
 }
