@@ -14,7 +14,7 @@ public class Feedback extends Customer{
     @Column(nullable = false)
     private BigDecimal rating;
     @Column(nullable = false, updatable = false)
-//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime feedbackDate;
     public Feedback() {
         this.feedbackDate = LocalDateTime.now();
