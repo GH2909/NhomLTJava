@@ -6,14 +6,10 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "user_id") // Kế thừa từ User
 public class Staff extends User {
 
-<<<<<<< HEAD
-
     @OneToOne
     @JoinColumn(name = "work_schedule_id")
     private WorkSchedule workSchedule; // Liên kết với WorkSchedule
 
-=======
->>>>>>> 3de8fc829106fec34324e59ae94d102579f669e4
     @Column(nullable = false)
     private String fullName;
 
@@ -25,20 +21,23 @@ public class Staff extends User {
 
     public Staff() {}
 
-<<<<<<< HEAD
-
+    // Getter và Setter cho workSchedule
     public WorkSchedule getWorkSchedule() { return workSchedule; }
     public void setWorkSchedule(WorkSchedule workSchedule) { this.workSchedule = workSchedule; }
-=======
-    // Getters and Setter
->>>>>>> 3de8fc829106fec34324e59ae94d102579f669e4
 
+    // Getter và Setter cho fullName
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
+    // Getter và Setter cho phone
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 
+    // Getter và Setter cho position
     public String getPosition() { return position; }
     public void setPosition(String position) { this.position = position; }
+
+    // Getter và Setter cho name (Dành cho trường hợp bạn muốn sử dụng set/get name)
+    public String getName() { return getFullName(); } // Trả về fullName
+    public void setName(String name) { setFullName(name); } // Gán giá trị cho fullName
 }

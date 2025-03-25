@@ -1,19 +1,12 @@
-package nhom_java.skincarebookingsystem.models;
-
-import jakarta.persistence.*;
+package nhom_java.skincarebookingsystem.dto.request;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // Thêm kế thừa nếu cần
-@PrimaryKeyJoinColumn(name = "skintherapist_id")
-public class WorkSchedule extends SkinTherapist {
+public class ScheduleCreationRequest {
     private LocalDate workDate;
     private LocalTime startTime;
     private LocalTime endTime;
-
-    public WorkSchedule() {}
 
     public LocalDate getWorkDate() {
         return workDate;
