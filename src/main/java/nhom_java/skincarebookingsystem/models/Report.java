@@ -13,7 +13,7 @@ public class Report extends Manager{
     @Column(nullable = false)
     private String reportType;
     @Column(nullable = false)
-    private String content;
+    private String content2;
     @Column(nullable = false, updatable = false)
     private LocalDateTime creationDate;
     public Report(){
@@ -28,12 +28,12 @@ public class Report extends Manager{
         this.reportType = reportType;
     }
 
-    public String getContent() {
-        return content;
+    public String getContent2() {
+        return content2;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContent2(String content2) {
+        this.content2 = content2;
     }
 
     public LocalDateTime getCreationDate() {

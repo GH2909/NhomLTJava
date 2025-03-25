@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 //package nhom_java.skincarebookingsystem.models;
 //
 //import jakarta.persistence.*;
@@ -59,7 +59,6 @@
 //    public boolean isManageCustomers() { return manageCustomers; }
 //    public void setManageCustomers(boolean manageCustomers) { this.manageCustomers = manageCustomers; }
 //}
-=======
 package nhom_java.skincarebookingsystem.models;
 
 import jakarta.persistence.*;
@@ -114,4 +113,3 @@ public class Manager extends User {
     public boolean isManageCustomers() { return manageCustomers; }
     public void setManageCustomers(boolean manageCustomers) { this.manageCustomers = manageCustomers; }
 }
->>>>>>> 3de8fc829106fec34324e59ae94d102579f669e4
