@@ -1,9 +1,6 @@
 package nhom_java.skincarebookingsystem.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +10,7 @@ public class Report extends Manager{
     @Column(nullable = false)
     private String reportType;
     @Column(nullable = false)
-    private String content2;
+    private String content;
     @Column(nullable = false, updatable = false)
     private LocalDateTime creationDate;
     public Report(){
@@ -28,12 +25,12 @@ public class Report extends Manager{
         this.reportType = reportType;
     }
 
-    public String getContent2() {
-        return content2;
+    public String getContent() {
+        return content;
     }
 
-    public void setContent2(String content2) {
-        this.content2 = content2;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getCreationDate() {

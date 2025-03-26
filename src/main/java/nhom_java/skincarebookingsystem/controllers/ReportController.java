@@ -1,9 +1,8 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.transaction.Transactional;
-import nhom_java.skincarebookingsystem.dto.request.FeedbackCreationRequest;
-import nhom_java.skincarebookingsystem.dto.request.FeedbackUpdateRequest;
-import nhom_java.skincarebookingsystem.models.Feedback;
+import nhom_java.skincarebookingsystem.dto.request.ReportCreationRequest;
+import nhom_java.skincarebookingsystem.dto.request.ReportUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Report;
 import nhom_java.skincarebookingsystem.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
