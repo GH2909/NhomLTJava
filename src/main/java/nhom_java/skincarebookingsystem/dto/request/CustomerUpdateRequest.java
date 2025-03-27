@@ -1,9 +1,6 @@
 package nhom_java.skincarebookingsystem.dto.request;
 
-import jakarta.persistence.Column;
-
 public class CustomerUpdateRequest {
-    @Column
     private String password;
     private String fullName;
     private String phoneNumber;
