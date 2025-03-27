@@ -2,9 +2,13 @@ package nhom_java.skincarebookingsystem.services;
 
 import nhom_java.skincarebookingsystem.dto.request.ManagerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ManagerUpdateRequest;
+import nhom_java.skincarebookingsystem.exception.AppException;
+import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.models.Manager;
 import nhom_java.skincarebookingsystem.repositories.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +20,13 @@ public class ManagerService {
     @Autowired
     private ManagerRepository managerRepository;
 
-    // Xóa BCryptPasswordEncoder vì không sử dụng mã hóa mật khẩu nữa
-
     public Manager createManager(ManagerCreationRequest request) {
-        // Kiểm tra nếu email đã tồn tại
-        if (managerRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email đã tồn tại");
-        }
-
-        // Tạo đối tượng Manager mới từ request
         Manager manager = new Manager();
+        if (managerRepository.existsByEmail((request.getEmail())))
+            throw new AppException(ErrorCode.USER_EXISTED);
+
         manager.setEmail(request.getEmail());
-        manager.setPassword(request.getPassword()); // Không mã hóa mật khẩu nữa
+        manager.setPassword(request.getPassword());
         manager.setRole(request.getRole());
         manager.setManageServices(request.isManageServices());
         manager.setManageWorkSchedule(request.isManageWorkSchedule());
@@ -36,20 +35,18 @@ public class ManagerService {
         manager.setMonitorFeedback(request.isMonitorFeedback());
         manager.setViewReports(request.isViewReports());
         manager.setManageCustomers(request.isManageCustomers());
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        manager.setPassword(passwordEncoder.encode(request.getPassword()));
         return managerRepository.save(manager);
     }
 
     public Manager updateManager(String email, ManagerUpdateRequest request) {
-        // Lấy Manager từ email
         Manager manager = getManager(email);
 
-        // Nếu có mật khẩu mới, thay đổi mật khẩu
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            manager.setPassword(request.getPassword()); // Không mã hóa mật khẩu
+            manager.setPassword(request.getPassword());
         }
 
-        // Cập nhật các thuộc tính khác
         manager.setManageServices(request.isManageServices());
         manager.setManageWorkSchedule(request.isManageWorkSchedule());
         manager.setManageTherapists(request.isManageTherapists());

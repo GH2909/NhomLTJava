@@ -5,7 +5,7 @@ import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.services.CustomerService;
-import nhom_java.skincarebookingsystem.response.ApiResponse;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -45,3 +45,4 @@ public class CustomerController {
         return "Customer has been deleted";
     }
 }
+

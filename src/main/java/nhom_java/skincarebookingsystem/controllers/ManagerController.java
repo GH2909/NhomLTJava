@@ -1,9 +1,13 @@
 package nhom_java.skincarebookingsystem.controllers;
 
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
+import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ManagerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ManagerUpdateRequest;
+import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.models.Manager;
 import nhom_java.skincarebookingsystem.services.ManagerService;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +21,10 @@ public class ManagerController {
     private ManagerService managerService;
 
     @PostMapping
-    public Manager createManager(@RequestBody ManagerCreationRequest request) {
-        return managerService.createManager(request);
+    ApiResponse<Manager> createManager(@RequestBody ManagerCreationRequest request){
+        ApiResponse<Manager> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(managerService.createManager(request));
+        return apiResponse;
     }
 
     @PutMapping("/{email}")

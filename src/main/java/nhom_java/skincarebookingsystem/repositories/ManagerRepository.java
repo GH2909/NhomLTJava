@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
     Optional<Manager> findByEmail(String email);
     void deleteByEmail(String email);
+    boolean existsByEmail(String email);
+
 }

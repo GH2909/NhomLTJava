@@ -1,9 +1,12 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.transaction.Transactional;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistUpdateRequest;
+import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.models.SkinTherapist;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.services.SkinTherapistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +19,10 @@ public class SkinTherapistController {
     SkinTherapistService skinTherapistService;
 
     @PostMapping
-    SkinTherapist createSkinTherapist(@RequestBody SkinTherapistCreationRequest request){
-        return skinTherapistService.createSkinTherapist(request);
+    ApiResponse<SkinTherapist> createSkinTherapist(@RequestBody SkinTherapistCreationRequest request){
+        ApiResponse<SkinTherapist> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(skinTherapistService.createSkinTherapist(request));
+        return apiResponse;
     }
 
     @PutMapping("/{email}")

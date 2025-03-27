@@ -1,8 +1,6 @@
 package nhom_java.skincarebookingsystem.exception;
 
-import nhom_java.skincarebookingsystem.response.ApiResponse;
-import nhom_java.skincarebookingsystem.exception.ErrorCode;
-import org.springframework.http.HttpStatus;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

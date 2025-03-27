@@ -20,22 +20,18 @@ public class StaffService {
         this. ScheduleRepository =  ScheduleRepository;
     }
 
-    // Lấy tất cả nhân viên
     public List<Staff> getAllStaff() {
         return staffRepository.findAll();
     }
 
-    // Lấy nhân viên theo ID
     public Optional<Staff> getStaffById(Long id) {
         return staffRepository.findById(id);
     }
 
-    // Tạo mới nhân viên
     public Staff createStaff(Staff staff) {
         return staffRepository.save(staff);
     }
 
-    // Cập nhật thông tin nhân viên
     public Staff updateStaff(Long id, Staff updatedStaff) {
         return staffRepository.findById(id).map(existingStaff -> {
             existingStaff.setFullName(updatedStaff.getFullName());
@@ -44,7 +40,6 @@ public class StaffService {
             existingStaff.setPassword(updatedStaff.getPassword());
             existingStaff.setPosition(updatedStaff.getPosition());
 
-            // Cập nhật lịch làm việc nếu cần
             if (updatedStaff.getWorkSchedule() != null) {
                 existingStaff.setWorkSchedule(updatedStaff.getWorkSchedule());
             }

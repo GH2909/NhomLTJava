@@ -23,7 +23,6 @@ public class StaffController {
     // Tạo mới nhân viên
     @PostMapping
     public Staff createStaff(@RequestBody StaffCreationRequest request) {
-        // Kiểm tra đầu vào nếu cần
         if (request.getFullName() == null || request.getEmail() == null) {
             throw new IllegalArgumentException("Full name and email are required.");
         }

@@ -9,4 +9,5 @@ import java.util.*;
 public interface SkinTherapistRepository extends JpaRepository<SkinTherapist, Long> {
     Optional<SkinTherapist> findByEmail(String email);
     void deleteByEmail(String email);
+    boolean existsByEmail(String email);
 }

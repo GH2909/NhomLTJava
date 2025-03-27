@@ -3,9 +3,13 @@ package nhom_java.skincarebookingsystem.services;
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistCreationRequest;
 
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistUpdateRequest;
+import nhom_java.skincarebookingsystem.exception.AppException;
+import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.models.SkinTherapist;
 import nhom_java.skincarebookingsystem.repositories.SkinTherapistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -16,6 +20,8 @@ public class SkinTherapistService {
     SkinTherapistRepository skinTherapistRepository;
     public SkinTherapist createSkinTherapist(SkinTherapistCreationRequest request) {
         SkinTherapist thera = new SkinTherapist();
+        if (skinTherapistRepository.existsByEmail((request.getEmail())))
+            throw new AppException(ErrorCode.USER_EXISTED);
         thera.setEmail(request.getEmail());
         thera.setPassword(request.getPassword());
         thera.setRole(request.getRole());
@@ -25,6 +31,8 @@ public class SkinTherapistService {
         thera.setExperienceYears(request.getExperienceYears());
         thera.setImages(request.getImages());
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        thera.setPassword(passwordEncoder.encode(request.getPassword()));
         return skinTherapistRepository.save(thera);
     }
 
