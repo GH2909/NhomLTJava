@@ -8,4 +8,5 @@ import java.util.*;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByEmail(String email);
     void deleteByEmail(String email);
+    boolean existsByEmail(String email);
 }
