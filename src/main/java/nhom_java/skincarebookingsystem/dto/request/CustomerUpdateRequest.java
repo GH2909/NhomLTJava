@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 public class CustomerUpdateRequest {
     private String password;
     private String fullName;

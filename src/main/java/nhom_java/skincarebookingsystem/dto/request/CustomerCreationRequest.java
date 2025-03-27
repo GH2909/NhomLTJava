@@ -15,7 +15,4 @@ public class CustomerCreationRequest {
      String fullName;
      String phoneNumber;
      String address;
-
-
-
 }
