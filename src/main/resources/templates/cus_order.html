@@ -2,9 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking System</title>
+    <link rel="stylesheet" href="/assets/themify-icons-font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link rel="stylesheet" href="/static/assets/css/cus_order.css">
 </head>
 <body>
+<div id="system">g
+    <div id="header">
+        <div class="header-container">
+            <h1>Skincare Booking</h1>
+        </div>
+    </div>
+    <div id="nav">
+    </div>
+    <div class="order-container">
+        <h2>Đặt Dịch Vụ</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">Họ và Tên:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số Điện Thoại:</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Địa Chỉ:</label>
+                <input type="text" id="address" required>
+            </div>
+            <div class="form-group">
+                <label for="service">Chọn Dịch Vụ:</label>
+                <select id="service">
+                    <option>Trị mụn chuyên sâu</option>
+                    <option>Chăm sóc da cơ bản</option>
+                    <option>Liệu trình trẻ hóa da</option>
+                    <option>Điều trị nám và tàn nhang</option>
+                    <option>Chăm sóc da nhạy cảm</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">OK</button>
+        </form>
+    </div>
 
+    <div id="footer"></div>
+</div>
 </body>
 </html>
