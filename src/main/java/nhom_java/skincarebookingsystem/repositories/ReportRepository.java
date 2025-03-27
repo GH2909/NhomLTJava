@@ -1,13 +1,13 @@
 package nhom_java.skincarebookingsystem.repositories;
 
-import nhom_java.skincarebookingsystem.models.Manager;
+import nhom_java.skincarebookingsystem.models.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.*;
 
 @Repository
-public interface ManagerRepository extends JpaRepository<Manager, Long> {
-    Optional<Manager> findByEmail(String email);
+public interface ReportRepository extends JpaRepository<Report, Long> {
+    Optional<Report> findByEmail(String email);
     void deleteByEmail(String email);
 }

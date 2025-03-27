@@ -3,25 +3,26 @@ package nhom_java.skincarebookingsystem.models;
 import jakarta.persistence.*;
 
 @Entity
-public class Service {
+@Table(name = "services") // Đặt tên bảng trong DB
+public class ServiceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long serviceId; // Khóa chính
+    private Long serviceId;
 
     @Column(nullable = false, unique = true)
-    private String name; // Tên dịch vụ
+    private String name;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
 
     @Column(nullable = false)
-    private String description; // Mô tả dịch vụ
+    private Double price;
 
     @Column(nullable = false)
-    private Double price; // Giá dịch vụ
+    private Integer duration; // Tính bằng phút
 
-    @Column(nullable = false)
-    private Integer duration; // Thời gian thực hiện (phút)
-
-    public Service() {}
+    public ServiceEntity() {}
 
     // Getters and Setters
     public Long getServiceId() { return serviceId; }

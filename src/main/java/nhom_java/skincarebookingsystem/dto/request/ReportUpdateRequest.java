@@ -1,21 +1,14 @@
-package nhom_java.skincarebookingsystem.models;
+package nhom_java.skincarebookingsystem.dto.request;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
-@Entity
-@PrimaryKeyJoinColumn(name = "manager_id")
-public class Report extends Manager{
-
-    @Column(nullable = false)
+public class ReportUpdateRequest {
+    @Column
     private String reportType;
-    @Column(nullable = false)
     private String content;
-    @Column(nullable = false, updatable = false)
     private LocalDateTime creationDate;
-    public Report(){
-        this.creationDate = LocalDateTime.now();
-    }
 
     public String getReportType() {
         return reportType;

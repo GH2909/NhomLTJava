@@ -10,9 +10,11 @@ spring:
 
     password: 0812181639ghjm
 
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     open-in-view: true
+
 

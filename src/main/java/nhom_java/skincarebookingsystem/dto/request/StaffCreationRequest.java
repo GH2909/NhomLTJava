@@ -4,10 +4,10 @@ public class StaffCreationRequest {
     private String email;
     private String password;
     private String role;
-    private String fullName;
+    private String fullName;  // Tên đầy đủ thay vì name
     private String phone;
     private String position;
-    private Long workScheduleId;
+    private Long workScheduleId;  // Giả sử có liên kết tới WorkSchedule
 
     // Getters and Setters
     public String getEmail() { return email; }
