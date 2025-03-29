@@ -5,7 +5,8 @@ public enum ErrorCode {
     UNCATEG0RIZED_EXCEPTION(9999,"Uncategorized error"),
 
     INVALID_KEY(1001,"Invalid message key"),
-    USER_NOT_EXISTED(1005,"User not existed")
+    USER_NOT_EXISTED(1005,"User not existed"),
+    UNAUTHENTICATED (1006,"Unauthenticated"),
     ;
 
     ErrorCode(int code, String message) {
