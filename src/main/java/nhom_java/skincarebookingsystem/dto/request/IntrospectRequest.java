@@ -1,5 +1,4 @@
-package nhom_java.skincarebookingsystem.dto.response;
-
+package nhom_java.skincarebookingsystem.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
-    String token;
-    boolean authenticated;
+public class IntrospectRequest {
+    String token ;
 }

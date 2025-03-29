@@ -12,7 +12,9 @@ import nhom_java.skincarebookingsystem.dto.request.AuthenticationRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import nhom_java.skincarebookingsystem.dto.request.IntrospectRequest;
 import nhom_java.skincarebookingsystem.dto.response.AuthenticationResponse;
+import nhom_java.skincarebookingsystem.dto.response.IntrospectResponse;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.repositories.UserRepository;
@@ -44,9 +46,10 @@ public class AuthenticationService {
 
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
         Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
-        SignedJWT signedJWT = SignedJWT.parse(token);
 
         var verified = signedJWT.verify(verifier);
 
@@ -64,7 +67,7 @@ public class AuthenticationService {
                 user.getPassword());
 
         if(!authenticated)
-            throw new AppException(ErrorCode.UNATHENTICATED);
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         var token = generateToken(request.getUsername());
 
