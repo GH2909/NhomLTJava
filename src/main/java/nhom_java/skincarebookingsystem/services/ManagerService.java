@@ -28,13 +28,9 @@ public class ManagerService {
         manager.setEmail(request.getEmail());
         manager.setPassword(request.getPassword());
         manager.setRole(request.getRole());
-        manager.setManageServices(request.isManageServices());
-        manager.setManageWorkSchedule(request.isManageWorkSchedule());
-        manager.setManageTherapists(request.isManageTherapists());
-        manager.setManagePayments(request.isManagePayments());
         manager.setMonitorFeedback(request.isMonitorFeedback());
         manager.setViewReports(request.isViewReports());
-        manager.setManageCustomers(request.isManageCustomers());
+        manager.setManageRole(request.getManageRole());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         manager.setPassword(passwordEncoder.encode(request.getPassword()));
         return managerRepository.save(manager);
@@ -43,17 +39,11 @@ public class ManagerService {
     public Manager updateManager(String email, ManagerUpdateRequest request) {
         Manager manager = getManager(email);
 
-        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            manager.setPassword(request.getPassword());
-        }
-
-        manager.setManageServices(request.isManageServices());
-        manager.setManageWorkSchedule(request.isManageWorkSchedule());
-        manager.setManageTherapists(request.isManageTherapists());
-        manager.setManagePayments(request.isManagePayments());
+        manager.setPassword(request.getPassword());
+        manager.setRole(request.getRole());
         manager.setMonitorFeedback(request.isMonitorFeedback());
         manager.setViewReports(request.isViewReports());
-        manager.setManageCustomers(request.isManageCustomers());
+        manager.setManageRole(request.getManageRole());
 
         return managerRepository.save(manager);
     }

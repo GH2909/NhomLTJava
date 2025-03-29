@@ -1,8 +1,14 @@
 package nhom_java.skincarebookingsystem.services;
 
+import nhom_java.skincarebookingsystem.dto.request.StaffCreationRequest;
+import nhom_java.skincarebookingsystem.dto.request.StaffUpdateRequest;
+import nhom_java.skincarebookingsystem.exception.AppException;
+import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.models.Staff;
 import nhom_java.skincarebookingsystem.repositories.StaffRepository;
 import nhom_java.skincarebookingsystem.repositories. ScheduleRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -10,47 +16,45 @@ import java.util.Optional;
 
 @Service
 public class StaffService {
-
-    private final StaffRepository staffRepository;
-    private final  ScheduleRepository  ScheduleRepository;
-
     @Autowired
-    public StaffService(StaffRepository staffRepository,  ScheduleRepository  ScheduleRepository) {
-        this.staffRepository = staffRepository;
-        this. ScheduleRepository =  ScheduleRepository;
+    private  StaffRepository staffRepository;
+
+    public Staff createStaff(StaffCreationRequest request) {
+        Staff staff = new Staff();
+        if (staffRepository.existsByEmail((request.getEmail())))
+            throw new AppException(ErrorCode.USER_EXISTED);
+        staff.setEmail(request.getEmail());
+        staff.setPassword(request.getPassword());
+        staff.setRole(request.getRole());
+        staff.setFullName(request.getFullName());
+        staff.setPhone(request.getPhone());
+        staff.setPossition(request.getPosition());
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        staff.setPassword(passwordEncoder.encode(request.getPassword()));
+        return staffRepository.save(staff);
     }
 
     public List<Staff> getAllStaff() {
         return staffRepository.findAll();
     }
 
-    public Optional<Staff> getStaffById(Long id) {
-        return staffRepository.findById(id);
+    public Staff getStaff(String email) {
+        return staffRepository.findByEmail(email) .orElseThrow(() -> new RuntimeException("Staff not found"));
     }
 
-    public Staff createStaff(Staff staff) {
+    public Staff updateStaff(String email, StaffUpdateRequest request) {
+        Staff staff = getStaff(email);
+        staff.setPassword(request.getPassword());
+        staff.setRole(request.getRole());
+        staff.setFullName(request.getFullName());
+        staff.setPhone(request.getPhone());
+        staff.setPossition(request.getPosition());
         return staffRepository.save(staff);
     }
 
-    public Staff updateStaff(Long id, Staff updatedStaff) {
-        return staffRepository.findById(id).map(existingStaff -> {
-            existingStaff.setFullName(updatedStaff.getFullName());
-            existingStaff.setEmail(updatedStaff.getEmail());
-            existingStaff.setPhone(updatedStaff.getPhone());
-            existingStaff.setPassword(updatedStaff.getPassword());
-            existingStaff.setPosition(updatedStaff.getPosition());
 
-            if (updatedStaff.getWorkSchedule() != null) {
-                existingStaff.setWorkSchedule(updatedStaff.getWorkSchedule());
-            }
-
-            return staffRepository.save(existingStaff);
-        }).orElseThrow(() -> new RuntimeException("Staff not found with ID: " + id));
-    }
-
-
-    // Xóa nhân viên theo ID
-    public void deleteStaff(Long id) {
-        staffRepository.deleteById(id);
+    public void deleteStaff(String email) {
+        staffRepository.deleteByEmail(email);
     }
 }
