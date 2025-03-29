@@ -9,12 +9,7 @@ import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
 import javax.crypto.spec.SecretKeySpec;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +33,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // Cần xác thực cho các API còn lại
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))) // Thêm xác thực JWT
+                .build();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+                .macAlgorithm(MacAlgorithm.HS512)
                 .build();
     }
 
