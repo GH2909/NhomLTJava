@@ -1,6 +1,7 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.transaction.Transactional;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.ReportCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ReportUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Report;
@@ -17,29 +18,39 @@ public class ReportController {
     private ReportService reportService;
 
     @PostMapping
-    Report createReport(@RequestBody ReportCreationRequest request){
-        return reportService.createReport(request);
+    ApiResponse<Report> createReport(@RequestBody ReportCreationRequest request){
+        ApiResponse<Report> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(reportService.createReport(request));
+        return apiResponse;
     }
 
     @GetMapping
-    List<Report> getReports() {
-        return reportService.getReports();
+    ApiResponse<List<Report>> getReports() {
+        ApiResponse<List<Report>> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(reportService.getReports());
+        return apiResponse;
     }
 
     @GetMapping("/{email}")
-    Report getReports(@PathVariable String email){
-        return reportService.getReport(email);
+    ApiResponse<Report> getReports(@PathVariable String email){
+        ApiResponse<Report> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(reportService.getReport(email));
+        return apiResponse;
     }
 
     @PutMapping("/{email}")
-    Report updateReport(@PathVariable String email, @RequestBody ReportUpdateRequest request){
-        return reportService.updateReport(email, request);
+    ApiResponse<Report> updateReport(@PathVariable String email, @RequestBody ReportUpdateRequest request){
+        ApiResponse<Report> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(reportService.updateReport(email, request));
+        return apiResponse;
     }
 
     @Transactional
     @DeleteMapping("/{email}")
-    String deleteReport(@PathVariable String email){
+    ApiResponse<String> deleteReport(@PathVariable String email){
+        ApiResponse<String> apiResponse = new ApiResponse<>();
+        apiResponse.setResult("Report has been deleted");
         reportService.deleteReport(email);
-        return "Report has been deleted";
+        return apiResponse;
     }
 }

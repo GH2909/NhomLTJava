@@ -1,6 +1,7 @@
 
 package nhom_java.skincarebookingsystem.controllers;
 import jakarta.transaction.Transactional;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.FeedbackUpdateRequest;
 import nhom_java.skincarebookingsystem.dto.request.FeedbackCreationRequest;
 import nhom_java.skincarebookingsystem.models.Feedback;
@@ -16,29 +17,40 @@ public class FeedbackController {
     FeedbackService feedbackService;
 
     @PostMapping
-    Feedback createFeedback(@RequestBody FeedbackCreationRequest request){
-        return feedbackService.createFeedback(request);
+    ApiResponse<Feedback> createFeedback(@RequestBody FeedbackCreationRequest request){
+        ApiResponse<Feedback> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(feedbackService.createFeedback(request));
+        return apiResponse;
     }
 
     @GetMapping
-    List<Feedback> getFeedbacks() {
-        return feedbackService.getFeedbacks();
+    ApiResponse<List<Feedback>> getFeedbacks() {
+        ApiResponse<List<Feedback>> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(feedbackService.getFeedbacks());
+        return apiResponse;
     }
 
+
     @GetMapping("/{email}")
-    Feedback getFeedbacks(@PathVariable String email){
-        return feedbackService.getFeedback(email);
+    ApiResponse<Feedback> getFeedbacks(@PathVariable String email){
+        ApiResponse<Feedback> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(feedbackService.getFeedback(email));
+        return apiResponse;
     }
 
     @PutMapping("/{email}")
-    Feedback updateFeedback(@PathVariable String email, @RequestBody FeedbackUpdateRequest request){
-        return feedbackService.updateFeedback(email, request);
+    ApiResponse <Feedback> updateFeedback(@PathVariable String email, @RequestBody FeedbackUpdateRequest request){
+        ApiResponse<Feedback> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(feedbackService.updateFeedback(email, request));
+        return apiResponse;
     }
 
     @Transactional
     @DeleteMapping("/{email}")
-    String deleteFeedback(@PathVariable String email){
+    ApiResponse<String> deleteFeedback(@PathVariable String email) {
+        ApiResponse<String> apiResponse = new ApiResponse<>();
+        apiResponse.setResult("Report has been deleted");
         feedbackService.deleteFeedback(email);
-        return "Feedback has been deleted";
+        return apiResponse;
     }
 }
