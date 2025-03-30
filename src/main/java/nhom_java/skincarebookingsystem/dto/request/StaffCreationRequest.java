@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 public class StaffCreationRequest {
      String email;
      String password;
-     String role;
      String fullName;
      String phone;
      String position;

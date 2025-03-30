@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 public class ManagerCreationRequest {
     String email;
     String password;
-    String role;
     boolean monitorFeedback;
     boolean viewReports;
     String manageRole;

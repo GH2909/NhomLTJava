@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SkinTherapistUpdateRequest {
-    String role;
     String password;
     String skinTherapistName;
     String Specialization;

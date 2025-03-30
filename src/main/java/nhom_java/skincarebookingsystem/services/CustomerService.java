@@ -3,6 +3,7 @@ package nhom_java.skincarebookingsystem.services;
 import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.dto.request.UserCreationRequest;
+import nhom_java.skincarebookingsystem.enums.Role;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 @Service
 public class CustomerService{
@@ -26,13 +28,16 @@ public class CustomerService{
 
          customer.setEmail(request.getEmail());
          customer.setPassword(request.getPassword());
-         customer.setRole(request.getRole());
          customer.setFullName(request.getFullName());
          customer.setPhoneNumber(request.getPhoneNumber());
          customer.setAddress(request.getAddress());
 
          PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
          customer.setPassword(passwordEncoder.encode(request.getPassword()));
+
+         HashSet<String> roles = new HashSet<>();
+         roles.add(Role.C);
+
          return customerRepository.save(customer);
      }
 

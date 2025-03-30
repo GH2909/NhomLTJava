@@ -24,7 +24,6 @@ public class SkinTherapistService {
             throw new AppException(ErrorCode.USER_EXISTED);
         thera.setEmail(request.getEmail());
         thera.setPassword(request.getPassword());
-        thera.setRole(request.getRole());
         thera.setSkinTherapistName(request.getSkinTherapistName());
         thera.setDescriptionS(request.getDescriptionS());
         thera.setSpecialization(request.getSpecialization());

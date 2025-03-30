@@ -25,7 +25,6 @@ public class StaffService {
             throw new AppException(ErrorCode.USER_EXISTED);
         staff.setEmail(request.getEmail());
         staff.setPassword(request.getPassword());
-        staff.setRole(request.getRole());
         staff.setFullName(request.getFullName());
         staff.setPhone(request.getPhone());
         staff.setPossition(request.getPosition());
@@ -46,7 +45,6 @@ public class StaffService {
     public Staff updateStaff(String email, StaffUpdateRequest request) {
         Staff staff = getStaff(email);
         staff.setPassword(request.getPassword());
-        staff.setRole(request.getRole());
         staff.setFullName(request.getFullName());
         staff.setPhone(request.getPhone());
         staff.setPossition(request.getPosition());

@@ -27,7 +27,6 @@ public class ManagerService {
 
         manager.setEmail(request.getEmail());
         manager.setPassword(request.getPassword());
-        manager.setRole(request.getRole());
         manager.setMonitorFeedback(request.isMonitorFeedback());
         manager.setViewReports(request.isViewReports());
         manager.setManageRole(request.getManageRole());
@@ -40,7 +39,6 @@ public class ManagerService {
         Manager manager = getManager(email);
 
         manager.setPassword(request.getPassword());
-        manager.setRole(request.getRole());
         manager.setMonitorFeedback(request.isMonitorFeedback());
         manager.setViewReports(request.isViewReports());
         manager.setManageRole(request.getManageRole());

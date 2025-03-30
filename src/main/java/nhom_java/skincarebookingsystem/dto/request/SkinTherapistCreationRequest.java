@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SkinTherapistCreationRequest {
      String email;
-     String role;
      String password;
      String skinTherapistName;
      String Specialization;
