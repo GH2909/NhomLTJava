@@ -8,7 +8,6 @@ import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cus")
@@ -18,17 +17,11 @@ public class CustomerController {
 
 
     @GetMapping
-<<<<<<< HEAD
-    ApiResponse <List<Customer>> getCustomers() {
-        ApiResponse<List<Customer>> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(customerService.getCustomers());
-        return apiResponse;
-=======
+
     ApiResponse<List<Customer>> getCustomers() {
         return ApiResponse.<List<Customer>>builder()
                 .result(customerService.getCustomers())
                 .build();
->>>>>>> c26272fb28b009f97ad541ccb28dcdbbc060a1f6
     }
 
     @GetMapping("/{email}")
