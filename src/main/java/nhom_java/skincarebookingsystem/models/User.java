@@ -15,9 +15,11 @@ import lombok.experimental.FieldDefaults;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
-     String email;
-     String password;
-     Set<String> role;
-
-    }
+    Long id;
+    String email;
+    String password;
+    String fullName;
+    String phoneNumber;
+    String address;
+    Set<String> role;
+}

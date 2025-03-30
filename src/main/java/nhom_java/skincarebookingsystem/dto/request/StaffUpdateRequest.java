@@ -11,6 +11,6 @@ import lombok.experimental.FieldDefaults;
 public class StaffUpdateRequest {
     String password;
     String fullName;
-    String phone;
-    String position;
+    String phoneNumber;
+    String address;
 }

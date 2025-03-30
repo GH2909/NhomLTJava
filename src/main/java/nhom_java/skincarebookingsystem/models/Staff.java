@@ -10,10 +10,5 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Staff extends User {
 
-    private String fullName;
-    private String phone;
-    private String possition;
-
-    public Staff() {}
 
 }

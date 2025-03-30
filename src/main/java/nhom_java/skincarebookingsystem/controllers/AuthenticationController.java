@@ -1,5 +1,6 @@
 package nhom_java.skincarebookingsystem.controllers;
 
+import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +10,6 @@ import nhom_java.skincarebookingsystem.dto.request.IntrospectRequest;
 import nhom_java.skincarebookingsystem.dto.response.AuthenticationResponse;
 import nhom_java.skincarebookingsystem.dto.response.IntrospectResponse;
 import nhom_java.skincarebookingsystem.services.AuthenticationService;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -29,8 +29,8 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/Introspect")
-    ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request) throws ParseException {
+    @PostMapping("/introspect")
+    ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)

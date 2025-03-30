@@ -12,5 +12,8 @@ import java.util.Set;
 public class UserResponse {
     Long id;
     String email;
+    String fullName;
+    String phoneNumber;
+    String address;
     Set<String> role;
 }

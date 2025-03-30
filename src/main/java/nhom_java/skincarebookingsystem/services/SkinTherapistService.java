@@ -1,7 +1,5 @@
 package nhom_java.skincarebookingsystem.services;
 
-import nhom_java.skincarebookingsystem.dto.request.SkinTherapistCreationRequest;
-
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistUpdateRequest;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
@@ -18,31 +16,14 @@ public class SkinTherapistService {
 
     @Autowired
     SkinTherapistRepository skinTherapistRepository;
-    public SkinTherapist createSkinTherapist(SkinTherapistCreationRequest request) {
-        SkinTherapist thera = new SkinTherapist();
-        if (skinTherapistRepository.existsByEmail((request.getEmail())))
-            throw new AppException(ErrorCode.USER_EXISTED);
-        thera.setEmail(request.getEmail());
-        thera.setPassword(request.getPassword());
-        thera.setSkinTherapistName(request.getSkinTherapistName());
-        thera.setDescriptionS(request.getDescriptionS());
-        thera.setSpecialization(request.getSpecialization());
-        thera.setExperienceYears(request.getExperienceYears());
-        thera.setImages(request.getImages());
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        thera.setPassword(passwordEncoder.encode(request.getPassword()));
-        return skinTherapistRepository.save(thera);
-    }
 
     public SkinTherapist updateSkinTherapist(String email, SkinTherapistUpdateRequest request) {
-        SkinTherapist thera= getSkinTherapist(email);
+        SkinTherapist thera = getSkinTherapist(email);
         thera.setPassword(request.getPassword());
-        thera.setSkinTherapistName(request.getSkinTherapistName());
-        thera.setDescriptionS(request.getDescriptionS());
-        thera.setSpecialization(request.getSpecialization());
-        thera.setExperienceYears(request.getExperienceYears());
-        thera.setImages(request.getImages());
+        thera.setFullName(request.getFullName());
+        thera.setPhoneNumber(request.getPhoneNumber());
+        thera.setAddress(request.getAddress());
         return skinTherapistRepository.save(thera);
     }
 
