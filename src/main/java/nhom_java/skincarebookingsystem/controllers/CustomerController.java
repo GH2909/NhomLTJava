@@ -24,8 +24,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    List<Customer> getCustomers() {
-        return customerService.getCustomers();
+    ApiResponse <List<Customer>> getCustomers() {
+        ApiResponse<List<Customer>> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(customerService.getCustomers());
+        return apiResponse;
     }
 
     @GetMapping("/{email}")

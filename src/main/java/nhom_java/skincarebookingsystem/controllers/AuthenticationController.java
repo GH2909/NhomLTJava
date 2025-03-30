@@ -29,7 +29,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/Introspect")
+    @PostMapping("/introspect")
     ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request) throws ParseException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
