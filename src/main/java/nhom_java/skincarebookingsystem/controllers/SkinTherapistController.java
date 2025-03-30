@@ -2,11 +2,8 @@ package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.transaction.Transactional;
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
-import nhom_java.skincarebookingsystem.dto.request.SkinTherapistCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.SkinTherapistUpdateRequest;
-import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.models.SkinTherapist;
-import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.services.SkinTherapistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,32 +15,32 @@ public class SkinTherapistController {
     @Autowired
     SkinTherapistService skinTherapistService;
 
-    @PostMapping
-    ApiResponse<SkinTherapist> createSkinTherapist(@RequestBody SkinTherapistCreationRequest request){
+    @PutMapping("/{email}")
+    ApiResponse<SkinTherapist> updateSkinTherapist(@PathVariable String email, @RequestBody SkinTherapistUpdateRequest request){
         ApiResponse<SkinTherapist> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(skinTherapistService.createSkinTherapist(request));
+        apiResponse.setResult(skinTherapistService.updateSkinTherapist(email, request));
         return apiResponse;
     }
 
-    @PutMapping("/{email}")
-    SkinTherapist updateSkinTherapist(@PathVariable String email, @RequestBody SkinTherapistUpdateRequest request){
-        return skinTherapistService.updateSkinTherapist(email, request);
-    }
-
     @GetMapping
-    List<SkinTherapist> getSkinTherapists(){
-        return skinTherapistService.getAllSkinTherapist();
+    ApiResponse<List<SkinTherapist>> getSkinTherapists(){
+        return ApiResponse.<List<SkinTherapist>>builder()
+                .result(skinTherapistService.getAllSkinTherapist())
+                .build();
     }
 
     @GetMapping("/{email}")
-    SkinTherapist getSkinTherapist(@PathVariable String email){
-        return skinTherapistService.getSkinTherapist(email);
+    ApiResponse<SkinTherapist> getSkinTherapist(@PathVariable String email) {
+        ApiResponse<SkinTherapist> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(skinTherapistService.getSkinTherapist(email));
+        return apiResponse;
     }
 
     @Transactional
     @DeleteMapping("/{email}")
-    String  deleteSkinTherapist(@PathVariable String email){
+    ApiResponse<String>  deleteSkinTherapist(@PathVariable String email){
+        ApiResponse<SkinTherapist> apiResponse = new ApiResponse<>();
         skinTherapistService.deleteSkinTherapist(email);
-        return "Therapist has been deleted";
+        return ApiResponse.<String>builder().result("Skin therapist has been deleted").build();
     }
 }

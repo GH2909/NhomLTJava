@@ -10,9 +10,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ManagerUpdateRequest {
     String password;
-    String role;
-    boolean monitorFeedback;
-    boolean viewReports;
-    String manageRole;
+    String fullName;
+    String phoneNumber;
+    String address;
 
 }
