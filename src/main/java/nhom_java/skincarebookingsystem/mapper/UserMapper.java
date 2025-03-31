@@ -20,4 +20,3 @@ public class UserMapper {
         return response;
     }
 }
-

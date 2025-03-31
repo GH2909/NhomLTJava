@@ -67,10 +67,13 @@
             <version>1.5.5.Final</version>
         </dependency>
 
-<<<<<<< HEAD
-=======
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.5.Final</version>
+            <scope>provided</scope>
+        </dependency>
 
->>>>>>> c26272fb28b009f97ad541ccb28dcdbbc060a1f6
         <!-- Lombok-MapStruct Binding -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -29,7 +29,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .email("nit@gmail.com")
                         .password(passwordEncoder.encode("admin"))
-                        .role(roles)
+                        //.role(roles)
                         .build();
 
                 userRepository.save(user);
