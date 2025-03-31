@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.UserCreationRequest;
+import nhom_java.skincarebookingsystem.dto.response.UserResponse;
 import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +33,22 @@ public class UserController {
 
     }
     @GetMapping
-    ApiResponse<List<User>> getUsers()
+    ApiResponse<List<UserResponse>> getUsers()
     {
         var authentication = SecurityContextHolder.getContext().getAuthentication() ;
 
         log.info("Email: {}", authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
-        return ApiResponse.<List<User>>builder()
+        return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.getUsers())
                 .build();
     }
-    @GetMapping("/{email}")
-    ApiResponse<User> getUser(@PathVariable String email)
+    @GetMapping("/myInfo")
+    ApiResponse<UserResponse> getMyInfo()
     {
-        ApiResponse<User> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.getUser(email));
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.getMyInfo());
         return apiResponse;
     }
 
