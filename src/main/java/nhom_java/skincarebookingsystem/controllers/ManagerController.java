@@ -1,13 +1,10 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
-import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
-import nhom_java.skincarebookingsystem.dto.request.ManagerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ManagerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.models.Manager;
 import nhom_java.skincarebookingsystem.services.ManagerService;
-import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,31 +17,32 @@ public class ManagerController {
     @Autowired
     private ManagerService managerService;
 
-    @PostMapping
-    ApiResponse<Manager> createManager(@RequestBody ManagerCreationRequest request){
+
+    @PutMapping("/{email}")
+    ApiResponse<Manager> updateManager(@PathVariable String email, @RequestBody ManagerUpdateRequest request) {
         ApiResponse<Manager> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(managerService.createManager(request));
+        apiResponse.setResult(managerService.updateManager(email, request));
         return apiResponse;
     }
 
-    @PutMapping("/{email}")
-    public Manager updateManager(@PathVariable String email, @RequestBody ManagerUpdateRequest request) {
-        return managerService.updateManager(email, request);
-    }
-
     @GetMapping
-    public List<Manager> getAllManagers() {
-        return managerService.getAllManagers();
+    ApiResponse<List<Manager>> getAllManagers() {
+        return ApiResponse.<List<Manager>>builder()
+                .result(managerService.getAllManagers())
+                .build();
     }
 
     @GetMapping("/{email}")
-    public Manager getManager(@PathVariable String email) {
-        return managerService.getManager(email);
+    ApiResponse<Manager> getManager(@PathVariable String email) {
+        ApiResponse<Manager> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(managerService.getManager(email));
+        return apiResponse;
     }
 
     @DeleteMapping("/{email}")
-    public String deleteManager(@PathVariable String email) {
+    ApiResponse<String> deleteManager(@PathVariable String email) {
+        ApiResponse<Customer> apiResponse = new ApiResponse<>();
         managerService.deleteManager(email);
-        return "Manager has been deleted";
+        return ApiResponse.<String>builder().result("Manager has been deleted").build();
     }
 }

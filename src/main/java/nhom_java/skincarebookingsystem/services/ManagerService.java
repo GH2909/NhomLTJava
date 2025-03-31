@@ -1,6 +1,5 @@
 package nhom_java.skincarebookingsystem.services;
 
-import nhom_java.skincarebookingsystem.dto.request.ManagerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.ManagerUpdateRequest;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
@@ -20,40 +19,15 @@ public class ManagerService {
     @Autowired
     private ManagerRepository managerRepository;
 
-    public Manager createManager(ManagerCreationRequest request) {
-        Manager manager = new Manager();
-        if (managerRepository.existsByEmail((request.getEmail())))
-            throw new AppException(ErrorCode.USER_EXISTED);
 
-        manager.setEmail(request.getEmail());
-        manager.setPassword(request.getPassword());
-        manager.setRole(request.getRole());
-        manager.setManageServices(request.isManageServices());
-        manager.setManageWorkSchedule(request.isManageWorkSchedule());
-        manager.setManageTherapists(request.isManageTherapists());
-        manager.setManagePayments(request.isManagePayments());
-        manager.setMonitorFeedback(request.isMonitorFeedback());
-        manager.setViewReports(request.isViewReports());
-        manager.setManageCustomers(request.isManageCustomers());
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        manager.setPassword(passwordEncoder.encode(request.getPassword()));
-        return managerRepository.save(manager);
-    }
 
     public Manager updateManager(String email, ManagerUpdateRequest request) {
         Manager manager = getManager(email);
 
-        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            manager.setPassword(request.getPassword());
-        }
-
-        manager.setManageServices(request.isManageServices());
-        manager.setManageWorkSchedule(request.isManageWorkSchedule());
-        manager.setManageTherapists(request.isManageTherapists());
-        manager.setManagePayments(request.isManagePayments());
-        manager.setMonitorFeedback(request.isMonitorFeedback());
-        manager.setViewReports(request.isViewReports());
-        manager.setManageCustomers(request.isManageCustomers());
+        manager.setPassword(request.getPassword());
+        manager.setFullName(request.getFullName());
+        manager.setPhoneNumber(request.getPhoneNumber());
+        manager.setAddress(request.getAddress());
 
         return managerRepository.save(manager);
     }
