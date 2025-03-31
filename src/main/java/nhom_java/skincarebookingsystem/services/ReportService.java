@@ -44,6 +44,7 @@ public class ReportService {
     }
 
     public void deleteReport(String email) {
+
         reportRepository.deleteByEmail(email);
     }
 }

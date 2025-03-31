@@ -1,4 +1,4 @@
-package nhom_java.skincarebookingsystem.dto.request;
+package nhom_java.skincarebookingsystem.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
-    String email;
-    String password;
+public class PermissionResponse {
+    String name;
+    String description;
 }

@@ -11,16 +11,4 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Manager extends User {
 
-    @Column(nullable = false)
-    private boolean monitorFeedback;
-
-    @Column(nullable = false)
-    private boolean viewReports;
-
-    @Column(nullable = false)
-    private String manageRole;
-
-    public Manager() {
-    }
-
     }

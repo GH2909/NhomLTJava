@@ -1,5 +1,4 @@
 package nhom_java.skincarebookingsystem.dto.request;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,11 +7,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CustomerCreationRequest {
-     String email;
-     String role;
-     String password;
-     String fullName;
-     String phoneNumber;
-     String address;
+public class PermissionRequest {
+    String name;
+    String description;
 }

@@ -1,7 +1,6 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.transaction.Transactional;
-import nhom_java.skincarebookingsystem.dto.request.CustomerCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
 import nhom_java.skincarebookingsystem.services.CustomerService;
@@ -16,35 +15,35 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping
-    ApiResponse<Customer> createCustomer(@RequestBody CustomerCreationRequest request){
-        ApiResponse<Customer> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(customerService.createCustomer(request));
-        return apiResponse;
-    }
 
     @GetMapping
-    ApiResponse <List<Customer>> getCustomers() {
-        ApiResponse<List<Customer>> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(customerService.getCustomers());
-        return apiResponse;
+
+    ApiResponse<List<Customer>> getCustomers() {
+        return ApiResponse.<List<Customer>>builder()
+                .result(customerService.getCustomers())
+                .build();
     }
 
     @GetMapping("/{email}")
-    Customer getCustomer(@PathVariable String email){
-        return customerService.getCustomer(email);
+    ApiResponse<Customer> getCustomer(@PathVariable String email){
+        ApiResponse<Customer> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(customerService.getCustomer(email));
+        return apiResponse;
     }
 
     @PutMapping("/{email}")
-    Customer updateCustomer(@PathVariable String email, @RequestBody CustomerUpdateRequest request){
-        return customerService.updateCustomer(email, request);
+    ApiResponse<Customer> updateCustomer(@PathVariable String email, @RequestBody CustomerUpdateRequest request){
+        ApiResponse<Customer> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(customerService.updateCustomer(email, request));
+        return apiResponse;
     }
 
     @Transactional
     @DeleteMapping("/{email}")
-    String deleteCustomer(@PathVariable String email){
+    ApiResponse<String> deleteCustomer(@PathVariable String email){
+        ApiResponse<Customer> apiResponse = new ApiResponse<>();
         customerService.deleteCustomer(email);
-        return "Customer has been deleted";
+        return ApiResponse.<String>builder().result("Customer has been deleted").build();
     }
 }
 

@@ -10,8 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StaffUpdateRequest {
     String password;
-    String role;
     String fullName;
-    String phone;
-    String position;
+    String phoneNumber;
+    String address;
 }
