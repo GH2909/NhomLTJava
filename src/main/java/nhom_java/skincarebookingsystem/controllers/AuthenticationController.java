@@ -4,10 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
-import nhom_java.skincarebookingsystem.dto.request.AuthenticationRequest;
-import nhom_java.skincarebookingsystem.dto.request.IntrospectRequest;
-import nhom_java.skincarebookingsystem.dto.request.LogoutRequest;
+import nhom_java.skincarebookingsystem.dto.request.*;
 import nhom_java.skincarebookingsystem.dto.response.AuthenticationResponse;
 import nhom_java.skincarebookingsystem.dto.response.IntrospectResponse;
 import nhom_java.skincarebookingsystem.services.AuthenticationService;
@@ -34,6 +31,15 @@ public class AuthenticationController {
     ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
     }

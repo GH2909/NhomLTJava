@@ -5,7 +5,6 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import lombok.SneakyThrows;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.AuthenticationRequest;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.dto.request.IntrospectRequest;
 import nhom_java.skincarebookingsystem.dto.request.LogoutRequest;
+import nhom_java.skincarebookingsystem.dto.request.RefreshRequest;
 import nhom_java.skincarebookingsystem.dto.response.AuthenticationResponse;
 import nhom_java.skincarebookingsystem.dto.response.IntrospectResponse;
 import nhom_java.skincarebookingsystem.exception.AppException;
@@ -92,6 +92,33 @@ public class AuthenticationService {
                 .build();
         invalidatedTokenRepository.save(invalidatedToken);
 
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request)
+            throws ParseException, JOSEException {
+        var signedJWT = verifyToken(request.getToken());
+
+        var jit  = signedJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        var email = signedJWT.getJWTClaimsSet().getSubject();
+
+        var user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.UNAUTHENTICATED)
+        );
+
+        var token = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
     }
 
     private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
