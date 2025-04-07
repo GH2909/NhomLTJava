@@ -8,8 +8,10 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.models.Role;
+import nhom_java.skincarebookingsystem.validator.DobConstraint;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,5 +28,8 @@ public class UserCreationRequest {
     String fullName;
     String phoneNumber;
     String address;
+
+    @DobConstraint(min = 2, message = "INVALID_DOB")
+    LocalDate dob;
     List<String> roles;
 }

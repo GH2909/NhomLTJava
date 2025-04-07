@@ -44,6 +44,7 @@ public class UserService {
         user.setFullName(request.getFullName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(request.getAddress());
+        user.setDob(request.getDob());
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 

@@ -3,6 +3,7 @@ package nhom_java.skincarebookingsystem.dto.request;
 
 import nhom_java.skincarebookingsystem.models.Role;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class UserUpdateRequest {
     private String fullName;
     private String phoneNumber;
     private String address;
+    private LocalDate dob;
     List<String> roles;
 
     public String getEmail() {
@@ -53,6 +55,14 @@ public class UserUpdateRequest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
     public List<String> getRoles() {

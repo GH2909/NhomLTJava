@@ -1,5 +1,6 @@
 package nhom_java.skincarebookingsystem.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import nhom_java.skincarebookingsystem.dto.response.UserResponse;
 import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class UserController {
      private UserService userService;
 
     @PostMapping
-    ApiResponse<User> createUser(@RequestBody UserCreationRequest request) {
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
         ApiResponse<User> apiResponse = new ApiResponse<>();
         apiResponse.setResult(userService.createUser(request));
         return apiResponse;
