@@ -40,7 +40,6 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         User user = userMapper.toUser(request);
 
-
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         HashSet<String> roles = new HashSet<>();
@@ -79,7 +78,7 @@ public class UserService {
     public List<UserResponse> getUsers() {
         log.info("In method get Users");
         return userRepository.findAll().stream()
-                .map(user -> userMapper.toUserResponse(user)) // Không cần MapStruct
+                .map(userMapper::toUserResponse) // Không cần MapStruct
                 .toList();
     }
 

@@ -2,6 +2,8 @@ package nhom_java.skincarebookingsystem.dto.response;
 import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -16,5 +18,6 @@ public class UserResponse {
     String password;
     String phoneNumber;
     String address;
+    LocalDate dob;
     Set<RoleResponse> role;
 }

@@ -13,6 +13,7 @@ import nhom_java.skincarebookingsystem.dto.response.UserResponse;
 import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,12 @@ public class UserController {
       UserService userService;
 
     @PostMapping
+
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();
+
 
     }
     @GetMapping

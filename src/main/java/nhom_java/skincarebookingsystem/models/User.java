@@ -3,6 +3,7 @@ package nhom_java.skincarebookingsystem.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +24,7 @@ public class User {
     String fullName;
     String phoneNumber;
     String address;
+    LocalDate dob;
 
     @ManyToMany
     Set<Role> roles;

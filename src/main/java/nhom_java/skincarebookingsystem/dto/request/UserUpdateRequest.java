@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.models.Role;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 @Data
@@ -19,6 +20,7 @@ public class UserUpdateRequest {
     private String fullName;
     private String phoneNumber;
     private String address;
+    private LocalDate dob;
     List<String> roles;
 
-    }
+}
