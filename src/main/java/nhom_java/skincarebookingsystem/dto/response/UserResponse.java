@@ -13,6 +13,7 @@ public class UserResponse {
     Long id;
     String email;
     String fullName;
+    String password;
     String phoneNumber;
     String address;
     Set<RoleResponse> role;

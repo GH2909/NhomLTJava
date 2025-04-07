@@ -33,7 +33,6 @@ public class RoleMapper {
             return null;
         }
         RoleResponse response = new RoleResponse();
-        PermissionResponse permissionResponse = new PermissionResponse();
         response.setName(role.getName());
         response.setDescription(role.getDescription());
         List<PermissionResponse> pers = role.getPermissions().stream().map((per) -> {

@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.models.Role;
 
 import java.awt.*;
-import java.util.List;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +20,5 @@ public class UserCreationRequest {
     String fullName;
     String phoneNumber;
     String address;
-    List<String> roles;
+    Set<Role> roles;
 }
