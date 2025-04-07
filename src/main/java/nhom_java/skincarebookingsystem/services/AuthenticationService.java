@@ -13,11 +13,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.dto.request.IntrospectRequest;
+import nhom_java.skincarebookingsystem.dto.request.LogoutRequest;
 import nhom_java.skincarebookingsystem.dto.response.AuthenticationResponse;
 import nhom_java.skincarebookingsystem.dto.response.IntrospectResponse;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
+import nhom_java.skincarebookingsystem.models.InvalidatedToken;
 import nhom_java.skincarebookingsystem.models.User;
+import nhom_java.skincarebookingsystem.repositories.InvalidatedTokenRepository;
 import nhom_java.skincarebookingsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +33,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -37,7 +41,7 @@ import java.util.StringJoiner;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     UserRepository userRepository;
-
+    InvalidatedTokenRepository invalidatedTokenRepository;
     @NonFinal
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
@@ -46,15 +50,12 @@ public class AuthenticationService {
             throws JOSEException, ParseException {
         var token = request.getToken();
 
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+        verifyToken(token);
 
-        SignedJWT signedJWT = SignedJWT.parse(token);
 
-        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-        var verified = signedJWT.verify(verifier);
 
         return IntrospectResponse.builder()
-                .valid(verified && expiryTime.after(new Date()))
+                .valid(true)
                 .build();
     }
 
@@ -77,6 +78,33 @@ public class AuthenticationService {
                 .build();
     }
 
+    public void logout(LogoutRequest request) throws JOSEException, ParseException {
+        var signToken = verifyToken(request.getToken());
+
+        String jit = signToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+        invalidatedTokenRepository.save(invalidatedToken);
+
+    }
+
+    private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+        var verified = signedJWT.verify(verifier);
+        if (!verified && expiryTime.after(new Date()))
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        return signedJWT;
+
+    }
+
     private String generateToken(User user){
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -87,6 +115,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(user))
                 .build();
 
