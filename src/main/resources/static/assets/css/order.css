@@ -17,7 +17,7 @@
 
 .container {
     width: 120%;
-    margin: 10% auto auto 7%;
+    margin: 10% auto auto 1%;
     background: #FFF5E1;
     padding: 20px;
     border-radius: 30px;
@@ -33,6 +33,9 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+body {
+    background-color: #fff;
+}
 h2 {
     text-align: center;
     color:  #8b5e83;
@@ -61,4 +64,53 @@ th {
 img{
     width:170px;
     height:170px;
+}
+
+.status-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px;
+}
+
+.status-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Các màu trạng thái */
+.not-started {
+    background-color: rgba(250, 128, 114, 0.81);
+    color: white;
+}
+
+.in-progress {
+    background-color: #f9a825;
+    color: white;
+}
+
+.completed {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Hover effect */
+.status-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#change-status {
+    margin: 10px 20px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(0, 123, 255, 0.69);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }

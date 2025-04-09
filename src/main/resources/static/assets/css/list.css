@@ -9,6 +9,10 @@
     position: relative;
 }
 
+body {
+    background-color: #fff;
+}
+
 .container {
     width: 120%;
     margin: 10% auto auto 7%;

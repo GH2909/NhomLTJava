@@ -9,40 +9,112 @@
     <link rel="stylesheet" href="/static/assets/css/home.css">
 </head>
 <body>
-    <div id="system">g
-        <div id="header">
-            <div class="header-container"><h1>Skincare Booking System</h1></div>
-        </div>
-        <div id="nav">
-        </div>
-        <div id="slidebar">
-            <ul class="nav">
-                <li><a href="home.html">
-                    Trang chủ</a></li>
-                <li><a href="account.html">
-                    Tài khoản</a>
-                    <ul class="subnav">
-                        <li><a href="">Khách hàng</a></li>
-                        <li><a href="">Chuyên gia trị liệu</a></li>
-                        <li><a href="">Nhân viên</a></li>
-                        <li><a href="">Quản lý</a></li>
-                    </ul>
-                </li>
-                <li><a href="list.html">
-                    Dịch vụ</a>
-                </li>
-                <li><a href="order.html">
-                    Đặt hàng</a></li>
-                <li><a href="logout.html">
-                    Đăng xuất
-                </a></li>
-            </ul>
-            <div class="content">
-                
+<div id="system">g
+    <div id="header">
+        <div class="header-container"><h1>Skincare Booking System</h1></div>
+    </div>
+    <div id="nav">
+    </div>
+    <div id="slidebar">
+        <ul class="nav">
+            <li><a href="home.html">
+                Trang chủ</a></li>
+            <li><a href="account.html">
+                Tài khoản</a>
+                <ul class="subnav">
+                    <li><a href="">Khách hàng</a></li>
+                    <li><a href="">Chuyên gia trị liệu</a></li>
+                    <li><a href="">Nhân viên</a></li>
+                    <li><a href="">Quản lý</a></li>
+                </ul>
+            </li>
+            <li><a href="list.html">
+                Dịch vụ</a>
+            </li>
+            <li><a href="order.html">
+                Đặt hàng</a></li>
+            <li><a href="logout.html">
+                Đăng xuất
+            </a></li>
+        </ul>
+        <div class="content">
+            <div class="dashboard">
+                <h2>Tổng doanh thu</h2>
+                <h3 id="current-date" class="date-info"></h3>
+                <div class="card">
+                    <h3>Hôm nay</h3>
+                    <!--                            <p id="current-date"></p>-->
+                    <div class="amount">5,000,000₫</div>
+
+                </div>
+                <div class="card">
+                    <div class="month-selector-container">
+                        <h3 for="month-select"><strong>Tháng</strong></h3>
+                        <select id="month-select" onchange="updateMonthlyRevenue()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div id="monthly-revenue-display" >
+                        <p class="amount"><span id="monthly-revenue">0đ</span></p>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <!--                            <h3>Năm nay</h3>-->
+                    <h3 id="current-year" class="date-info"></h3>
+                    <div class="amount">1,350,000,000₫</div>
+                </div>
             </div>
         </div>
-        
-        <div id="footer"></div>
     </div>
+    <div id="footer"></div>
+</div>
 </body>
+
+<script>
+    const today = new Date();
+
+    // Định dạng đầy đủ ngày hiện tại
+    const formattedDate = today.toLocaleDateString('vi-VN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    document.getElementById("current-date").innerText = formattedDate;
+
+    // Nếu bạn có ID cho tháng và năm riêng
+    const monthElement = document.getElementById("current-month");
+    if (monthElement) {
+        monthElement.innerText = "Tháng " + (today.getMonth() + 1);
+    }
+
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.innerText = "Năm " + today.getFullYear();
+    }
+
+    // function getMonthlyRevenue() {
+    //     const selectedMonth = document.getElementById("month-select").value;
+    //
+    //     fetch(`/api/revenue/monthly?month=${selectedMonth}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
+    //         })
+    //         .catch(error => console.error("Lỗi khi lấy doanh thu tháng:", error));
+    // }
+</script>
+
 </html>
