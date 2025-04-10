@@ -28,10 +28,14 @@ public class SecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             httpSecurity.authorizeHttpRequests(request ->
-                    request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll() //ai cung co the dang ki
+                    request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                            .requestMatchers("/home","/index").permitAll()
+                            .requestMatchers("/assets/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/users")
                             .hasRole(Role.ADMIN.name())
                             .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
+
+
 
             // Xóa dòng gọi phương thức customJwtDecoder()
             httpSecurity.oauth2ResourceServer(oauth2 ->
@@ -43,6 +47,7 @@ public class SecurityConfig {
 
 
             httpSecurity.csrf(AbstractHttpConfigurer::disable);//csrf:  tan cong
+
             return httpSecurity.build();
         }
 
