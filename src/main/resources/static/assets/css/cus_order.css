@@ -10,6 +10,22 @@
 
 }
 
+body{
+    background-color: #fff;
+}
+
+.content{
+    margin: 60px 100px 60px 400px;
+}
+
+h1{
+    text-align: center;
+}
+
+.body-container{
+    padding: 60px 0 0 0;
+}
+
 .order-container {
     background: white;
     padding: 20px;
@@ -51,4 +67,29 @@ input, select {
 }
 .submit-btn:hover {
     background: salmon;
+}
+
+
+.home-link{
+    position: absolute;
+    top: 46px;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: white;
+}
+
+.home-link a {
+    color: #8b5e83;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    background-color: #8b5e83;
+}
+.home-link a:hover {
+    color: #fff;
+    text-decoration: none;
 }
