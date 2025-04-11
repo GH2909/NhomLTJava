@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking System</title>
+    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/home.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+
+</head>
+<body>
+    <div id="system">
+        <div th:replace="~{admin/index :: header}"></div>
+        <div id="slidebar">
+            <div th:replace="~{admin/index :: navbar}"></div>
+            <div class="content">
+                <div class="dashboard">
+                    <h2>Tổng doanh thu</h2>
+                    <h3 id="current-date" class="date-info"></h3>
+                    <div class="card">
+                        <h3>Hôm nay</h3>
+                        <!--                            <p id="current-date"></p>-->
+                        <div class="amount">5,000,000₫</div>
+
+                    </div>
+                    <div class="card">
+                        <div class="month-selector-container">
+                            <h3 for="month-select"><strong>Tháng</strong></h3>
+                            <select id="month-select" onchange="updateMonthlyRevenue()">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div id="monthly-revenue-display" >
+                            <p class="amount"><span id="monthly-revenue">0đ</span></p>
+                        </div>
+
+                    </div>
+                    <div class="card">
+                        <!--                            <h3>Năm nay</h3>-->
+                        <h3 id="current-year" class="date-info"></h3>
+                        <div class="amount">1,350,000,000₫</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{admin/index :: footer}"></div>
+    </div>
+</body>
+
+<!--<script>-->
+<!--    const today = new Date();-->
+
+<!--    // Định dạng đầy đủ ngày hiện tại-->
+<!--    const formattedDate = today.toLocaleDateString('vi-VN', {-->
+<!--        weekday: 'long',-->
+<!--        year: 'numeric',-->
+<!--        month: 'long',-->
+<!--        day: 'numeric'-->
+<!--    });-->
+<!--    document.getElementById("current-date").innerText = formattedDate;-->
+
+<!--    // Nếu bạn có ID cho tháng và năm riêng-->
+<!--    const monthElement = document.getElementById("current-month");-->
+<!--    if (monthElement) {-->
+<!--        monthElement.innerText = "Tháng " + (today.getMonth() + 1);-->
+<!--    }-->
+
+<!--    const yearElement = document.getElementById("current-year");-->
+<!--    if (yearElement) {-->
+<!--        yearElement.innerText = "Năm " + today.getFullYear();-->
+<!--    }-->
+
+<!--    // function getMonthlyRevenue() {-->
+<!--    //     const selectedMonth = document.getElementById("month-select").value;-->
+<!--    //-->
+<!--    //     fetch(`/api/revenue/monthly?month=${selectedMonth}`)-->
+<!--    //         .then(response => response.json())-->
+<!--    //         .then(data => {-->
+<!--    //             document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";-->
+<!--    //         })-->
+<!--    //         .catch(error => console.error("Lỗi khi lấy doanh thu tháng:", error));-->
+<!--    // }-->
+<!--</script>-->
+
+</html>

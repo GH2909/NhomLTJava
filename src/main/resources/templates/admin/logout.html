@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skincare Booking System</title>
-    <link rel="stylesheet" href="/assets/themify-icons-font/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="/static/assets/css/logout.css">
+    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/logout.css}">
 </head>
+<style>
+    .background-img{
+        background-image: url('/assets/img/login.jpg');
+    }
+</style>
 <body>
     <div id="system">
         <div class="background-img">

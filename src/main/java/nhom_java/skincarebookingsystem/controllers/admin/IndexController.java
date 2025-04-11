@@ -1,12 +1,12 @@
-package nhom_java.skincarebookingsystem.controllers;
+package nhom_java.skincarebookingsystem.controllers.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
  @Controller
  public class IndexController {
-    @GetMapping("/index")
+    @GetMapping("/admin/index")
     public String index() {
-        return "index";
+        return "admin/index";
     }
 }

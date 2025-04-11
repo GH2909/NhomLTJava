@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking System</title>
+    <link rel="stylesheet" th:href="@{/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/order.css}">
+</head>
+<body>
+<div id="system">
+    <div th:replace="~{admin/index :: header}"></div>
+    <div id="slidebar">
+        <div th:replace="~{admin/index :: navbar}"></div>
+        <div class="content">
+            <div class="container">
+                <h2>Đơn đặt hàng</h2>
+                <div class="container2">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>SĐT</th>
+                            <th>Dịch vụ</th>
+                            <th>Giá tiền</th>
+                            <!--                                <th>Thời gian</th> -->
+                            <th>Nhân viên phụ trách</th>
+                            <th>Chuyên viên trị liệu</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>anguyenvan@gmail.com</td>
+                            <td>0945664389</td>
+                            <td>Trị mụn chuyên sâu</td>
+                            <td>500000.00</td>
+                            <!--                                <td>9:00:00 - 10:00:00</td>-->
+                            <td>Nguyen An</td>
+                            <td>Nguyen An</td>
+                            <td>
+                                <div id="status-section">
+                                    <div id="status-buttons-wrapper" style="display: flex; align-items: center; gap: 10px;">
+                                        <div id="status-buttons" class="status-buttons" style="display: flex; gap: 10px;">
+                                            <button class="status-button not-started" onclick="selectStatus(this)">Chưa thực hiện</button>
+                                            <button class="status-button in-progress" onclick="selectStatus(this)">Đang tiến hành</button>
+                                            <button class="status-button completed" onclick="selectStatus(this)">Đã tiến hành</button>
+                                        </div>
+                                        <button id="change-status" onclick="resetStatus()" style="display: none;">Thay đổi</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div >
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{admin/index :: footer}"></div>
+</div>
+
+</body>
+
+<script>
+    function selectStatus(button) {
+        // Ẩn tất cả các nút trạng thái
+        const allButtons = document.querySelectorAll('.status-button');
+        allButtons.forEach(btn => {
+            if (btn !== button) {
+                btn.style.display = 'none';
+            }
+        });
+
+        // Giữ lại nút được chọn
+        button.style.display = 'inline-block';
+
+        // 👉 Hiện nút "Thay đổi trạng thái"
+        document.getElementById('change-status').style.display = 'inline-block';
+    }
+
+    function resetStatus() {
+        // Hiện lại tất cả các nút trạng thái
+        const allButtons = document.querySelectorAll('.status-button');
+        allButtons.forEach(btn => {
+            btn.style.display = 'inline-block';
+        });
+
+        // Ẩn nút "Thay đổi trạng thái"
+        document.getElementById('change-status').style.display = 'none';
+    }
+
+</script>
+</html>

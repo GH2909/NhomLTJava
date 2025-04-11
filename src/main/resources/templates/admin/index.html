@@ -9,17 +9,15 @@
 <body>
 
     <div id="system">
-        <div id="header">
+        <div id="header" th:fragment="header">
             <div class="header-container"><h1>Skincare Booking System</h1></div>
-        </div>
-        <div id="nav">
         </div>
         <div id="slidebar">
             <div th:fragment="navbar">
                 <ul class="nav">
-                    <li><a href="home.html">
+                    <li><a th:href="@{/admin/home}">
                         Trang chủ</a></li>
-                    <li><a href="account.html">
+                    <li><a th:href="@{/admin/account}">
                         Tài khoản</a>
                         <ul class="subnav">
                             <li><a href="#customer-form">Khách hàng</a></li>
@@ -28,22 +26,19 @@
                             <li><a href="#manager-form">Quản lý</a></li>
                         </ul>
                     </li>
-                    <li><a href="list.html">
+                    <li><a th:href="@{/admin/list}">
                         Dịch vụ</a>
                     </li>
-                    <li><a href="order.html">
+                    <li><a th:href="@{/admin/order}">
                         Đặt hàng</a></li>
-                    <li><a href="logout.html">
+                    <li><a th:href="@{/admin/logout}">
                         Đăng xuất
                     </a></li>
                 </ul>
             </div>
-            <div class="content">
-
-            </div>
         </div>
 
-        <div id="footer"></div>
+        <div id="footer" th:fragment="footer"></div>
     </div>
 
 </body>
