@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking System</title>
+    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/logout.css}">
+</head>
+<style>
+    .background-img{
+        background-image: url('/assets/img/login.jpg');
+    }
+</style>
+<body>
+    <div id="system">
+        <div class="background-img">
+            <div class="container"> 
+                <div class="log">
+                    <div class="log-name"><h2>Đăng kí</h2></div>
+                    <label for="name" >Name: </label>
+                    <input type="name" id="name" name="name">
+                    <label for="email" >Email: </label>
+                    <input type="email" id="email" name="email">
+                    <label for="password">Mật khẩu: </label>
+                    <input type="text" id="password" name="password">
+                    <label for="password">Nhập lại mật khẩu: </label>
+                    <input type="text" id="confirm-password" name="confirm-password">
+                    <span id="confirm-error"></span>
+                    <div class="form-group">
+                        <label for="service">Chọn Chức Vụ:</label>
+                        <select id="service">
+                            <option>Manager</option>
+                            <option>Staff</option>
+                            <option>Skin Therapist</option>
+                        </select>
+                    </div>
+                    <div class="button-log">
+                        <button type="submit" class="button-log-up">Đăng kí</button>
+                        <div>Đã có tài khoản? <a th:href="@{/admin/logout}" id="link-log">Đăng nhập</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector(".button-log-up").addEventListener("click", function (event) {
+            const password = document.getElementById("password").value;
+            const confirmPasswordInput = document.getElementById("confirm-password");
+            const confirmPassword = confirmPasswordInput.value;
+            const errorSpan = document.getElementById("confirm-error");
+
+            if (password !== confirmPassword) {
+                event.preventDefault(); // Ngăn submit nếu bạn có form
+                confirmPasswordInput.value = "";
+                errorSpan.textContent = "Mật khẩu không khớp!";
+                confirmPasswordInput.focus();
+            } else {
+                errorSpan.textContent = ""; // Xoá lỗi nếu khớp
+            }
+        });
+    </script>
+
+
+</body>
+</html>

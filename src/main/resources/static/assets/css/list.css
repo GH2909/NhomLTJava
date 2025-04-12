@@ -13,6 +13,10 @@ body {
     background-color: #fff;
 }
 
+.content{
+    margin: 60px 0 60px 260px;
+}
+
 .container {
     width: 120%;
     margin: 10% auto auto 7%;

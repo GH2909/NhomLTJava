@@ -10,13 +10,19 @@
 
 }
 
+.content{
+    margin: 60px 0 60px 260px;
+}
+
 .container {
-    width: 120%;
+    width: 140%;
     margin: 10% auto auto 7%;
     background: #FFF5E1;
     padding: 20px;
     border-radius: 30px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+
 }
 
 .container2 {
