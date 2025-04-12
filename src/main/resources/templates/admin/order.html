@@ -40,21 +40,21 @@
                             <td>0945664389</td>
                             <td>Trị mụn chuyên sâu</td>
                             <td>500000.00</td>
-                            <!--                                <td>9:00:00 - 10:00:00</td>-->
                             <td>Nguyen An</td>
                             <td>Nguyen An</td>
                             <td>
-                                <div id="status-section">
-                                    <div id="status-buttons-wrapper" style="display: flex; align-items: center; gap: 10px;">
-                                        <div id="status-buttons" class="status-buttons" style="display: flex; gap: 10px;">
-                                            <button class="status-button not-started" onclick="selectStatus(this)">Chưa thực hiện</button>
-                                            <button class="status-button in-progress" onclick="selectStatus(this)">Đang tiến hành</button>
-                                            <button class="status-button completed" onclick="selectStatus(this)">Đã tiến hành</button>
-                                        </div>
-                                        <button id="change-status" onclick="resetStatus()" style="display: none;">Thay đổi</button>
+                                <div class="custom-select-wrapper">
+                                    <div class="custom-select" onclick="toggleDropdown(this)">
+                                        <span class="selected-option">Chọn trạng thái</span>
+                                        <ul class="options">
+                                            <li onclick="selectOption(this)" data-status="not-started">Chưa thực hiện</li>
+                                            <li onclick="selectOption(this)" data-status="in-progress">Đang tiến hành</li>
+                                            <li onclick="selectOption(this)" data-status="completed">Đã tiến hành</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </td>
+
                         </tr>
                         </tbody>
                     </table>
@@ -66,34 +66,43 @@
 </div>
 
 </body>
-
 <script>
-    function selectStatus(button) {
-        // Ẩn tất cả các nút trạng thái
-        const allButtons = document.querySelectorAll('.status-button');
-        allButtons.forEach(btn => {
-            if (btn !== button) {
-                btn.style.display = 'none';
+    function toggleDropdown(selectElement) {
+        selectElement.classList.toggle('open');
+    }
+
+    function selectOption(optionElement) {
+        const selectedText = optionElement.innerText;
+        const statusClass = optionElement.getAttribute('data-status');
+
+        const wrapper = optionElement.closest('.custom-select');
+        const display = wrapper.querySelector('.selected-option');
+
+        // Cập nhật nội dung hiển thị
+        display.innerText = selectedText;
+
+        // Xóa class cũ và thêm class mới
+        wrapper.classList.remove('status-not-started', 'status-in-progress', 'status-completed');
+        wrapper.classList.add('status-' + statusClass);
+
+        // Đóng dropdown
+        wrapper.classList.remove('open');
+
+        // Xóa class 'selected' khỏi tất cả options
+        wrapper.querySelectorAll('.options li').forEach(li => li.classList.remove('selected'));
+
+        // Gán class 'selected' cho mục vừa chọn
+        optionElement.classList.add('selected');
+    }
+
+    // Tắt dropdown nếu click ra ngoài
+    document.addEventListener('click', function (e) {
+        document.querySelectorAll('.custom-select').forEach(dropdown => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
             }
         });
-
-        // Giữ lại nút được chọn
-        button.style.display = 'inline-block';
-
-        // 👉 Hiện nút "Thay đổi trạng thái"
-        document.getElementById('change-status').style.display = 'inline-block';
-    }
-
-    function resetStatus() {
-        // Hiện lại tất cả các nút trạng thái
-        const allButtons = document.querySelectorAll('.status-button');
-        allButtons.forEach(btn => {
-            btn.style.display = 'inline-block';
-        });
-
-        // Ẩn nút "Thay đổi trạng thái"
-        document.getElementById('change-status').style.display = 'none';
-    }
-
+    });
 </script>
+
 </html>
