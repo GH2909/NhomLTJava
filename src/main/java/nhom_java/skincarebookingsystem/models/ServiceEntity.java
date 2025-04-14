@@ -11,6 +11,7 @@ public class ServiceEntity {
     private Long serviceId;
 
     @Column(nullable = false, unique = true)
+
     private String name;
 
     @Column(nullable = false, columnDefinition = "TEXT")

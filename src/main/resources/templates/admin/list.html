@@ -35,39 +35,11 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Trị mụn chuyên sâu</td>
-                            <td>Dịch vụ trị mụn hiệu quả với công nghệ tiên tiến</td>
-                            <td>500000.00</td>
-                            <td>60</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Chăm sóc da cơ bản</td>
-                            <td>Giúp da sạch sâu, mềm mịn và sáng khỏe</td>
-                            <td>300000.00</td>
-                            <td>45</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Liệu trình trẻ hóa da</td>
-                            <td>Công nghệ nâng cơ giúp da săn chắc</td>
-                            <td>1200000.00</td>
-                            <td>90</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Điều trị nám và tàn nhang</td>
-                            <td>Loại bỏ sắc tố da bằng laser</td>
-                            <td>1500000.00</td>
-                            <td>75</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Chăm sóc da nhạy cảm</td>
-                            <td>Phục hồi và làm dịu da bị kích ứng</td>
-                            <td>400000.00</td>
-                            <td>50</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -90,47 +62,159 @@
                     <label for="Duration">Thời lượng:</label>
                     <input type="text" id="Duration" placeholder="Nhập thời lượng">
                     <!-- Nút OK -->
-                    <button class="ok-btn" onclick="addService()">OK</button>
+                    <button class="ok-btn" type="button" onclick="addService()">OK</button>
                 </div>
             </div>
 
             <script>
+                // Mở form để thêm dịch vụ
                 function openForm() {
                     document.getElementById("serviceForm").style.display = "block";
                 }
 
+                // Đóng form
                 function closeForm() {
                     document.getElementById("serviceForm").style.display = "none";
                 }
 
+                // Thêm dịch vụ
                 function addService() {
                     var name = document.getElementById("ServiceName").value;
-                    var name = document.getElementById("Descriptions").value;
-                    var name = document.getElementById("Price").value;
-                    var name = document.getElementById("Duration").value;
+                    var description = document.getElementById("Descriptions").value;
+                    var price = document.getElementById("Price").value;
+                    var duration = document.getElementById("Duration").value;
 
-                    if (name === "") {
+                    // Kiểm tra nếu các trường thông tin trống
+                    if (
+                        name === "" ||
+                        description === "" ||
+                        price === "" ||
+                        duration === ""
+                    ) {
                         alert("Vui lòng điền đầy đủ thông tin!");
                         return;
                     }
 
-                    var table = document.getElementById("serviceTable");
-                    var newRow = table.insertRow();
+                    // Tạo đối tượng dữ liệu dịch vụ
+                    var serviceData = {
+                        name: name,
+                        description: description,
+                        price: parseFloat(price),
+                        duration: parseInt(duration),
+                    };
 
-                    var idCell = newRow.insertCell(0);
-                    var nameCell = newRow.insertCell(1);
+                    /// 👇 Dán access_token bạn lấy từ Postman vào đây
+                    var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
 
-                    idCell.innerHTML = table.rows.length;
-                    nameCell.innerHTML = name;
+                    // Gửi yêu cầu POST tới backend
+                    fetch("http://localhost:8080/skin/services", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": accessToken
+                        },
+                        body: JSON.stringify(serviceData),
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                // Lấy thông tin lỗi từ response
+                                return response.text().then((text) => {
+                                    throw new Error(text || "Lỗi từ Server");
+                                });
+                            }
+                        })
+                        .then((data) => {
+                            // Thêm dịch vụ vào bảng
+                            var table = document.querySelector("table tbody");
+                            var newRow = table.insertRow();
 
-                    // Xóa dữ liệu trong form
-                    document.getElementById("serviceName").value = "";
-                    document.getElementById("serviceImage").value = "";
-                    document.getElementById("serviceType").selectedIndex = 0;
+                            var idCell = newRow.insertCell(0);
+                            var nameCell = newRow.insertCell(1);
+                            var descriptionCell = newRow.insertCell(2);
+                            var priceCell = newRow.insertCell(3);
+                            var durationCell = newRow.insertCell(4);
 
-                    // Đóng form sau khi thêm
-                    closeForm();
+                            // Sử dụng dữ liệu từ response
+                            idCell.innerHTML = data.serviceId || table.rows.length;
+                            nameCell.innerHTML = data.name || name;
+                            descriptionCell.innerHTML = data.description || description;
+                            priceCell.innerHTML = data.price || price;
+                            durationCell.innerHTML = data.duration || duration;
+
+                            // Xóa dữ liệu trong form
+                            document.getElementById("ServiceName").value = "";
+                            document.getElementById("Descriptions").value = "";
+                            document.getElementById("Price").value = "";
+                            document.getElementById("Duration").value = "";
+
+                            // Đóng form
+                            closeForm();
+
+                            // Hiển thị thông báo thành công
+                            alert("Thêm dịch vụ thành công!");
+                        })
+                        .catch((error) => {
+                            console.error("Error:", error);
+                            alert("Đã xảy ra lỗi khi thêm dịch vụ: " + error.message);
+                        });
                 }
+
+                //Lấy danh sách dịch vụ khi trang được tải
+                window.onload = function () {
+                    var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
+                  fetch("http://localhost:8080/skin/services", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": accessToken
+                    },
+                  })
+                          .then((response) => {
+                            if (!response.ok) {
+                              throw new Error("Lỗi khi tải dữ liệu: " + response.status);
+                            }
+
+                            return response.text().then((text) => {
+                              if (!text) {
+                                throw new Error("Phản hồi rỗng từ server.");
+                              }
+                              return JSON.parse(text);
+                            });
+                          })
+                          .then((data) => {
+                            if (
+                                    data.result &&
+                                    Array.isArray(data.result) &&
+                                    data.result.length > 0
+                            ) {
+                              var table = document.querySelector("table tbody");
+                              table.innerHTML = "";
+
+                              data.result.forEach((service) => {
+                                var newRow = table.insertRow();
+                                var idCell = newRow.insertCell(0);
+                                var nameCell = newRow.insertCell(1);
+                                var descriptionCell = newRow.insertCell(2);
+                                var priceCell = newRow.insertCell(3);
+                                var durationCell = newRow.insertCell(4);
+
+                                idCell.innerHTML = service.serviceId;
+                                nameCell.innerHTML = service.name;
+                                descriptionCell.innerHTML = service.description;
+                                priceCell.innerHTML = service.price;
+                                durationCell.innerHTML = service.duration;
+                              });
+                            } else {
+                              alert("Không có dịch vụ nào.");
+                            }
+                          })
+                          .catch((error) => {
+                            console.error("Error loading services:", error);
+                            alert("Đã xảy ra lỗi khi tải danh sách dịch vụ: " + error.message);
+                          });
+                };
             </script>
         </div>
     </div>

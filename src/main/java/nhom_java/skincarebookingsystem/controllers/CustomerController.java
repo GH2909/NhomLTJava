@@ -1,13 +1,17 @@
 package nhom_java.skincarebookingsystem.controllers;
 
+import org.springframework.ui.Model;
 import jakarta.transaction.Transactional;
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Customer;
+import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.services.CustomerService;
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
+import org.apache.catalina.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import nhom_java.skincarebookingsystem.services.ServiceService;
 
 @RestController
 @RequestMapping("/cus")
@@ -15,9 +19,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-
     @GetMapping
-
     ApiResponse<List<Customer>> getCustomers() {
         return ApiResponse.<List<Customer>>builder()
                 .result(customerService.getCustomers())

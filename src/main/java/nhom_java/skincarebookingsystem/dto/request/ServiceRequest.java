@@ -1,6 +1,15 @@
 package nhom_java.skincarebookingsystem.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
+@Getter
+@Setter
 public class ServiceRequest {
+
+    @NotBlank(message = "Service name is required")
     private String name;
     private String description;
     private Double price;

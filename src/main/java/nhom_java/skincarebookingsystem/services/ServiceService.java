@@ -1,5 +1,8 @@
 package nhom_java.skincarebookingsystem.services;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
@@ -8,21 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 @Service
 public class ServiceService {
 
-    private final ServiceRepository serviceRepository;
-
-    @Autowired
-    public ServiceService(ServiceRepository serviceRepository) {
-        this.serviceRepository = serviceRepository;
-    }
+    ServiceRepository serviceRepository;
 
     public ServiceEntity createService(ServiceRequest request) {
         if (serviceRepository.findByName(request.getName()).isPresent()) {
             throw new RuntimeException("Service name already exists");
         }
-
         ServiceEntity service = new ServiceEntity();
         service.setName(request.getName());
         service.setDescription(request.getDescription());

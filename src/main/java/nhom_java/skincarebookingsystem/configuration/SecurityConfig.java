@@ -31,8 +31,7 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(HttpMethod.GET,"/admin/**","/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**",
                                     "/", "/index", "/home", "/favicon.ico").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/users")
-                            .hasRole(Role.ADMIN.name())
+                            .requestMatchers(HttpMethod.GET, "/users").permitAll()
                             .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
 
 
