@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.UserCreationRequest;
 import nhom_java.skincarebookingsystem.dto.request.UserUpdateRequest;
 import nhom_java.skincarebookingsystem.dto.response.UserResponse;
-import nhom_java.skincarebookingsystem.enums.Role;
 import nhom_java.skincarebookingsystem.exception.AppException;
 import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.mapper.UserMapper;
+import nhom_java.skincarebookingsystem.models.Role;
 import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.repositories.RoleReponsitory;
 import nhom_java.skincarebookingsystem.repositories.UserRepository;
@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +44,12 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //user.setRole(roles);
+        Set<nhom_java.skincarebookingsystem.models.Role> roles = request.getRoles().stream()
+                .map(name -> roleRepository.findByName(name)
+                        .orElseThrow(() -> new RuntimeException("ROLE_NOT_FOUND: " + name)))
+                .collect(Collectors.toSet());
+
+        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

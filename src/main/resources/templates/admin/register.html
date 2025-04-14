@@ -6,6 +6,7 @@
     <title>Skincare Booking System</title>
     <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/assets/css/logout.css}">
+
 </head>
 <style>
     .background-img{
@@ -18,50 +19,88 @@
             <div class="container"> 
                 <div class="log">
                     <div class="log-name"><h2>Đăng kí</h2></div>
-                    <label for="name" >Name: </label>
-                    <input type="name" id="name" name="name">
-                    <label for="email" >Email: </label>
-                    <input type="email" id="email" name="email">
-                    <label for="password">Mật khẩu: </label>
-                    <input type="text" id="password" name="password">
-                    <label for="password">Nhập lại mật khẩu: </label>
-                    <input type="text" id="confirm-password" name="confirm-password">
-                    <span id="confirm-error"></span>
-                    <div class="form-group">
-                        <label for="service">Chọn Chức Vụ:</label>
-                        <select id="service">
-                            <option>Manager</option>
-                            <option>Staff</option>
-                            <option>Skin Therapist</option>
-                        </select>
-                    </div>
-                    <div class="button-log">
-                        <button type="submit" class="button-log-up">Đăng kí</button>
-                        <div>Đã có tài khoản? <a th:href="@{/admin/logout}" id="link-log">Đăng nhập</a></div>
-                    </div>
+                    <form id="register-form">
+                        <label >Họ và tên:</label>
+                        <input type="text" name="fullName" id="fullName" required>
+
+                        <label >Email:</label>
+                        <input type="email" name="email" id="email" required>
+
+                        <label >Mật khẩu:</label>
+                        <input type="password" name="password" id="password" required>
+
+                        <label >Nhập lại mật khẩu: </label>
+                        <input type="text" id="confirm-password" name="confirm-password">
+                        <span id="confirm-error"></span>
+
+                        <label >Số điện thoại:</label>
+                        <input type="text" name="phoneNumber" id="phoneNumber">
+
+                        <label >Địa chỉ:</label>
+                        <input type="text" name="address" id="address">
+
+                        <div class="form-group">
+                            <label >Chọn Chức Vụ:</label>
+                            <select id="service" name="roles">
+                                <option>MANAGER</option>
+                                <option>STAFF</option>
+                                <option>SKIN_THERAPIST</option>
+                            </select>
+                        </div>
+                        <div class="button-log">
+                            <button type="submit" class="button-log-up">Đăng kí</button>
+                            <div>Đã có tài khoản? <a th:href="@{/admin/logout}" id="link-log">Đăng nhập</a></div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.querySelector(".button-log-up").addEventListener("click", function (event) {
+        document.getElementById("register-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn reload trang
+
             const password = document.getElementById("password").value;
-            const confirmPasswordInput = document.getElementById("confirm-password");
-            const confirmPassword = confirmPasswordInput.value;
+            const confirmPassword = document.getElementById("confirm-password").value;
             const errorSpan = document.getElementById("confirm-error");
 
             if (password !== confirmPassword) {
-                event.preventDefault(); // Ngăn submit nếu bạn có form
-                confirmPasswordInput.value = "";
                 errorSpan.textContent = "Mật khẩu không khớp!";
-                confirmPasswordInput.focus();
+                return;
             } else {
-                errorSpan.textContent = ""; // Xoá lỗi nếu khớp
+                errorSpan.textContent = "";
             }
+            const data = {
+                fullName: document.getElementById("fullName").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                phoneNumber: document.getElementById("phoneNumber").value,
+                address: document.getElementById("address").value,
+                roles: [document.getElementById("service").value]
+            };
+
+            fetch("http://localhost:8080/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Đăng ký thành công!");
+                        window.location.href = "/admin/logout"; //  chuyển sang trang login
+                    } else {
+                        return response.json().then(err => {
+                            alert("Lỗi: " + (err.message || "Không rõ"));
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Lỗi kết nối: " + err.message);
+                });
         });
     </script>
-
-
 </body>
 </html>

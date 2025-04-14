@@ -17,55 +17,22 @@
         <div class="background-img">
             <div class="container"> 
                 <div class="log">
-                    <div class="log-name"><h2>Đăng nhập</h2></div>
-                        <label for="email" >Email: </label>
-                        <input type="email" id="email" name="email">
+                    <form id="login-form">
+                        <div class="log-name"><h2>Đăng nhập</h2></div>
+                        <label for="email">Email: </label>
+                        <input type="email" id="email" name="email" required>
+
                         <label for="password">Mật khẩu: </label>
-                        <input type="text" id="password" name="password">
+                        <input type="password" id="password" name="password" required>
+
                         <div class="button-log">
                             <button type="submit" class="button-log-in">Đăng nhập</button>
-                            <div>Chưa có tài khoản? <a th:href="@{/admin/register}" id="link-log">Đăng kí</a>
+                            <div>Chưa có tài khoản? <a th:href="@{/admin/register}" id="link-log">Đăng kí</a></div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('link-log').addEventListener("click",function(){
-            var formContainer=document.getElementsByClassName("log")[0];
-            var isLogin = document.querySelector(".log-name h2").textContent === "Đăng nhập";
-            if (isLogin){
-                formContainer.innerHTML=`
-                <div class="log-name"><h2>Đăng kí</h2></div>
-                <label for="name" >Name: </label>
-                <input type="name" id="name" name="name">
-                <label for="email" >Email: </label>
-                <input type="email" id="email" name="email">
-                <label for="password">Mật khẩu: </label>
-                <input type="text" id="password" name="password">
-                <label for="password">Nhập lại mật khẩu: </label>
-                <input type="text" id="confirm-password" name="confirm-password">
-                <div class="button-log">
-                <button type="submit" class="button-log-up">Đăng kí</button>
-                <div>Đã có tài khoản? <a id="link-log">Đăng nhập</a></div>
-                `
-            }
-            else {
-                formContainer.innerHTML=
-                `<div class="log-name"><h2>Đăng nhập</h2></div>
-                        <label for="email" >Email: </label>
-                        <input type="email" id="email" name="email">
-                        <label for="password">Mật khẩu: </label>
-                        <input type="text" id="password" name="password">
-                        <div class="button-log">
-                            <button type="submit" class="button-log-in">Đăng nhập</button>
-                            <div>Chưa có tài khoản? <a id="link-log">Đăng kí</a>
-                        </div>
-                    </div>`
-            }
-            document.getElementById('link-log').addEventListener("click",arguments.callee);
-        });
-    </script>
 </body>
 </html>

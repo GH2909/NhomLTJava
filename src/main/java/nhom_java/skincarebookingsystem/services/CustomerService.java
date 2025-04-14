@@ -1,17 +1,11 @@
 package nhom_java.skincarebookingsystem.services;
 
 import nhom_java.skincarebookingsystem.dto.request.CustomerUpdateRequest;
-import nhom_java.skincarebookingsystem.enums.Role;
 import nhom_java.skincarebookingsystem.models.Customer;
-import nhom_java.skincarebookingsystem.exception.AppException;
-import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 @Service
 public class CustomerService{
