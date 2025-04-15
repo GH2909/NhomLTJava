@@ -34,5 +34,51 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn reload trang
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const data = {
+                email: email,
+                password: password
+            };
+
+            fetch("http://localhost:8080/auth/token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // Lấy token từ response
+                    } else {
+                        return response.json().then(err => {
+                            throw new Error(err.message || "Đăng nhập thất bại");
+                        });
+
+                    }
+                })
+                .then(result => {
+                    const token = result.result.token;
+
+                    // Lưu token vào localStorage (hoặc sessionStorage)
+                    localStorage.setItem("token", token);
+
+                    alert("Đăng nhập thành công!");
+
+                    // Chuyển sang trang home (VD: /admin/home)
+                    window.location.href = "/admin/home";
+                })
+                .catch(err => {
+                    alert("Lỗi đăng nhập: " + err.message);
+                });
+        });
+    </script>
+
 </body>
 </html>
