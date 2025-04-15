@@ -21,13 +21,13 @@
                     <div class="card">
                         <h3>Hôm nay</h3>
                         <!--                            <p id="current-date"></p>-->
-                        <div class="amount">5,000,000₫</div>
+                        <div class="amount" id="daily-revenue">0đ</div>
 
                     </div>
                     <div class="card">
                         <div class="month-selector-container">
                             <h3 for="month-select"><strong>Tháng</strong></h3>
-                            <select id="month-select" onchange="updateMonthlyRevenue()">
+                            <select id="month-select" onchange="getMonthlyRevenue()">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -45,12 +45,11 @@
                         <div id="monthly-revenue-display" >
                             <p class="amount"><span id="monthly-revenue">0đ</span></p>
                         </div>
-
                     </div>
                     <div class="card">
                         <!--                            <h3>Năm nay</h3>-->
                         <h3 id="current-year" class="date-info"></h3>
-                        <div class="amount">1,350,000,000₫</div>
+                        <div class="amount"id="yearly-revenue">0đ</div>
                     </div>
                 </div>
             </div>
@@ -59,39 +58,84 @@
     </div>
 </body>
 
-<!--<script>-->
-<!--    const today = new Date();-->
+<script>
 
-<!--    // Định dạng đầy đủ ngày hiện tại-->
-<!--    const formattedDate = today.toLocaleDateString('vi-VN', {-->
-<!--        weekday: 'long',-->
-<!--        year: 'numeric',-->
-<!--        month: 'long',-->
-<!--        day: 'numeric'-->
-<!--    });-->
-<!--    document.getElementById("current-date").innerText = formattedDate;-->
+    const today = new Date();
 
-<!--    // Nếu bạn có ID cho tháng và năm riêng-->
-<!--    const monthElement = document.getElementById("current-month");-->
-<!--    if (monthElement) {-->
-<!--        monthElement.innerText = "Tháng " + (today.getMonth() + 1);-->
-<!--    }-->
+    // Định dạng đầy đủ ngày hiện tại
+    const formattedDate = today.toLocaleDateString('vi-VN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    document.getElementById("current-date").innerText = formattedDate;
 
-<!--    const yearElement = document.getElementById("current-year");-->
-<!--    if (yearElement) {-->
-<!--        yearElement.innerText = "Năm " + today.getFullYear();-->
-<!--    }-->
+    // Nếu bạn có ID cho tháng và năm riêng
+    const monthElement = document.getElementById("current-month");
+    if (monthElement) {
+        monthElement.innerText = "Tháng " + (today.getMonth() + 1);
+    }
 
-<!--    // function getMonthlyRevenue() {-->
-<!--    //     const selectedMonth = document.getElementById("month-select").value;-->
-<!--    //-->
-<!--    //     fetch(`/api/revenue/monthly?month=${selectedMonth}`)-->
-<!--    //         .then(response => response.json())-->
-<!--    //         .then(data => {-->
-<!--    //             document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";-->
-<!--    //         })-->
-<!--    //         .catch(error => console.error("Lỗi khi lấy doanh thu tháng:", error));-->
-<!--    // }-->
-<!--</script>-->
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.innerText = "Năm " + today.getFullYear();
+    }
+//chạy lệnh chọn tháng khác để thây doanh thu tháng khác
+    const monthSelect=document.getElementById("month-select");
+    if(monthSelect){
+        monthSelect.addEventListener('change',getMonthlyRevenue);
+    }
+    //hàm thu hàng tháng
+    function getMonthlyRevenue() {
+        const selectedMonth = document.getElementById("month-select").value;
 
+        fetch(`/api/revenue/monthly?month=${selectedMonth}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.revenue){
+                    document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
+                }else {
+                    document.getElementById("monthly-revenue").innerText = "Không có dữ liệu doanh thu.";
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu tháng:", error)
+                document.getElementById("monthly-revenue").innerText="lỗi khi lấy dữ liệu";
+            });
+    }
+    //hàm thu doanh thu hàng ngày
+    function getDailyRevenue(){
+        const selectedDate=document.getElementById("date-select").value;
+
+        fetch(`/api/revenue/daily?date=${selectedDate}`)
+            .then(response=>response.json())
+            .then(date=>{
+                document.getElementById("daily-revenue").innerText =
+                    data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
+            })
+            .catch(error =>{
+                console.error("Lỗi khi lấy doanh thu ngày:",error);
+                document.getElementById("daily-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+            });
+    }
+    // hàm thu doanh thu hàng năm
+    function getYearlyRevenue() {
+        const selectedYear = document.getElementById("year-select").value; // Lấy năm từ lựa chọn năm
+
+        fetch(`/api/revenue/yearly?year=${selectedYear}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.revenue) {
+                    document.getElementById("yearly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
+                } else {
+                    document.getElementById("yearly-revenue").innerText = "Không có dữ liệu doanh thu cho năm này.";
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu năm:", error);
+                document.getElementById("yearly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+            });
+    }
+</script>
 </html>
