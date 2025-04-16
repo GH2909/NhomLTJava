@@ -1,8 +1,6 @@
 package nhom_java.skincarebookingsystem.models;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "bookings")
@@ -12,26 +10,20 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @Column(nullable = false)
+    private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private ServiceEntity service;
-
-    @ManyToOne
-    @JoinColumn(name = "therapist_id")
-    private SkinTherapist therapist;
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false)
-    private LocalDate bookingDate;
+    private String phone;
 
     @Column(nullable = false)
-    private LocalTime time;
+    private String address;
 
     @Column(nullable = false)
-    private String status; // PENDING, CONFIRMED, CANCELLED, COMPLETED
+    private String selectedService;
 
     public Booking() {}
 
@@ -39,21 +31,18 @@ public class Booking {
     public Long getBookingId() { return bookingId; }
     public void setBookingId(Long bookingId) { this.bookingId = bookingId; }
 
-    public Customer getCustomer() { return customer; }
-    public void setCustomer(Customer customer) { this.customer = customer; }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public ServiceEntity getService() { return service; }
-    public void setService(ServiceEntity service) { this.service = service; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public SkinTherapist getTherapist() { return therapist; }
-    public void setTherapist(SkinTherapist therapist) { this.therapist = therapist; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public LocalDate getBookingDate() { return bookingDate; }
-    public void setBookingDate(LocalDate bookingDate) { this.bookingDate = bookingDate; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public LocalTime getTime() { return time; }
-    public void setTime(LocalTime time) { this.time = time; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getSelectedService() { return selectedService; }
+    public void setSelectedService(String selectedService) { this.selectedService = selectedService; }
 }

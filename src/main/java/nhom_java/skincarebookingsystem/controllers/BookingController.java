@@ -1,5 +1,10 @@
 package nhom_java.skincarebookingsystem.controllers;
 
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.BookingRequest;
 import nhom_java.skincarebookingsystem.dto.request.BookingUpdateRequest;
 import nhom_java.skincarebookingsystem.models.Booking;
@@ -11,43 +16,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingController {
 
-    private final BookingService bookingService;
-
-    @Autowired
-    public BookingController(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
+    BookingService bookingService;
 
     @PostMapping
-    public Booking createBooking(@RequestBody BookingRequest request) {
-        return bookingService.createBooking(request);
+    public ApiResponse<Booking> createBooking(@RequestBody @Valid BookingRequest request) {
+        return ApiResponse.<Booking>builder()
+                .result(bookingService.createBooking(request))
+                .build();
     }
 
     @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
+    public ApiResponse<List<Booking>> getBookings() {
+        return ApiResponse.<List<Booking>>builder()
+                .result(bookingService.getAllBookings())
+                .build();
     }
 
-    @GetMapping("/customer/{email}")
-    public List<Booking> getBookingsByCustomer(@PathVariable String email) {
-        return bookingService.getBookingsByCustomer(email);
+    @PutMapping
+    public ApiResponse<Booking> updateBooking(
+            @PathVariable Long id,
+            @RequestBody @Valid BookingUpdateRequest request
+    ) {
+        return ApiResponse.<Booking>builder()
+                .result(bookingService.updateBooking(id, request))
+                .build();
     }
 
-    @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable Long id) {
-        return bookingService.getBookingById(id);
-    }
-
-    @PutMapping("/{id}/status")
-    public Booking updateBookingStatus(@PathVariable Long id, @RequestBody BookingUpdateRequest request) {
-        return bookingService.updateBookingStatus(id, request);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteBooking(@PathVariable Long id) {
+    @DeleteMapping
+    public ApiResponse<String> deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
-        return "Booking has been deleted successfully.";
+        return ApiResponse.<String>builder()
+                .result("Booking has been deleted successfully.")
+                .build();
     }
 }
