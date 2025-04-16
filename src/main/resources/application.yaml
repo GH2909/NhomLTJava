@@ -18,5 +18,7 @@ spring:
     show-sql: true
     open-in-view: true
 
+
+
 jwt:
   signerKey: "83cOZvIL67/0XUWfDO/vptHrYkL6FTxO1EGp/GU6Rjk3k3OQjBDbj58Xk8GoDQyU"

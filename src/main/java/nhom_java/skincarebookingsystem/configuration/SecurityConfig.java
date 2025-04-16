@@ -29,11 +29,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/admin/logout", "/admin/register", "/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**",
+                        .requestMatchers(HttpMethod.GET, "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**",
                                 "/", "/index", "/home", "/favicon.ico").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/admin/home", "/admin/list", "/admin/order", "/admin/account").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/revenue/**").hasRole("MANAGER")
                         .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
 
 
