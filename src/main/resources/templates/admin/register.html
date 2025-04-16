@@ -90,7 +90,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert("Đăng ký thành công!");
-                        window.location.href = "/admin/logout"; //  chuyển sang trang login
+                        window.location.href = "/"; //  chuyển sang trang login
                     } else {
                         return response.json().then(err => {
                             alert("Lỗi: " + (err.message || "Không rõ"));
