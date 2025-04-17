@@ -29,10 +29,10 @@ public class UserCreationRequest {
     String phoneNumber;
     String address;
 
-    Set<Role> roles;
+    Set<String> roles;
 
 
-    @DobConstraint(min = 2, message = "INVALID_DOB")
-    LocalDate dob;
+//    @DobConstraint(min = 2, message = "INVALID_DOB")
+//    LocalDate dob;
 
 }

@@ -23,6 +23,9 @@ public class ServiceEntity {
     @Column(nullable = false)
     private Integer duration; // Tính bằng phút
 
+    @Column(name = "image_url") // hoặc "image_path", tuỳ cách bạn lưu
+    private String imageUrl;
+
     public ServiceEntity() {}
 
     // Getters and Setters
@@ -40,4 +43,7 @@ public class ServiceEntity {
 
     public Integer getDuration() { return duration; }
     public void setDuration(Integer duration) { this.duration = duration; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

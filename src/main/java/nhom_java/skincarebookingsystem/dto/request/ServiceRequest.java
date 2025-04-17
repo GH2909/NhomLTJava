@@ -14,6 +14,7 @@ public class ServiceRequest {
     private String description;
     private Double price;
     private Integer duration; // Thời gian thực hiện (phút)
+    private String imageUrl;
 
     // Getters and Setters
     public String getName() { return name; }
@@ -27,4 +28,7 @@ public class ServiceRequest {
 
     public Integer getDuration() { return duration; }
     public void setDuration(Integer duration) { this.duration = duration; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

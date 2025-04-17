@@ -6,13 +6,15 @@ public class ServiceResponse {
     private String description;
     private Double price;
     private Integer duration;
+    private String imageUrl; // thêm ảnh
 
-    public ServiceResponse(Long serviceId, String name, String description, Double price, Integer duration) {
+    public ServiceResponse(Long serviceId, String name, String description, Double price, Integer duration, String imageUrl) {
         this.serviceId = serviceId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.duration = duration;
+        this.imageUrl = imageUrl;
     }
 
     // Getters
@@ -25,4 +27,6 @@ public class ServiceResponse {
     public Double getPrice() { return price; }
 
     public Integer getDuration() { return duration; }
+
+    public String getImageUrl() { return imageUrl; }
 }

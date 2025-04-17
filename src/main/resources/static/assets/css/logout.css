@@ -9,12 +9,12 @@
     color:#8b5e83 !important;
 }
 
-.background-img{
-    position: relative;
-    //background-image: url(/assets/img/login.jpg);
-    background-size: cover; 
+.background-img {
+    background-image: url('//assets/img/login.jpg');
+    background-size: cover;
     background-position: center;
-    height:100vh;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 
 .background-img::before {
@@ -60,7 +60,7 @@
     font-size: 30px;
 }
 
-#name, #email, #password, #confirm-password, form-group{
+#fullName, #email, #password, #confirm-password, #phoneNumber, #address, #service{
     margin: 5px 0;
     padding: 2px;
     width: 100%;

@@ -35,8 +35,6 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();
-
-
     }
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers()

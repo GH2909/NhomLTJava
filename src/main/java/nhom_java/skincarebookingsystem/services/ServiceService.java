@@ -27,6 +27,7 @@ public class ServiceService {
         service.setDescription(request.getDescription());
         service.setPrice(request.getPrice());
         service.setDuration(request.getDuration());
+        service.setImageUrl(request.getImageUrl());
 
         return serviceRepository.save(service);
     }
@@ -39,6 +40,7 @@ public class ServiceService {
         service.setDescription(request.getDescription());
         service.setPrice(request.getPrice());
         service.setDuration(request.getDuration());
+        service.setImageUrl(request.getImageUrl());
 
         return serviceRepository.save(service);
     }

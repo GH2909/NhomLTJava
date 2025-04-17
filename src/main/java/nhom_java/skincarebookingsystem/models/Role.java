@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Role {
     @Id
-    String name;
+    String name ;
     String description;
 
     @ManyToMany

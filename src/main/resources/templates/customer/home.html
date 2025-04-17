@@ -28,13 +28,13 @@
 <!-- SCRIPT LOAD DỊCH VỤ -->
 <script>
     window.onload = function () {
-        const accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
+        //const accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
 
-        fetch("http://localhost:8080/skin/services", {
+        fetch("http://localhost:8080/services", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": accessToken
+                //"Authorization": accessToken
             },
         })
             .then((response) => {
@@ -61,7 +61,7 @@
                             <h3>${service.name}</h3>
                             <p>${service.description}</p>
                             <div class="action-row">
-                                <a href="/skin/customer/order">
+                                <a href="/customer/order">
                                     <button>Đặt dịch vụ tại đây</button>
                                 </a>
                                 <span class="price">${service.price.toLocaleString()}đ</span>

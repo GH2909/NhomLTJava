@@ -1,6 +1,5 @@
 package nhom_java.skincarebookingsystem.configuration;
 
-import nhom_java.skincarebookingsystem.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,8 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(HttpMethod.GET,"/admin/**","/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**",
                                     "/", "/index", "/home", "/favicon.ico").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/users", "/services").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/users", "/services").permitAll()
                             .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
 
 
@@ -50,8 +50,6 @@ public class SecurityConfig {
             return httpSecurity.build();
         }
 
-
-
     @Bean
         JwtAuthenticationConverter jwtAuthenticationConverter() {
             JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
@@ -60,8 +58,6 @@ public class SecurityConfig {
             jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
             return jwtAuthenticationConverter;
         }
-
-
 
         @Bean
         PasswordEncoder passwordEncoder() {
