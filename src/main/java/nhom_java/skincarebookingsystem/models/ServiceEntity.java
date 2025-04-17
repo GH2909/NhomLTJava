@@ -14,10 +14,10 @@ public class ServiceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long serviceId;
-    private String name;
-    private String description;
-    private Double price;
-    private Integer duration; // Tính bằng phút
-
-    }
+    Long serviceId;
+    String name;
+    String description;
+    Double price;
+    Integer duration; // Tính bằng phút
+    String imageUrl;
+}

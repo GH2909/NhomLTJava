@@ -28,6 +28,7 @@ public class ServiceMapper {
         service.setDescription(request.getDescription());
         service.setDuration(request.getDuration());
         service.setPrice(request.getPrice());
+        service.setImageUrl(request.getImageUrl());
         return service;
     }
 
@@ -40,6 +41,7 @@ public class ServiceMapper {
         response.setDescription(service.getDescription());
         response.setDuration(service.getDuration());
         response.setPrice(service.getPrice());
+        response.setImageUrl(service.getImageUrl());
         return response;
     }
 

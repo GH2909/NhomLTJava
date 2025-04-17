@@ -9,9 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServiceResponse {
-    private Long serviceId;
-    private String name;
-    private String description;
-    private Double price;
-    private Integer duration;
+     Long serviceId;
+     String name;
+     String description;
+     Double price;
+     Integer duration;
+    String imageUrl;
 }

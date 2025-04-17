@@ -11,75 +11,75 @@
 <body>
 <div id="system">
     <div th:replace="~{customer/index :: header}"></div>
+
     <div id="body">
         <div class="body-container">
             <h1>Chào mừng bạn đến với trang chủ!!</h1>
-            <div class="service-menu">
-                <div class="service-card">
-                    <img src="https://benhvienvanhanh.vn/wp-content/uploads/2020/01/2020_01_16/660e680e02d150b50e35fea480fb8389.jpg" alt="Trị mụn chuyên sâu">
-                    <h3>Trị mụn chuyên sâu</h3>
-                    <p>Dịch vụ trị mụn hiệu quả với công nghệ tiên tiến</p>
-                    <div class="action-row">
-                        <a th:href="@{/customer/order}">
-                            <button>Đặt dịch vụ tại đây</button>
-                        </a>
-                        <span class="price">3.500.000đ</span>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <img src="https://cdn.diemnhangroup.com/huongnghiepspa.edu.vn/2023/02/cac-buoc-cham-soc-da-co-ban-tai-spa-5.jpg" alt="Chăm sóc da cơ bản">
-                    <h3>Chăm sóc da cơ bản</h3>
-                    <p>Giúp da sạch sâu, mềm mịn và sáng khỏe</p>
-                    <div class="action-row">
-                        <a th:href="@{/customer/order}">
-                            <button>Đặt dịch vụ tại đây</button>
-                        </a>
-                        <span class="price">3.000.000đ</span>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <img src="https://vitaclinic.vn/storage/app/media/tre-hoa-da-3.jpg" alt="Liệu trình trẻ hóa da">
-                    <h3>Liệu trình trẻ hóa da</h3>
-                    <p>Công nghệ nâng cơ giúp da săn chắc</p>
-                    <div class="action-row">
-                        <a th:href="@{/customer/order}">
-                            <button>Đặt dịch vụ tại đây</button>
-                        </a>
-                        <span class="price">5.350.000đ</span>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <img src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2023/11/7/a555aade67a0b1fee8b1-16993193195541654552642.jpg" alt="Điều trị nám và tàn nhang">
-                    <h3>Điều trị nám và tàn nhang</h3>
-                    <p>Loại bỏ sắc tố da bằng laser</p>
-                    <div class="action-row">
-                        <a th:href="@{/customer/order}">
-                            <button>Đặt dịch vụ tại đây</button>
-                        </a>
-                        <span class="price">4.000.000đ</span>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <img src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2024/11/27/da-nhay-cam-1732696074345442275689.jpg" alt="Chăm sóc da nhạy cảm">
-                    <h3>Chăm sóc da nhạy cảm</h3>
-                    <p>Phục hồi và làm dịu da bị kích ứng</p>
-                    <div class="action-row">
-                        <a th:href="@{/customer/order}">
-                            <button>Đặt dịch vụ tại đây</button>
-                        </a>
-                        <span class="price">5.000.000đ</span>
-                    </div>
-                </div>
+            <!-- Vùng hiển thị dịch vụ -->
+            <div class="service-menu" id="serviceContainer">
+                <p>Đang tải dịch vụ...</p>
             </div>
-
         </div>
     </div>
 
     <div th:replace="~{customer/index :: footer}"></div>
 </div>
+
+<!-- SCRIPT LOAD DỊCH VỤ -->
+<script>
+    window.onload = function () {
+        //const accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
+
+        fetch("http://localhost:8080/services", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                //"Authorization": accessToken
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Lỗi khi tải dữ liệu: " + response.status);
+                }
+                return response.text().then((text) => {
+                    if (!text) {
+                        throw new Error("Phản hồi rỗng từ server.");
+                    }
+                    return JSON.parse(text);
+                });
+            })
+            .then((data) => {
+                const container = document.getElementById("serviceContainer");
+                container.innerHTML = ""; // Xóa dòng "Đang tải..."
+
+                if (data.result && Array.isArray(data.result) && data.result.length > 0) {
+                    data.result.forEach((service) => {
+                        const image = service.imageUrl || 'https://via.placeholder.com/300x200?text=Skincare';
+                        const html = `
+                        <div class="service-card">
+                            <img src="${image}" alt="${service.name}">
+                            <h3>${service.name}</h3>
+                            <p>${service.description}</p>
+                            <div class="action-row">
+                                <a href="/customer/order">
+                                    <button>Đặt dịch vụ tại đây</button>
+                                </a>
+                                <span class="price">${service.price.toLocaleString()}đ</span>
+                            </div>
+                        </div>
+                    `;
+                        container.insertAdjacentHTML("beforeend", html);
+                    });
+                } else {
+                    container.innerHTML = "<p>Không có dịch vụ nào được tìm thấy.</p>";
+                }
+            })
+            .catch((error) => {
+                console.error("Lỗi khi tải danh sách dịch vụ:", error);
+                document.getElementById("serviceContainer").innerHTML =
+                    "<p style='color:red;'>Không thể tải dịch vụ: " + error.message + "</p>";
+            });
+    };
+</script>
 </body>
 </html>

@@ -7,23 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
 import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
 import nhom_java.skincarebookingsystem.mapper.ServiceMapper;
-import nhom_java.skincarebookingsystem.mapper.UserMapper;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
+@Service
 @Slf4j
 public class ServiceService {
 
     ServiceRepository serviceRepository;
     ServiceMapper serviceMapper;
-    private final UserMapper userMapper;
 
     public ServiceResponse createService(ServiceRequest request) {
         if (serviceRepository.findByName(request.getName()).isPresent()) {

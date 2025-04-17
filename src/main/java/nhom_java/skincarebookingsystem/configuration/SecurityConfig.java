@@ -28,11 +28,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
+
                 request
-                        .requestMatchers(HttpMethod.POST, "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users", "/booking").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users", "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/", "/index", "/home", "/favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users", "/booking","/services").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users", "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/images/**", "/", "/index", "/home", "/favicon.ico","/services").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/revenue/**").hasRole("MANAGER")
                         .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
+
 
 
         // Xóa dòng gọi phương thức customJwtDecoder()
@@ -43,15 +46,11 @@ public class SecurityConfig {
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
 
-
         httpSecurity.csrf(AbstractHttpConfigurer::disable);//csrf:  tan cong
-
         httpSecurity
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return httpSecurity.build();
     }
-
 
     @Bean
         JwtAuthenticationConverter jwtAuthenticationConverter() {
@@ -61,8 +60,6 @@ public class SecurityConfig {
             jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
             return jwtAuthenticationConverter;
         }
-
-
 
         @Bean
         PasswordEncoder passwordEncoder() {
