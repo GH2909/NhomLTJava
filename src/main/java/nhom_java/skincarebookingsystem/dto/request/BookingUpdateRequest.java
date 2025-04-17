@@ -1,9 +1,17 @@
 package nhom_java.skincarebookingsystem.dto.request;
 
-public class BookingUpdateRequest {
-    private String status; // CONFIRMED, CANCELLED, COMPLETED
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-    // Getters and Setters
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class BookingUpdateRequest {
+    String fullName;
+    String email;
+    String phone;
+    String address;
+    String selectedService;
 }

@@ -19,52 +19,25 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
-    private final CustomerRepository customerRepository;
-    private final ServiceRepository serviceRepository;
-    private final SkinTherapistRepository skinTherapistRepository;
 
     @Autowired
-    public BookingService(
-            BookingRepository bookingRepository,
-            CustomerRepository customerRepository,
-            ServiceRepository serviceRepository,
-            SkinTherapistRepository skinTherapistRepository) {
+    public BookingService(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
-        this.customerRepository = customerRepository;
-        this.serviceRepository = serviceRepository;
-        this.skinTherapistRepository = skinTherapistRepository;
     }
 
     public Booking createBooking(BookingRequest request) {
-        Customer customer = customerRepository.findByEmail(request.getCustomerEmail())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-
-        ServiceEntity service = serviceRepository.findById(request.getServiceId())
-                .orElseThrow(() -> new RuntimeException("Service not found"));
-
-        SkinTherapist therapist = null;
-        if (request.getTherapistId() != null) {
-            therapist = skinTherapistRepository.findById(request.getTherapistId())
-                    .orElseThrow(() -> new RuntimeException("Therapist not found"));
-        }
-
         Booking booking = new Booking();
-        booking.setCustomer(customer);
-        booking.setService(service);
-        booking.setTherapist(therapist);
-        booking.setBookingDate(request.getBookingDate());
-        booking.setTime(request.getTime());
-        booking.setStatus("PENDING");
-
+        booking.setFullName(request.getFullName());
+        booking.setEmail(request.getEmail());
+        booking.setPhone(request.getPhone());
+        booking.setAddress(request.getAddress());
+        booking.setSelectedService(request.getSelectedService());
         return bookingRepository.save(booking);
     }
 
+
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
-    }
-
-    public List<Booking> getBookingsByCustomer(String email) {
-        return bookingRepository.findByCustomer_Email(email);
     }
 
     public Booking getBookingById(Long id) {
@@ -72,10 +45,16 @@ public class BookingService {
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
     }
 
-    public Booking updateBookingStatus(Long id, BookingUpdateRequest request) {
+    public Booking updateBooking(Long id, BookingUpdateRequest request) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
-        booking.setStatus(request.getStatus());
+
+        booking.setFullName(request.getFullName());
+        booking.setEmail(request.getEmail());
+        booking.setPhone(request.getPhone());
+        booking.setAddress(request.getAddress());
+        booking.setSelectedService(request.getSelectedService());
+
         return bookingRepository.save(booking);
     }
 
