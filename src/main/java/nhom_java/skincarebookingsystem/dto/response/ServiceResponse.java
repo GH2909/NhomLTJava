@@ -1,6 +1,5 @@
-package nhom_java.skincarebookingsystem.models;
+package nhom_java.skincarebookingsystem.dto.response;
 
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,15 +8,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-public class ServiceEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ServiceResponse {
     private Long serviceId;
     private String name;
     private String description;
     private Double price;
-    private Integer duration; // Tính bằng phút
-
-    }
+    private Integer duration;
+}

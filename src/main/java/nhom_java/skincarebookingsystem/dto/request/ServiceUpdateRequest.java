@@ -8,10 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ServiceRequest {
+public class ServiceUpdateRequest {
     private String name;
     private String description;
     private Double price;
     private Integer duration;
-
    }

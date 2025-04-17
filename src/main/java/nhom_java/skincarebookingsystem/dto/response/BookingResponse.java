@@ -1,11 +1,10 @@
-package nhom_java.skincarebookingsystem.dto.request;
+package nhom_java.skincarebookingsystem.dto.response;
 
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Set;
 
 @Data
@@ -13,7 +12,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookingRequest {
+public class BookingResponse {
+    Long bookingId;
     String fullName;
     @Email(message = "Invalid email format")
     String email;
@@ -21,5 +21,5 @@ public class BookingRequest {
     String address;
     String selectedService;
     LocalDate bookingDate;
-    Set<String> services;
+    Set<ServiceResponse> services;
 }

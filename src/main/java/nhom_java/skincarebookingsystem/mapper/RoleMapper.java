@@ -24,7 +24,6 @@ public class RoleMapper {
         Role role = new Role();
         role.setName(request.getName());
         role.setDescription(request.getDescription());
-
         return role;
     }
 

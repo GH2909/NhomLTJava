@@ -1,6 +1,13 @@
 package nhom_java.skincarebookingsystem.services;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
+import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
+import nhom_java.skincarebookingsystem.mapper.ServiceMapper;
+import nhom_java.skincarebookingsystem.mapper.UserMapper;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,40 +16,32 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class ServiceService {
 
-    private final ServiceRepository serviceRepository;
+    ServiceRepository serviceRepository;
+    ServiceMapper serviceMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    public ServiceService(ServiceRepository serviceRepository) {
-        this.serviceRepository = serviceRepository;
-    }
-
-    public ServiceEntity createService(ServiceRequest request) {
+    public ServiceResponse createService(ServiceRequest request) {
         if (serviceRepository.findByName(request.getName()).isPresent()) {
             throw new RuntimeException("Service name already exists");
         }
+        ServiceEntity service = serviceMapper.toService(request);
 
-        ServiceEntity service = new ServiceEntity();
-        service.setName(request.getName());
-        service.setDescription(request.getDescription());
-        service.setPrice(request.getPrice());
-        service.setDuration(request.getDuration());
-
-        return serviceRepository.save(service);
+        return serviceMapper.toServiceResponse(serviceRepository.save(service));
     }
 
-    public ServiceEntity updateService(Long id, ServiceRequest request) {
-        ServiceEntity service = serviceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Service not found"));
-
-        service.setName(request.getName());
-        service.setDescription(request.getDescription());
-        service.setPrice(request.getPrice());
-        service.setDuration(request.getDuration());
-
-        return serviceRepository.save(service);
-    }
+//    public ServiceResponse updateService(Long id, ServiceRequest request) {
+//        ServiceEntity service = serviceRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Service not found"));
+//
+//        serviceMapper.updateService
+//
+//        return serviceRepository.save(service);
+//    }
 
     public List<ServiceEntity> getAllServices() {
         return serviceRepository.findAll();

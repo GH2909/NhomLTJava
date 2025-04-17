@@ -27,6 +27,7 @@ public class UserMapper {
         user.setAddress(request.getAddress());
         return user;
     }
+
     public UserResponse toUserResponse(User user) {
         UserResponse response = new UserResponse();
         response.setId(user.getId());

@@ -1,67 +1,50 @@
 package nhom_java.skincarebookingsystem.services;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.BookingRequest;
-import nhom_java.skincarebookingsystem.dto.request.BookingUpdateRequest;
+import nhom_java.skincarebookingsystem.dto.response.BookingResponse;
+import nhom_java.skincarebookingsystem.mapper.BookingMapper;
+import nhom_java.skincarebookingsystem.mapper.UserMapper;
 import nhom_java.skincarebookingsystem.models.Booking;
-import nhom_java.skincarebookingsystem.models.Customer;
-import nhom_java.skincarebookingsystem.models.ServiceEntity;
-import nhom_java.skincarebookingsystem.models.SkinTherapist;
 import nhom_java.skincarebookingsystem.repositories.BookingRepository;
-import nhom_java.skincarebookingsystem.repositories.CustomerRepository;
-import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
-import nhom_java.skincarebookingsystem.repositories.SkinTherapistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 @Service
 public class BookingService {
 
-    private final BookingRepository bookingRepository;
+    BookingRepository bookingRepository;
+    BookingMapper bookingMapper ;
 
-    @Autowired
-    public BookingService(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
+
+    public BookingResponse createBooking(BookingRequest request) {
+        Booking booking = bookingMapper.toBooking(request);
+
+        return bookingMapper.toBookingResponse(bookingRepository.save(booking));
     }
 
-    public Booking createBooking(BookingRequest request) {
-        Booking booking = new Booking();
-        booking.setFullName(request.getFullName());
-        booking.setEmail(request.getEmail());
-        booking.setPhone(request.getPhone());
-        booking.setAddress(request.getAddress());
-        booking.setSelectedService(request.getSelectedService());
-        return bookingRepository.save(booking);
+    public List<BookingResponse> getAllBookings() {
+        return bookingRepository.findAll().stream().map(bookingMapper::toBookingResponse).toList();
     }
 
-
-    public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
+    public BookingResponse getBooking(String email) {
+        return bookingMapper.toBookingResponse(bookingRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Booking not found")));
     }
 
-    public Booking getBookingById(Long id) {
-        return bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-    }
-
-    public Booking updateBooking(Long id, BookingUpdateRequest request) {
-        Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-
-        booking.setFullName(request.getFullName());
-        booking.setEmail(request.getEmail());
-        booking.setPhone(request.getPhone());
-        booking.setAddress(request.getAddress());
-        booking.setSelectedService(request.getSelectedService());
-
-        return bookingRepository.save(booking);
-    }
-
-    public void deleteBooking(Long id) {
-        if (!bookingRepository.existsById(id)) {
+    public void deleteBooking(String email) {
+        if (!bookingRepository.existsByEmail(email)) {
             throw new RuntimeException("Booking not found");
         }
-        bookingRepository.deleteById(id);
+        bookingRepository.deleteByEmail(email);
     }
 }

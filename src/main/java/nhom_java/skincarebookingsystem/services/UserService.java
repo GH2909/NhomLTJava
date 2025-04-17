@@ -77,7 +77,6 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-
     //@PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserResponse> getUsers() {
@@ -93,5 +92,4 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
-
 }
