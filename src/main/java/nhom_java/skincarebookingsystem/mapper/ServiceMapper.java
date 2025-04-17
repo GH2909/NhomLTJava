@@ -1,19 +1,20 @@
 package nhom_java.skincarebookingsystem.mapper;
 
-import nhom_java.skincarebookingsystem.dto.request.RoleRequest;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
-import nhom_java.skincarebookingsystem.dto.response.PermissionResponse;
-import nhom_java.skincarebookingsystem.dto.response.RoleResponse;
+import nhom_java.skincarebookingsystem.dto.request.ServiceUpdateRequest;
+import nhom_java.skincarebookingsystem.dto.request.UserUpdateRequest;
 import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
 import nhom_java.skincarebookingsystem.models.Role;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
+import nhom_java.skincarebookingsystem.models.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 @Mapper(componentModel = "spring")
 @Component
@@ -28,7 +29,7 @@ public class ServiceMapper {
         service.setDescription(request.getDescription());
         service.setDuration(request.getDuration());
         service.setPrice(request.getPrice());
-        service.setImageUrl(request.getImageUrl());
+        service.setImageFile(request.getImageFile());
         return service;
     }
 
@@ -41,9 +42,16 @@ public class ServiceMapper {
         response.setDescription(service.getDescription());
         response.setDuration(service.getDuration());
         response.setPrice(service.getPrice());
-        response.setImageUrl(service.getImageUrl());
+        response.setImageFile(service.getImageFile());
         return response;
     }
 
+    public void updateService(@MappingTarget ServiceEntity service, ServiceUpdateRequest request) {
 
+        service.setName(request.getName());
+        service.setDescription(request.getDescription());
+        service.setDuration(request.getDuration());
+        service.setPrice(request.getPrice());
+        service.setImageFile(request.getImageFile());
+    }
 }

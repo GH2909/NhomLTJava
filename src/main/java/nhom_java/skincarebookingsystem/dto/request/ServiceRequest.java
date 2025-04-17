@@ -13,6 +13,6 @@ public class ServiceRequest {
     String description;
     Double price;
     Integer duration;
-    String imageUrl;
+    String imageFile;
 
 }

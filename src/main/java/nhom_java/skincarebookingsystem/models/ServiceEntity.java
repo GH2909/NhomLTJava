@@ -19,5 +19,5 @@ public class ServiceEntity {
     String description;
     Double price;
     Integer duration; // Tính bằng phút
-    String imageUrl;
+    String imageFile;
 }

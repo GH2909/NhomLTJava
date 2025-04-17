@@ -9,8 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServiceUpdateRequest {
-    private String name;
-    private String description;
-    private Double price;
-    private Integer duration;
-   }
+    String name;
+    String description;
+    Double price;
+    Integer duration;
+    String imageFile;
+}

@@ -14,5 +14,5 @@ public class ServiceResponse {
      String description;
      Double price;
      Integer duration;
-    String imageUrl;
+    String imageFile;
 }

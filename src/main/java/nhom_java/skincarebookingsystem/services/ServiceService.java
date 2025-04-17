@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
 import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
+import nhom_java.skincarebookingsystem.exception.AppException;
+import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.mapper.ServiceMapper;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
@@ -40,13 +42,15 @@ public class ServiceService {
 //        return serviceRepository.save(service);
 //    }
 
-    public List<ServiceEntity> getAllServices() {
-        return serviceRepository.findAll();
+    public List<ServiceResponse> getAllServices() {
+        return serviceRepository.findAll().stream()
+                .map(serviceMapper::toServiceResponse)
+                .toList();
     }
 
-    public ServiceEntity getServiceById(Long id) {
-        return serviceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Service not found"));
+    public ServiceResponse getServiceById(Long id) {
+        return serviceMapper.toServiceResponse(serviceRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
     public void deleteService(Long id) {

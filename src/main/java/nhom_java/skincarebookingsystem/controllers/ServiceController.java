@@ -1,6 +1,9 @@
 package nhom_java.skincarebookingsystem.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.ServiceRequest;
 import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
@@ -13,14 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/services")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ServiceController {
-
-    private final ServiceService serviceService;
-
     @Autowired
-    public ServiceController(ServiceService serviceService) {
-        this.serviceService = serviceService;
-    }
+    ServiceService serviceService;
 
     @PostMapping
     public ApiResponse<ServiceResponse> createService(@RequestBody @Valid ServiceRequest request) {
@@ -42,25 +42,25 @@ public class ServiceController {
 //    }
 
     @GetMapping
-    public ApiResponse<List<ServiceEntity>> getAllServices() {
+    public ApiResponse<List<ServiceResponse>> getAllServices() {
         // Lấy danh sách các dịch vụ từ service layer
-        List<ServiceEntity> services = serviceService.getAllServices();
+        List<ServiceResponse> services = serviceService.getAllServices();
         System.out.println("Getting all services: " + services.size() + " services found");
 
         // Trả về danh sách dịch vụ trong ApiResponse
-        return ApiResponse.<List<ServiceEntity>>builder()
+        return ApiResponse.<List<ServiceResponse>>builder()
                 .result(services)
                 .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ServiceEntity> getServiceById(@PathVariable Long id) {
+    public ApiResponse<ServiceResponse> getServiceById(@PathVariable Long id) {
         // Lấy thông tin dịch vụ qua service layer
-        ServiceEntity serviceEntity = serviceService.getServiceById(id);
+        ServiceResponse serviceResponse = serviceService.getServiceById(id);
 
         // Trả về kết quả trong ApiResponse
-        return ApiResponse.<ServiceEntity>builder()
-                .result(serviceEntity)
+        return ApiResponse.<ServiceResponse>builder()
+                .result(serviceResponse)
                 .build();
     }
 
