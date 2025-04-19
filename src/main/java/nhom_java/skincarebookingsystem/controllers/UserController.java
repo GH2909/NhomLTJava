@@ -15,6 +15,7 @@ import nhom_java.skincarebookingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -62,6 +63,11 @@ public class UserController {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(userService.getMyInfo());
         return apiResponse;
+    }
+
+    @GetMapping("/role/{roleName}")
+    public ResponseEntity<List<UserResponse>> getUsersByRole(@PathVariable String roleName) {
+        return ResponseEntity.ok(userService.getUsersByRole(roleName.toUpperCase()));
     }
 
     @PutMapping("/{email}")

@@ -86,6 +86,11 @@ public class UserService {
                 .toList();
     }
 
+    public List<UserResponse> getUsersByRole(String roleName) {
+        List<User> users =userRepository.findByRoleName(roleName);
+        return users.stream().map(userMapper::toUserResponse).toList();
+    }
+
     @PostAuthorize("returnObject.email == authentication.name")
     public UserResponse getUser(String email){
         log.info("In method get user by Email");

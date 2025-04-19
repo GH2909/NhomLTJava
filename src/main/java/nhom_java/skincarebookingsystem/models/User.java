@@ -24,7 +24,6 @@ public class User {
     String fullName;
     String phoneNumber;
     String address;
-    LocalDate dob;
 
     @ManyToMany
     Set<Role> roles;

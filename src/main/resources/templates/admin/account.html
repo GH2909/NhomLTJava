@@ -14,31 +14,6 @@
     <div id="slidebar">
         <div th:replace="~{admin/index :: navbar}"></div>
         <div class="content">
-            <div class="container" id="customer-form">
-                <h2>Khách hàng</h2>
-                <div class="container2">
-                    <table>
-                        <thead>
-                        <tr class="customer-title">
-                            <th>ID</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>nguyenvana@gmail.com</td>
-                            <td>0238463833</td>
-                            <td>12BT</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div >
-            </div>
             <div class="container" id="skintherapist-form">
                 <h2>Chuyên gia trị liệu</h2>
                 <div class="container2">
@@ -46,8 +21,10 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Ảnh</th>
                             <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
                             <th>Chuyên ngành</th>
                             <th>Kinh nghiệm</th>
                             <th>Mô tả</th>
@@ -55,12 +32,14 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td><img src="/static/assets/img/skin.jpg" alt=""></td>
-                            <td>Nguyễn Văn A</td>
-                            <td>tri mun</td>
-                            <td>5 năm</td>
-                            <td>mo ta</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -74,18 +53,18 @@
                         <tr>
                             <th>ID</th>
                             <th>Họ và tên</th>
-                            <th>Nghiệp vụ</th>
                             <th>Email</th>
                             <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>chăm sóc khách hàng</td>
-                            <td>nguyenvana@gmail.com</td>
-                            <td>0238463833</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -99,16 +78,18 @@
                         <tr>
                             <th>ID</th>
                             <th>Họ và tên</th>
-                            <th>Nghiệp vụ</th>
+                            <th>Email</th>
                             <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>quản lý khách hàng</td>
-                            <td>0238463833</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
@@ -118,5 +99,41 @@
     </div>
     <div th:replace="~{admin/index :: footer}"></div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        loadUsers("MANAGER", "manager-form");
+        loadUsers("STAFF", "staff-form");
+        // loadUsers("SKIN_THERAPIST", "skintherapist-form");
+    });
+
+    function loadUsers(role, containerId) {
+        fetch("http://localhost:8080/users/role/" + role)
+            .then(response => response.json())
+            .then(users => {
+                const tableBody = document.querySelector(`#${containerId} tbody`);
+                tableBody.innerHTML = "";
+                users.forEach(user => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.fullName}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phoneNumber}</td>
+                        <td>${user.address}</td>
+                        `;
+                        // ${role === "SKIN_THERAPIST"
+                        // ? `<td>${user.specialty || ''}</td><td>${user.experience || ''}</td><td>${user.description || ''}</td>`
+                        // : ''}
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Lỗi khi tải danh sách người dùng:", error);
+            });
+    }
+
+</script>
+
 </body>
 </html>
