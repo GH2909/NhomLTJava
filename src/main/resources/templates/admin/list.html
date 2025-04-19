@@ -52,8 +52,8 @@
                 <div class="form-container">
                     <span class="close-btn" onclick="closeForm()">&#10006;</span>
                     <h3>Thêm Dịch Vụ Mới</h3>
-                    <label for="imageFile">Chọn ảnh:</label>
-                    <input type="file" id="imageFile" accept="image/*">
+                    <label for="imageUrl">Ảnh:</label>
+                    <input type="file" id="imageUrl" placeholder="Nhập link ảnh">
 
                     <label for="ServiceName">Tên dịch vụ:</label>
                     <input type="text" id="ServiceName" placeholder="Nhập tên dịch vụ">
@@ -72,21 +72,26 @@
             </div>
 
             <script>
+                // Mở form để thêm dịch vụ
                 function openForm() {
                     document.getElementById("serviceForm").style.display = "block";
                 }
 
+                // Đóng form
                 function closeForm() {
                     document.getElementById("serviceForm").style.display = "none";
                 }
 
+                // Thêm dịch vụ
                 function addService() {
-                    var img = document.getElementById("imageFile").files[0];
+                    var img = document.getElementById("imageUrl").value;
+                    localStorage.setItem("imageUrl", img);
                     var name = document.getElementById("ServiceName").value;
                     var description = document.getElementById("Descriptions").value;
                     var price = document.getElementById("Price").value;
                     var duration = document.getElementById("Duration").value;
 
+                    // Kiểm tra nếu các trường thông tin trống
                     if (
                         img === "" ||
                         name === "" ||
@@ -98,18 +103,24 @@
                         return;
                     }
 
+                    // Tạo đối tượng dữ liệu dịch vụ
                     var serviceData = {
-                        img: img,
+                        imageUrl: img,
                         name: name,
                         description: description,
                         price: parseFloat(price),
                         duration: parseInt(duration),
                     };
 
+                    /// 👇 Dán access_token bạn lấy từ Postman vào đây
+                    //var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
+
+                    // Gửi yêu cầu POST tới backend
                     fetch("http://localhost:8080/services", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
+                            //"Authorization": accessToken
                         },
                         body: JSON.stringify(serviceData),
                     })
@@ -117,6 +128,7 @@
                             if (response.ok) {
                                 return response.json();
                             } else {
+                                // Lấy thông tin lỗi từ response
                                 return response.text().then((text) => {
                                     throw new Error(text || "Lỗi từ Server");
                                 });
@@ -124,6 +136,7 @@
                         })
                         .then((data) => {
                             // Thêm dịch vụ vào bảng
+                            const newService = data.result || data;
                             var table = document.querySelector("table tbody");
                             var newRow = table.insertRow();
 
@@ -135,22 +148,26 @@
                             var durationCell = newRow.insertCell(5);
 
                             // Sử dụng dữ liệu từ response
-                            idCell.innerHTML = data.serviceId || table.rows.length;
-                            imgCell.innerHTML =  `<img src="${data.img}" width="60" height="60" alt="Ảnh dịch vụ">`;
-                            nameCell.innerHTML = data.name || name;
-                            descriptionCell.innerHTML = data.description || description;
-                            priceCell.innerHTML = data.price || price;
-                            durationCell.innerHTML = data.duration || duration;
+                            idCell.innerHTML = newService.serviceId;
+                            imgCell.innerHTML = newService.imageUrl;
+                            nameCell.innerHTML = newService.name;
+                            descriptionCell.innerHTML = newService.description;
+                            priceCell.innerHTML = newService.price;
+                            durationCell.innerHTML = newService.duration;
+
+                            localStorage.setItem("serviceId", newService.serviceId);
 
                             // Xóa dữ liệu trong form
-                            document.getElementById("imageFile").value = "";
+                            document.getElementById("imageUrl").value = "";
                             document.getElementById("ServiceName").value = "";
                             document.getElementById("Descriptions").value = "";
                             document.getElementById("Price").value = "";
                             document.getElementById("Duration").value = "";
 
+                            // Đóng form
                             closeForm();
 
+                            // Hiển thị thông báo thành công
                             alert("Thêm dịch vụ thành công!");
                         })
                         .catch((error) => {
@@ -159,11 +176,14 @@
                         });
                 }
 
+                //Lấy danh sách dịch vụ khi trang được tải
                 window.onload = function () {
+                    //var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
                     fetch("http://localhost:8080/services", {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            //"Authorization": accessToken
                         },
                     })
                         .then((response) => {
@@ -197,11 +217,13 @@
                                     var durationCell = newRow.insertCell(5);
 
                                     idCell.innerHTML = service.serviceId;
-                                    imgCell.innerHTML = `<img src="${service.img}" width="60" height="60" alt="Ảnh dịch vụ">`;
+                                    imgCell.innerHTML = service.imageUrl;
                                     nameCell.innerHTML = service.name;
                                     descriptionCell.innerHTML = service.description;
                                     priceCell.innerHTML = service.price;
                                     durationCell.innerHTML = service.duration;
+
+
                                 });
                             } else {
                                 alert("Không có dịch vụ nào.");

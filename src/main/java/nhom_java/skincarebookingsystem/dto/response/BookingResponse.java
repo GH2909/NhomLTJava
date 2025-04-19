@@ -3,9 +3,10 @@ package nhom_java.skincarebookingsystem.dto.response;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import nhom_java.skincarebookingsystem.models.ServiceEntity;
+import nhom_java.skincarebookingsystem.models.User;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,10 @@ public class BookingResponse {
     String email;
     String phone;
     String address;
-    String selectedService;
     LocalDate bookingDate;
-    Set<ServiceResponse> services;
+    ServiceEntity service;
+    Double price;
+    User staff;
+    User therapist;
+    String status;
 }

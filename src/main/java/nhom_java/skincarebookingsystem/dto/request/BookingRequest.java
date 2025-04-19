@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +17,8 @@ public class BookingRequest {
     String email;
     String phone;
     String address;
-    String selectedService;
     LocalDate bookingDate;
-    Set<String> services;
+    Long serviceId;
+    Long staffId;
+    Long therapistId;
 }

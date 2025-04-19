@@ -1,5 +1,6 @@
 package nhom_java.skincarebookingsystem.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,5 +20,6 @@ public class ServiceEntity {
     String description;
     Double price;
     Integer duration; // Tính bằng phút
-    String imageFile;
+//    @JsonProperty("img")
+    String imageUrl;
 }

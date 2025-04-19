@@ -26,6 +26,7 @@
                             <th>SĐT</th>
                             <th>Dịch vụ</th>
                             <th>Giá tiền</th>
+                            <th>Ngày đặt</th>
                             <!--                                <th>Thời gian</th> -->
                             <th>Nhân viên phụ trách</th>
                             <th>Chuyên viên trị liệu</th>
@@ -33,19 +34,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>anguyenvan@gmail.com</td>
-                            <td>0945664389</td>
-                            <td>Trị mụn chuyên sâu</td>
-                            <td>500000.00</td>
-                            <td>Nguyen An</td>
-                            <td>Nguyen An</td>
+                        <tr th:each="order, iterStat : ${orders}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${order.name}"></td>
+                            <td th:text="${order.email}"></td>
+                            <td th:text="${order.phone}"></td>
+                            <td th:text="${order.service}"></td>
+                            <td th:text="${#numbers.formatDecimal(order.price, 1, 'POINT', 2, 'COMMA')} + 'đ'"></td>
+                            <td th:text="${order.bookingDate}"></td>
+                            <td th:text="${order.assignedStaff}"></td>
+                            <td th:text="${order.therapist}"></td>
                             <td>
                                 <div class="custom-select-wrapper">
                                     <div class="custom-select" onclick="toggleDropdown(this)">
-                                        <span class="selected-option">Chọn trạng thái</span>
+                                        <span class="selected-option" th:text="${order.status}">Chọn trạng thái</span>
                                         <ul class="options">
                                             <li onclick="selectOption(this)" data-status="not-started">Chưa thực hiện</li>
                                             <li onclick="selectOption(this)" data-status="in-progress">Đang tiến hành</li>
@@ -54,7 +56,6 @@
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
                         </tbody>
                     </table>

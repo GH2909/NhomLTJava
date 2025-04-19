@@ -14,6 +14,10 @@ body{
     background-color: #fff;
 }
 
+.clear{
+    clear: both;
+}
+
 .content{
     margin: 60px 100px 60px 400px;
 }
@@ -43,6 +47,9 @@ h1{
 }
 .form-group {
     margin-bottom: 15px;
+}
+.service-card{
+    float:left;
 }
 label {
     font-weight: bold;

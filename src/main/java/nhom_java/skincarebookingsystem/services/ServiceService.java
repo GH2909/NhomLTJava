@@ -55,7 +55,7 @@ public class ServiceService {
 
     public void deleteService(Long id) {
         if (!serviceRepository.existsById(id)) {
-            throw new RuntimeException("Service not found");
+            throw new AppException(ErrorCode.NOT_FOUND);
         }
         serviceRepository.deleteById(id);
     }

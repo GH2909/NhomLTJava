@@ -28,13 +28,10 @@
 <!-- SCRIPT LOAD DỊCH VỤ -->
 <script>
     window.onload = function () {
-        //const accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
-
         fetch("http://localhost:8080/services", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                //"Authorization": accessToken
             },
         })
             .then((response) => {
@@ -57,13 +54,13 @@
                         const image = service.imageUrl || 'https://via.placeholder.com/300x200?text=Skincare';
                         const html = `
                         <div class="service-card">
-                            <img src="${image}" alt="${service.name}">
+                             <img src="${image}" alt="${service.name}">
                             <h3>${service.name}</h3>
                             <p>${service.description}</p>
                             <div class="action-row">
-                                <a href="/customer/order">
-                                    <button>Đặt dịch vụ tại đây</button>
-                                </a>
+                                <button onclick="orderService('${service.serviceId}', '${service.name}', '${service.description}', ${service.price})">
+                                Đặt dịch vụ tại đây
+                                </button>
                                 <span class="price">${service.price.toLocaleString()}đ</span>
                             </div>
                         </div>
@@ -80,6 +77,17 @@
                     "<p style='color:red;'>Không thể tải dịch vụ: " + error.message + "</p>";
             });
     };
+
+    function orderService(id, name, description, price) {
+        // Lưu thông tin dịch vụ vào localStorage
+        localStorage.setItem('serviceId', id); // Lưu serviceId vào localStorage
+        localStorage.setItem('serviceName', name);
+        localStorage.setItem('serviceDescription', description);
+        localStorage.setItem('servicePrice', price);
+
+        // Chuyển hướng đến trang đặt dịch vụ
+        window.location.href = '/customer/order';
+    }
 </script>
 </body>
 </html>

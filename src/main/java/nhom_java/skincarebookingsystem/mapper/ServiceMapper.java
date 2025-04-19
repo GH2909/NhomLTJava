@@ -29,7 +29,7 @@ public class ServiceMapper {
         service.setDescription(request.getDescription());
         service.setDuration(request.getDuration());
         service.setPrice(request.getPrice());
-        service.setImageFile(request.getImageFile());
+        service.setImageUrl(request.getImageUrl());
         return service;
     }
 
@@ -38,11 +38,12 @@ public class ServiceMapper {
             return null;
         }
         ServiceResponse response = new ServiceResponse();
+        response.setServiceId(service.getServiceId());
         response.setName(service.getName());
         response.setDescription(service.getDescription());
         response.setDuration(service.getDuration());
         response.setPrice(service.getPrice());
-        response.setImageFile(service.getImageFile());
+        response.setImageUrl(service.getImageUrl());
         return response;
     }
 
@@ -52,6 +53,6 @@ public class ServiceMapper {
         service.setDescription(request.getDescription());
         service.setDuration(request.getDuration());
         service.setPrice(request.getPrice());
-        service.setImageFile(request.getImageFile());
+        service.setImageUrl(request.getImageUrl());
     }
 }

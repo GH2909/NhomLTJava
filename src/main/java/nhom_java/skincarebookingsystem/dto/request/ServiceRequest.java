@@ -9,10 +9,11 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServiceRequest {
+    Long serviceId;
     String name;
     String description;
     Double price;
     Integer duration;
-    String imageFile;
+    String imageUrl;
 
 }

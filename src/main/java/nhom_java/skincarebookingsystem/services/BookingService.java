@@ -6,10 +6,16 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import nhom_java.skincarebookingsystem.dto.request.BookingRequest;
 import nhom_java.skincarebookingsystem.dto.response.BookingResponse;
+import nhom_java.skincarebookingsystem.exception.AppException;
+import nhom_java.skincarebookingsystem.exception.ErrorCode;
 import nhom_java.skincarebookingsystem.mapper.BookingMapper;
 import nhom_java.skincarebookingsystem.mapper.UserMapper;
 import nhom_java.skincarebookingsystem.models.Booking;
+import nhom_java.skincarebookingsystem.models.ServiceEntity;
+import nhom_java.skincarebookingsystem.models.User;
 import nhom_java.skincarebookingsystem.repositories.BookingRepository;
+import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
+import nhom_java.skincarebookingsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +30,32 @@ public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper ;
+    UserRepository userRepository;
+    ServiceRepository serviceRepository;
 
 
     public BookingResponse createBooking(BookingRequest request) {
         Booking booking = bookingMapper.toBooking(request);
+
+        if (request.getServiceId() != null) {
+            ServiceEntity service = serviceRepository.findById(request.getServiceId())
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+            booking.setService(service);
+        }
+
+        // Tìm và gán Staff nếu có
+        if (request.getStaffId() != null) {
+            User staff = userRepository.findById(request.getStaffId())
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+            booking.setStaff(staff);
+        }
+
+        // Tìm và gán Therapist nếu có
+        if (request.getTherapistId() != null) {
+            User therapist = userRepository.findById(request.getTherapistId())
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+            booking.setTherapist(therapist);
+        }
 
         return bookingMapper.toBookingResponse(bookingRepository.save(booking));
     }
@@ -38,12 +66,12 @@ public class BookingService {
 
     public BookingResponse getBooking(String email) {
         return bookingMapper.toBookingResponse(bookingRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Booking not found")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
     public void deleteBooking(String email) {
         if (!bookingRepository.existsByEmail(email)) {
-            throw new RuntimeException("Booking not found");
+            throw new AppException(ErrorCode.NOT_FOUND);
         }
         bookingRepository.deleteByEmail(email);
     }

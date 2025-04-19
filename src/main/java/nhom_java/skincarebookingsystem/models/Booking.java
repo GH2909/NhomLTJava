@@ -3,7 +3,6 @@ package nhom_java.skincarebookingsystem.models;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -22,9 +21,19 @@ public class Booking {
      String email;
      String phone;
      String address;
-     String selectedService;
      LocalDate bookingDate;
-    @ManyToMany
-    Set<ServiceEntity> services;
+    @ManyToOne
+    @JoinColumn(name = "service_id", nullable = false)
+    ServiceEntity service;
 
+    Double price;
+    @ManyToOne
+    @JoinColumn(name = "staff_id", nullable = true)
+    User staff;
+
+    @ManyToOne
+    @JoinColumn(name = "therapist_id", nullable = true)
+    User therapist;
+
+    String status;
 }
