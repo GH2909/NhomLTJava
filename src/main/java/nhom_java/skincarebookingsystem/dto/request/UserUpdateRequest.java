@@ -22,5 +22,8 @@ public class UserUpdateRequest {
     private String address;
     private LocalDate dob;
     List<String> roles;
+    String specialty;
+    String experience;
+    String description;
 
 }

@@ -25,6 +25,11 @@ public class UserMapper {
         user.setFullName(request.getFullName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(request.getAddress());
+        if (request.getRoles() != null && request.getRoles().contains("SKIN_THERAPIST")) {
+            user.setSpecialty(request.getSpecialty());
+            user.setExperience(request.getExperience());
+            user.setDescription(request.getDescription());
+        }
         return user;
     }
 
@@ -52,6 +57,10 @@ public class UserMapper {
         }).toList();
         Set<RoleResponse> targetSet = new HashSet<>(roles);
         response.setRole(targetSet);
+        response.setSpecialty(user.getSpecialty());
+        response.setExperience(user.getExperience());
+        response.setDescription(user.getDescription());
+
         return response;
     }
     public void updateUser(@MappingTarget User user, UserUpdateRequest request) {

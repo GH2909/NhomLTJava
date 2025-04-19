@@ -47,6 +47,18 @@
                                 <option>SKIN_THERAPIST</option>
                             </select>
                         </div>
+
+                        <div id="skintherapist-extra" style="display: none;">
+                            <label>Chuyên ngành:</label>
+                            <input type="text" name="specialty" id="specialty">
+
+                            <label>Kinh nghiệm:</label>
+                            <input type="text" name="experience" id="experience">
+
+                            <label>Mô tả:</label>
+                            <textarea name="description" id="description"></textarea>
+                        </div>
+
                         <div class="button-log">
                             <button type="submit" class="button-log-up">Đăng kí</button>
                             <div>Đã có tài khoản? <a th:href="@{/admin/logout}" id="link-log">Đăng nhập</a></div>
@@ -79,6 +91,11 @@
                 address: document.getElementById("address").value,
                 roles: [document.getElementById("service").value]
             };
+            if (data.roles[0] === "SKIN_THERAPIST") {
+                data.specialty = document.getElementById("specialty").value;
+                data.experience = document.getElementById("experience").value;
+                data.description = document.getElementById("description").value;
+            }
 
             fetch("http://localhost:8080/users", {
                 method: "POST",
@@ -100,6 +117,17 @@
                 .catch(err => {
                     alert("Lỗi kết nối: " + err.message);
                 });
+        });
+
+        document.getElementById("service").addEventListener("change", function () {
+            const selectedRole = this.value;
+            const extraForm = document.getElementById("skintherapist-extra");
+
+            if (selectedRole === "SKIN_THERAPIST") {
+                extraForm.style.display = "block";
+            } else {
+                extraForm.style.display = "none";
+            }
         });
     </script>
 </body>

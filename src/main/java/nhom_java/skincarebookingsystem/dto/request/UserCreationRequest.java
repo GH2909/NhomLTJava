@@ -30,6 +30,9 @@ public class UserCreationRequest {
     String address;
 
     Set<String> roles;
+    String specialty;
+    String experience;
+    String description;
 
 
 //    @DobConstraint(min = 2, message = "INVALID_DOB")

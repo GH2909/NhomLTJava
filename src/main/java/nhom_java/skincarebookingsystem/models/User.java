@@ -27,4 +27,8 @@ public class User {
 
     @ManyToMany
     Set<Role> roles;
+    String specialty;
+    String experience;
+    @Column(length = 10000)
+    String description;
 }

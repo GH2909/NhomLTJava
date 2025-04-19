@@ -60,7 +60,7 @@
     font-size: 30px;
 }
 
-#fullName, #email, #password, #confirm-password, #phoneNumber, #address, #service{
+#fullName, #email, #password, #confirm-password, #phoneNumber, #address, #service, #experience, #specialty, #description{
     margin: 5px 0;
     padding: 2px;
     width: 100%;

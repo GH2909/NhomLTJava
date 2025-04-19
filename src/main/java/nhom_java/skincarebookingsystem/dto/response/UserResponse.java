@@ -20,4 +20,7 @@ public class UserResponse {
     String address;
     LocalDate dob;
     Set<RoleResponse> role;
+    String specialty;
+    String experience;
+    String description;
 }

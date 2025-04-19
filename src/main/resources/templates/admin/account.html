@@ -103,7 +103,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         loadUsers("MANAGER", "manager-form");
         loadUsers("STAFF", "staff-form");
-        // loadUsers("SKIN_THERAPIST", "skintherapist-form");
+        loadUsers("SKIN_THERAPIST", "skintherapist-form");
     });
 
     function loadUsers(role, containerId) {
@@ -120,10 +120,10 @@
                         <td>${user.email}</td>
                         <td>${user.phoneNumber}</td>
                         <td>${user.address}</td>
+                        ${role === "SKIN_THERAPIST"
+                        ? `<td>${user.specialty || ''}</td><td>${user.experience || ''}</td><td>${user.description || ''}</td>`
+                        : ''}
                         `;
-                        // ${role === "SKIN_THERAPIST"
-                        // ? `<td>${user.specialty || ''}</td><td>${user.experience || ''}</td><td>${user.description || ''}</td>`
-                        // : ''}
 
                     tableBody.appendChild(row);
                 });
