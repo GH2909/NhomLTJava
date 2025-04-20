@@ -37,11 +37,11 @@ public class BookingService {
     public BookingResponse createBooking(BookingRequest request) {
         Booking booking = bookingMapper.toBooking(request);
 
-//        if (request.getServiceId() != null) {
-//            ServiceEntity service = serviceRepository.findById(request.getServiceId())
-//                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-//            booking.setService(service);
-//        }
+        if (request.getServiceId() != null) {
+            ServiceEntity service = serviceRepository.findById(request.getServiceId())
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+            booking.setService(service);
+        }
 
         // Tìm và gán Staff nếu có
 //        if (request.getStaffId() != null) {

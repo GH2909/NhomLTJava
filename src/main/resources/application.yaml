@@ -8,7 +8,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/SkincareBookingDB"
     username: root
 
-    password: 0812181639ghjm
+    password: 123456quyen
 
 
     driver-class-name: com.mysql.cj.jdbc.Driver

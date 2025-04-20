@@ -39,8 +39,8 @@
                             <td th:text="${order.fullName}"></td>
                             <td th:text="${order.email}"></td>
                             <td th:text="${order.phone}"></td>
-                            <td th:text="${order.service}"></td>
-                            <td th:text="${#numbers.formatDecimal(order.price, 1, 'POINT', 2, 'COMMA')} + 'đ'"></td>
+                            <td th:text="${order.service.name}"></td>
+                            <td th:text="${#numbers.formatDecimal(order.service.price, 1, 'POINT', 2, 'COMMA')} + 'đ'"></td>
                             <td th:text="${order.bookingDate}"></td>
 <!--                            <td th:text="${order.assignedStaff}"></td>-->
 <!--                            <td th:text="${order.therapist}"></td>-->
