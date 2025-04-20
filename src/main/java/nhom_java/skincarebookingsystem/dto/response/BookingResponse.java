@@ -23,7 +23,7 @@ public class BookingResponse {
     LocalDate bookingDate;
     ServiceEntity service;
     Double price;
-    User staff;
-    User therapist;
+//    User staff;
+//    User therapist;
     String status;
 }

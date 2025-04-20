@@ -28,22 +28,22 @@
                             <th>Giá tiền</th>
                             <th>Ngày đặt</th>
                             <!--                                <th>Thời gian</th> -->
-                            <th>Nhân viên phụ trách</th>
-                            <th>Chuyên viên trị liệu</th>
+<!--                            <th>Nhân viên phụ trách</th>-->
+<!--                            <th>Chuyên viên trị liệu</th>-->
                             <th>Trạng thái</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="order, iterStat : ${orders}">
                             <td th:text="${iterStat.index + 1}"></td>
-                            <td th:text="${order.name}"></td>
+                            <td th:text="${order.fullName}"></td>
                             <td th:text="${order.email}"></td>
                             <td th:text="${order.phone}"></td>
                             <td th:text="${order.service}"></td>
                             <td th:text="${#numbers.formatDecimal(order.price, 1, 'POINT', 2, 'COMMA')} + 'đ'"></td>
                             <td th:text="${order.bookingDate}"></td>
-                            <td th:text="${order.assignedStaff}"></td>
-                            <td th:text="${order.therapist}"></td>
+<!--                            <td th:text="${order.assignedStaff}"></td>-->
+<!--                            <td th:text="${order.therapist}"></td>-->
                             <td>
                                 <div class="custom-select-wrapper">
                                     <div class="custom-select" onclick="toggleDropdown(this)">

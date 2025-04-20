@@ -50,6 +50,29 @@
     <div th:replace="~{customer/index :: footer}"></div>
 </div>
 <script>
+    // async function loadStaffAndTherapists() {
+    //     const staffRes = await fetch("/users/by-role?roleName=STAFF");
+    //     const therapistRes = await fetch("/users/by-role?roleName=SKIN_THERAPIST");
+    //
+    //     const staffList = await staffRes.json();
+    //     const therapistList = await therapistRes.json();
+    //
+    //     const staffSelect = document.createElement("select");
+    //     staffSelect.id = "staffId";
+    //     staffSelect.innerHTML = `<option value="">-- Chọn nhân viên --</option>` +
+    //         staffList.map(user => `<option value="${user.id}">${user.fullName}</option>`).join("");
+    //
+    //     const therapistSelect = document.createElement("select");
+    //     therapistSelect.id = "therapistId";
+    //     therapistSelect.innerHTML = `<option value="">-- Chọn chuyên viên --</option>` +
+    //         therapistList.map(user => `<option value="${user.id}">${user.fullName}</option>`).join("");
+    //
+    //     const form = document.getElementById("orderForm");
+    //     form.insertBefore(staffSelect, form.querySelector("button"));
+    //     form.insertBefore(therapistSelect, form.querySelector("button"));
+    // }
+    console.log("Service ID load từ localStorage:", serviceId);
+
     window.onload = function () {
         // Lấy thông tin dịch vụ từ localStorage
         const serviceName = localStorage.getItem('serviceName');
@@ -68,13 +91,13 @@
 
         }
     };
+    // loadStaffAndTherapists();
+
 
     document.getElementById("orderForm").addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const staffIdValue = document.getElementById('staffId')?.value || null;
-        const therapistIdValue = document.getElementById('therapistId')?.value || null;
-        const rawServiceId = document.getItem("serviceId");
+        const rawServiceId = localStorage.getItem("serviceId");
 
         const order = {
             fullName: document.getElementById("name").value,
@@ -84,8 +107,6 @@
             bookingDate: document.getElementById("bookingDate").value,
             serviceId: rawServiceId && rawServiceId !== "undefined" ? Number(rawServiceId) : null,
             price: localStorage.getItem("servicePrice"),
-            staffId: staffIdValue && staffIdValue !== "undefined" ? Number(staffIdValue) : null,
-            therapistId: therapistIdValue && therapistIdValue !== "undefined" ? Number(therapistIdValue) : null
         };
 
         console.log("Order gửi lên:", order);

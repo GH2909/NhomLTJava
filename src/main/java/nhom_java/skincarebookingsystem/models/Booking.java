@@ -27,13 +27,13 @@ public class Booking {
     ServiceEntity service;
 
     Double price;
-    @ManyToOne
-    @JoinColumn(name = "staff_id", nullable = true)
-    User staff;
-
-    @ManyToOne
-    @JoinColumn(name = "therapist_id", nullable = true)
-    User therapist;
+//    @ManyToOne
+//    @JoinColumn(name = "staff_id", nullable = true)
+//    User staff;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "therapist_id", nullable = true)
+//    User therapist;
 
     String status;
 }

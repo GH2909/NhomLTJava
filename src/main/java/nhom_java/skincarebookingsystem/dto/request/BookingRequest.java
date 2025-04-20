@@ -19,6 +19,6 @@ public class BookingRequest {
     String address;
     LocalDate bookingDate;
     Long serviceId;
-    Long staffId;
-    Long therapistId;
+//    Long staffId;
+//    Long therapistId;
 }

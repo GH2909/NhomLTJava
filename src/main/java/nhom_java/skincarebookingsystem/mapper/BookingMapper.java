@@ -20,8 +20,8 @@ public class BookingMapper {
     @Autowired
     private ServiceRepository serviceRepository;
     public Booking toBooking(BookingRequest request){
-        if (request == null) {
-            return null;
+        if (request.getServiceId() == null) {
+            throw new AppException(ErrorCode.INVALID_DATA);
         }
         log.info("Service ID nhận được: {}", request.getServiceId());
         ServiceEntity service = serviceRepository.findById(request.getServiceId())
@@ -33,17 +33,17 @@ public class BookingMapper {
         booking.setAddress(request.getAddress());
         booking.setBookingDate(request.getBookingDate());
         booking.setService(service);
-        if (request.getStaffId() != null) {
-            User staff = new User();
-            staff.setId(request.getStaffId());
-            booking.setStaff(staff);
-        }
-
-        if (request.getTherapistId() != null) {
-            User therapist = new User();
-            therapist.setId(request.getTherapistId());
-            booking.setTherapist(therapist);
-        }
+//        if (request.getStaffId() != null) {
+//            User staff = new User();
+//            staff.setId(request.getStaffId());
+//            booking.setStaff(staff);
+//        }
+//
+//        if (request.getTherapistId() != null) {
+//            User therapist = new User();
+//            therapist.setId(request.getTherapistId());
+//            booking.setTherapist(therapist);
+//        }
 
         return booking;
     }
@@ -60,8 +60,8 @@ public class BookingMapper {
         bookingResponse.setBookingDate(booking.getBookingDate());
         bookingResponse.setService(booking.getService());
         bookingResponse.setPrice(booking.getPrice());
-        bookingResponse.setStaff(booking.getStaff());
-        bookingResponse.setTherapist(booking.getTherapist());
+//        bookingResponse.setStaff(booking.getStaff());
+//        bookingResponse.setTherapist(booking.getTherapist());
         bookingResponse.setStatus("Chưa thực hiện");
         return bookingResponse;
     }

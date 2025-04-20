@@ -19,7 +19,7 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1009,"Role not found", HttpStatus.NOT_FOUND),
     NOT_EXISTED(1010,"Not existed", HttpStatus.NOT_FOUND),
     NOT_FOUND(1011,"Not found", HttpStatus.NOT_FOUND),
-
+    INVALID_DATA(1012,"Invalid data", HttpStatus.BAD_REQUEST),
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

@@ -37,25 +37,25 @@ public class BookingService {
     public BookingResponse createBooking(BookingRequest request) {
         Booking booking = bookingMapper.toBooking(request);
 
-        if (request.getServiceId() != null) {
-            ServiceEntity service = serviceRepository.findById(request.getServiceId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-            booking.setService(service);
-        }
+//        if (request.getServiceId() != null) {
+//            ServiceEntity service = serviceRepository.findById(request.getServiceId())
+//                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+//            booking.setService(service);
+//        }
 
         // Tìm và gán Staff nếu có
-        if (request.getStaffId() != null) {
-            User staff = userRepository.findById(request.getStaffId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-            booking.setStaff(staff);
-        }
-
-        // Tìm và gán Therapist nếu có
-        if (request.getTherapistId() != null) {
-            User therapist = userRepository.findById(request.getTherapistId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-            booking.setTherapist(therapist);
-        }
+//        if (request.getStaffId() != null) {
+//            User staff = userRepository.findById(request.getStaffId())
+//                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+//            booking.setStaff(staff);
+//        }
+//
+//        // Tìm và gán Therapist nếu có
+//        if (request.getTherapistId() != null) {
+//            User therapist = userRepository.findById(request.getTherapistId())
+//                    .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+//            booking.setTherapist(therapist);
+//        }
 
         return bookingMapper.toBookingResponse(bookingRepository.save(booking));
     }
