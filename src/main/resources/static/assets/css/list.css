@@ -60,6 +60,15 @@ h3 {
     cursor: pointer;
 }
 
+.delete-service-btn{
+    background: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .add-service-btn:hover {
     background: #218838;
 }
