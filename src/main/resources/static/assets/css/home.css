@@ -4,7 +4,6 @@
 }
 
 #system{
-    /*font-family: "Great Vibes", cursive;*/
     font-size: 16px;
     position: relative;
 }
@@ -18,27 +17,18 @@ h1{
 }
 
 body{
-    background-color: #fff;
-    /*font-family: Arial, sans-serif;*/
-    /*margin: 0;*/
-    /*padding: 40px;*/
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .dashboard {
-    /*background: #FFF5E1;*/
-    /*border-radius: 12px;*/
-    /*padding: 30px;*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*gap: 20px;*/
-    /*max-width: 1000px;*/
-    /*margin: auto;*/
-
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 210%;
-    margin: 10% auto auto 70%;
+    margin: 10% auto auto 47%;
     background: #FFF5E1;
     padding: 20px;
     border-radius: 30px;
@@ -57,6 +47,11 @@ h2 {
     flex: 1;
     text-align: center;
     transition: transform 0.2s ease;
+
+    min-height: 100px; /* Giữ chiều cao cố định */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card:hover {
@@ -87,38 +82,17 @@ h3 {
     font-size: 1.2rem;
 }
 
-/*#current-month {*/
-/*    font-style: italic;*/
-/*    color: #6b4e5c;*/
-/*    text-align: center;*/
-/*    margin-bottom: 10px;*/
-/*    font-size: 15px;*/
+/*#current-date {*/
+/*    display: flex;*/
 /*}*/
-
-/*#current-year {*/
-/*    font-style: italic;*/
-/*    color: #6b4e5c;*/
-/*    text-align: center;*/
-/*    margin-bottom: 10px;*/
-/*    font-size: 15px;*/
-/*}*/
-
-#current-date {
-    display: none;
-}
 
 #month-select {
 
     padding: 5px 10px;
-    /*font-size: 16px;*/
     border-radius: 8px;
     border: 1px solid #ccc;
 
     font-style: italic;
-    /*color: #6b4e5c;*/
-    /*text-align: center;*/
-    /*margin-bottom: 10px;*/
-    /*font-size: 15px;*/
     margin-bottom: 15px;
     color: #333;
     font-size: 1.2rem;
