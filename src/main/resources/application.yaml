@@ -10,7 +10,6 @@ spring:
 
     password: 0812181639ghjm
 
-
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
