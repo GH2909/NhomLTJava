@@ -54,8 +54,8 @@
                 <div class="form-container">
                     <span class="close-btn" onclick="closeForm()">&#10006;</span>
                     <h3>Thêm Dịch Vụ Mới</h3>
-                    <label for="imageUrl">Ảnh:</label>
-                    <input type="file" id="imageUrl" placeholder="Nhập link ảnh">
+                    <label>Ảnh:</label>
+                    <input type="file" id="imageUrl" name="image" accept="image/*" required>
 
                     <label for="ServiceName">Tên dịch vụ:</label>
                     <input type="text" id="ServiceName" placeholder="Nhập tên dịch vụ">
@@ -162,7 +162,7 @@
 
                             // Sử dụng dữ liệu từ response
                             idCell.innerHTML = newService.serviceId;
-                            imgCell.innerHTML = newService.imageUrl;
+                            imgCell.innerHTML = `<img src="/assets/img/${newService.imageUrl != null ? newService.imageUrl : 'skin.jpg'}" alt="Service Image" style="width: 100px; height: auto;">`;
                             nameCell.innerHTML = newService.name;
                             descriptionCell.innerHTML = newService.description;
                             priceCell.innerHTML = newService.price;
@@ -230,7 +230,7 @@
                                     var durationCell = newRow.insertCell(5);
 
                                     idCell.innerHTML = service.serviceId;
-                                    imgCell.innerHTML = service.imageUrl;
+                                    imgCell.innerHTML = `<img src="/assets/img/${service.imageUrl != null ? service.imageUrl : 'skin.jpg'}" alt="Service Image" style="width: 100px; height: auto;">`;
                                     nameCell.innerHTML = service.name;
                                     descriptionCell.innerHTML = service.description;
                                     priceCell.innerHTML = service.price;

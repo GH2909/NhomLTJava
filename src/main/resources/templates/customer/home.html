@@ -14,7 +14,6 @@
 
     <div id="body">
         <div class="body-container">
-            <h1>Chào mừng bạn đến với trang chủ!!</h1>
             <!-- Vùng hiển thị dịch vụ -->
             <div class="service-menu" id="serviceContainer">
                 <p>Đang tải dịch vụ...</p>
@@ -51,7 +50,7 @@
 
                 if (data.result && Array.isArray(data.result) && data.result.length > 0) {
                     data.result.forEach((service) => {
-                        const image = service.imageUrl || 'https://via.placeholder.com/300x200?text=Skincare';
+                        const image = service.imageUrl || '/assets/img/skin.jpg';
                         const html = `
                         <div class="service-card">
                              <img src="${image}" alt="${service.name}">
