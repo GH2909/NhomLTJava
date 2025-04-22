@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/users/**", "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/img/**", "/", "/index", "/home","/booking", "/services").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/services/{id}").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/revenue/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/revenue/**").permitAll()//.hasRole("MANAGER")
                         .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
 
 

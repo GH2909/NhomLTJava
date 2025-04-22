@@ -64,9 +64,8 @@
         // Gọi API để lấy dữ liệu ban đầu cho trang home
         fetch("http://localhost:8080/admin/home", {
         method: "GET",
-        headers: {
-        "Authorization": `Bearer ${token}`
-    }
+        // headers: {
+        // "Authorization": `Bearer ${token}`}
     })
         .then(res => res.json())
         .then(data => {
@@ -106,9 +105,8 @@
         function getMonthlyRevenue() {
         const selectedMonth = document.getElementById("month-select").value;
         fetch(`/api/revenue/monthly?month=${selectedMonth}`, {
-        headers: {
-        "Authorization": `Bearer ${token}`
-    }
+        // headers: {
+        // "Authorization": `Bearer ${token}`}
     })
         .then(response => response.json())
         .then(data => {
@@ -124,46 +122,51 @@
     });
     }
 
-        function getDailyRevenue() {
-        const selectedDate = document.getElementById("date-select").value;
-        fetch(`/api/revenue/daily?date=${selectedDate}`, {
-        headers: {
-        "Authorization": `Bearer ${token}`
-    }
-    })
-        .then(response => response.json())
-        .then(data => {
-        document.getElementById("daily-revenue").innerText =
-        data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
-    })
-        .catch(error => {
-        console.error("Lỗi khi lấy doanh thu ngày:", error);
-        document.getElementById("daily-revenue").innerText = "Lỗi khi lấy dữ liệu.";
-    });
-    }
+        function getDailyRevenueWithDate(date) {
+            fetch(`/api/revenue/daily?date=${date}`, {
+                // headers: {
+                //     "Authorization": `Bearer ${token}`
+                // }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("daily-revenue").innerText =
+                        data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
+                })
+                .catch(error => {
+                    console.error("Lỗi khi lấy doanh thu ngày:", error);
+                    document.getElementById("daily-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+                });
+        }
 
-        function getYearlyRevenue() {
-        const selectedYear = document.getElementById("year-select").value;
-        fetch(`/api/revenue/yearly?year=${selectedYear}`, {
-        headers: {
-        "Authorization": `Bearer ${token}`
-    }
-    })
-        .then(response => response.json())
-        .then(data => {
-        if (data.revenue) {
-        document.getElementById("yearly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
-    } else {
-        document.getElementById("yearly-revenue").innerText = "Không có dữ liệu doanh thu cho năm này.";
-    }
-    })
-        .catch(error => {
-        console.error("Lỗi khi lấy doanh thu năm:", error);
-        document.getElementById("yearly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
-    });
-    }
+        function getYearlyRevenueWithYear(year) {
+            fetch(`/api/revenue/yearly?year=${year}`, {
+                // headers: {
+                //     "Authorization": `Bearer ${token}`
+                // }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("yearly-revenue").innerText =
+                        data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
+                })
+                .catch(error => {
+                    console.error("Lỗi khi lấy doanh thu năm:", error);
+                    document.getElementById("yearly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+                });
+        }
 
-// .then(response => response.text())
+        window.addEventListener('load', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("date-select")?.setAttribute("value", today); // Nếu có input để chọn ngày
+
+            getDailyRevenueWithDate(today); // gọi hàm tính doanh thu hôm nay
+            getYearlyRevenueWithYear(new Date().getFullYear()); // gọi doanh thu của năm hiện tại
+        });
+
+
+
+        // .then(response => response.text())
         // .then(data => {
         //     console.log(data);
         // })
