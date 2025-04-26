@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking System</title>
+    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/logout.css}">
+
+</head>
+<style>
+    .background-img{
+        background-image: url('/assets/img/login.jpg');
+    }
+</style>
+<body>
+    <div id="system">
+        <div class="background-img">
+            <div class="container"> 
+                <div class="log">
+                    <div class="log-name"><h2>Đăng kí</h2></div>
+                    <form id="register-form">
+                        <label >Họ và tên:</label>
+                        <input type="text" name="fullName" id="fullName" required>
+
+                        <label >Email:</label>
+                        <input type="email" name="email" id="email" required>
+
+                        <label >Mật khẩu:</label>
+                        <input type="password" name="password" id="password" required>
+
+                        <label >Nhập lại mật khẩu: </label>
+                        <input type="text" id="confirm-password" name="confirm-password">
+                        <span id="confirm-error"></span>
+
+                        <label >Số điện thoại:</label>
+                        <input type="text" name="phoneNumber" id="phoneNumber">
+
+                        <label >Địa chỉ:</label>
+                        <input type="text" name="address" id="address">
+
+
+                        <div class="button-log">
+                            <button type="submit" class="button-log-up">Đăng kí</button>
+                            <div>Đã có tài khoản? <a th:href="@{/customer/logout}" id="link-log">Đăng nhập</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("register-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn reload trang
+
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const errorSpan = document.getElementById("confirm-error");
+
+            if (password !== confirmPassword) {
+                errorSpan.textContent = "Mật khẩu không khớp!";
+                return;
+            } else {
+                errorSpan.textContent = "";
+            }
+            const data = {
+                fullName: document.getElementById("fullName").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                phoneNumber: document.getElementById("phoneNumber").value,
+                address: document.getElementById("address").value,
+                roles: ["CUSTOMER"]
+            };
+
+            fetch("http://localhost:8080/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Đăng ký thành công!");
+                        window.location.href = "/"; //  chuyển sang trang login
+                    } else {
+                        return response.json().then(err => {
+                            alert("Lỗi: " + (err.message || "Không rõ"));
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Lỗi kết nối: " + err.message);
+                });
+        });
+
+    </script>
+</body>
+</html>

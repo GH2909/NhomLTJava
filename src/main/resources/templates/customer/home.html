@@ -1,92 +1,244 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skincare Booking</title>
-    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/page_customer.css}">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css}"/>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #FFEBE9, #FFF5E1);
+            color: #8b5e83;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            padding: 100px 20px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+        .hero img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        .hero img:hover {
+            transform: scale(1.05);
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        .btn-book {
+            margin-top: 40px;
+            padding: 16px 50px;
+            background-color: #8b5e83;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-book:hover {
+            background-color: #734c6b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* About Section */
+        .about {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            margin: 60px auto;
+            max-width: 1200px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            animation: fadeIn 1.5s ease;
+        }
+        .about img {
+            width: 350px;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .about-content {
+            max-width: 600px;
+            margin: 20px;
+            text-align: left;
+        }
+        .about h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        .about p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 20px;
+            background: rgba(255,255,255,0.8);
+            margin: 60px auto;
+            text-align: center;
+            border-radius: 20px;
+            max-width: 1200px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .gallery h2 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: #8b5e83;
+        }
+        .swiper {
+            width: 100%;
+            padding-bottom: 50px;
+        }
+        .swiper-slide {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 250px; /* Hoặc 300px tuỳ bạn */
+            object-fit: cover; /* Cắt ảnh vừa khung mà không méo */
+            border-radius: 16px; /* Bo góc cho đẹp */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm bóng nhẹ */
+            transition: transform 0.3s ease;
+        }
+
+        .swiper-slide img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
+
 <body>
-<div id="system">
-    <div th:replace="~{customer/index :: nav}"></div>
+<!-- Navigation -->
+<div th:replace="~{customer/index :: nav}"></div>
 
-    <div id="body">
-        <div class="body-container">
-            <!-- Vùng hiển thị dịch vụ -->
-            <div class="service-menu" id="serviceContainer">
-                <p>Đang tải dịch vụ...</p>
-            </div>
-        </div>
+<!-- Hero Section -->
+<section class="hero">
+    <img th:src="@{/assets/img/skin.jpg}" alt="Skincare">
+    <h1>Chào mừng đến với Skincare Booking</h1>
+    <p>Đặt lịch chăm sóc da cao cấp, tận hưởng dịch vụ thư giãn và phục hồi làn da từ những chuyên gia thẩm mỹ hàng đầu tại Việt Nam.</p>
+    <button class="btn-book">Đặt lịch ngay</button>
+</section>
+
+<!-- About Section -->
+<section class="about">
+    <img th:src="@{/assets/img/skin1.jpg}" alt="About Skincare">
+    <div class="about-content">
+        <h2>Về chúng tôi</h2>
+        <p>
+            Skincare Booking là nền tảng đặt lịch chăm sóc da trực tuyến tiện lợi, nhanh chóng và đáng tin cậy.
+            Chúng tôi hợp tác với những spa và trung tâm thẩm mỹ uy tín để mang đến cho bạn những trải nghiệm
+            dịch vụ tốt nhất – từ chăm sóc da cơ bản đến liệu trình trẻ hóa chuyên sâu.
+        </p>
     </div>
+</section>
 
-    <div th:replace="~{customer/index :: footer}"></div>
-</div>
+<!-- Gallery Section -->
+<section class="gallery">
+    <h2>Bộ sưu tập dịch vụ</h2>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_co_ban.jpg}" alt="Service 1"></div>
+            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_kho.jpg}" alt="Service 2"></div>
+            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_nhay_cam.jpg}" alt="Service 3"></div>
+            <div class="swiper-slide"><img th:src="@{/assets/img/lieu_trinh_tre_hoa_da.jpg}" alt="Service 4"></div>
+            <div class="swiper-slide"><img th:src="@{/assets/img/dieu_tri_nam_va_tan_nhang.jpg}" alt="Service 5"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
 
-<!-- SCRIPT LOAD DỊCH VỤ -->
+<div th:replace="~{customer/index :: footer}"></div>
+
+
+<!-- SwiperJS -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js}"></script>
 <script>
-    window.onload = function () {
-        fetch("http://localhost:8080/services", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Lỗi khi tải dữ liệu: " + response.status);
-                }
-                return response.text().then((text) => {
-                    if (!text) {
-                        throw new Error("Phản hồi rỗng từ server.");
-                    }
-                    return JSON.parse(text);
-                });
-            })
-            .then((data) => {
-                const container = document.getElementById("serviceContainer");
-                container.innerHTML = ""; // Xóa dòng "Đang tải..."
-
-                if (data.result && Array.isArray(data.result) && data.result.length > 0) {
-                    data.result.forEach((service) => {
-                        const image = service.imageUrl || '/assets/img/skin.jpg';
-                        const html = `
-                        <div class="service-card">
-                             <img src="${image}" alt="${service.name}">
-                            <h3>${service.name}</h3>
-                            <p>${service.description}</p>
-                            <div class="action-row">
-                                <button onclick="orderService('${service.serviceId}', '${service.name}', '${service.description}', ${service.price})">
-                                Đặt dịch vụ tại đây
-                                </button>
-                                <span class="price">${service.price.toLocaleString()}đ</span>
-                            </div>
-                        </div>
-                    `;
-                        container.insertAdjacentHTML("beforeend", html);
-                    });
-                } else {
-                    container.innerHTML = "<p>Không có dịch vụ nào được tìm thấy.</p>";
-                }
-            })
-            .catch((error) => {
-                console.error("Lỗi khi tải danh sách dịch vụ:", error);
-                document.getElementById("serviceContainer").innerHTML =
-                    "<p style='color:red;'>Không thể tải dịch vụ: " + error.message + "</p>";
-            });
-    };
-
-    function orderService(id, name, description, price) {
-        // Lưu thông tin dịch vụ vào localStorage
-        localStorage.setItem('serviceId', id); // Lưu serviceId vào localStorage
-        localStorage.setItem('serviceName', name);
-        localStorage.setItem('serviceDescription', description);
-        localStorage.setItem('servicePrice', price);
-
-        // Chuyển hướng đến trang đặt dịch vụ
-        window.location.href = '/customer/order';
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "/";
     }
+    console.log("Token:", token);
+
+    // Gọi API để lấy dữ liệu ban đầu cho trang home
+    fetch("http://localhost:8080/customer/home", {
+        method: "GET",
+        // headers: {
+        // "Authorization": `Bearer ${token}`}
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Dữ liệu trang home:", data);
+            // Bạn có thể render data ra các thành phần HTML ở đây nếu cần
+        })
+        .catch(e => {
+            console.error("Lỗi khi load trang home:", e);
+        });
+
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        slidesPerView: 1,
+        spaceBetween: 30,
+        breakpoints: {
+            768: {
+                slidesPerView: 2
+            },
+            1024: {
+                slidesPerView: 3
+            }
+        }
+    });
+
+
 </script>
+
 </body>
 </html>

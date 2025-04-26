@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Booking</title>
+    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/page_customer.css}">
+</head>
+<body>
+<div id="system">
+    <div th:replace="~{customer/index :: nav}"></div>
+
+    <div id="body">
+        <div class="body-container">
+            <!-- Vùng hiển thị dịch vụ -->
+            <div class="service-menu" id="serviceContainer">
+                <p>Đang tải dịch vụ...</p>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{customer/index :: footer}"></div>
+</div>
+
+<!-- SCRIPT LOAD DỊCH VỤ -->
+<script>
+    window.onload = function () {
+        fetch("http://localhost:8080/services", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Lỗi khi tải dữ liệu: " + response.status);
+                }
+                return response.text().then((text) => {
+                    if (!text) {
+                        throw new Error("Phản hồi rỗng từ server.");
+                    }
+                    return JSON.parse(text);
+                });
+            })
+            .then((data) => {
+                const container = document.getElementById("serviceContainer");
+                container.innerHTML = ""; // Xóa dòng "Đang tải..."
+
+                if (data.result && Array.isArray(data.result) && data.result.length > 0) {
+                    data.result.forEach((service) => {
+                        const image = service.imageUrl || '/assets/img/skin.jpg';
+                        const html = `
+                        <div class="service-card">
+                             <img src="${image}" alt="${service.name}">
+                            <h3>${service.name}</h3>
+                            <p>${service.description}</p>
+                            <div class="action-row">
+                                <button onclick="orderService('${service.serviceId}', '${service.name}', '${service.description}', ${service.price})">
+                                Đặt dịch vụ tại đây
+                                </button>
+                                <span class="price">${service.price.toLocaleString()}đ</span>
+                            </div>
+                        </div>
+                    `;
+                        container.insertAdjacentHTML("beforeend", html);
+                    });
+                } else {
+                    container.innerHTML = "<p>Không có dịch vụ nào được tìm thấy.</p>";
+                }
+            })
+            .catch((error) => {
+                console.error("Lỗi khi tải danh sách dịch vụ:", error);
+                document.getElementById("serviceContainer").innerHTML =
+                    "<p style='color:red;'>Không thể tải dịch vụ: " + error.message + "</p>";
+            });
+    };
+
+    function orderService(id, name, description, price) {
+        // Lưu thông tin dịch vụ vào localStorage
+        localStorage.setItem('serviceId', id); // Lưu serviceId vào localStorage
+        localStorage.setItem('serviceName', name);
+        localStorage.setItem('serviceDescription', description);
+        localStorage.setItem('servicePrice', price);
+
+        // Chuyển hướng đến trang đặt dịch vụ
+        window.location.href = '/customer/order';
+    }
+</script>
+</body>
+</html>

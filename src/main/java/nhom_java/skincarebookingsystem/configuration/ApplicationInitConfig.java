@@ -31,7 +31,10 @@ public class ApplicationInitConfig {
                     {"MANAGER", "Quản lý"},
                     {"STAFF", "Nhân viên"},
                     {"SKIN_THERAPIST", "Chuyên viên da"},
-                    {"USER", "Người dùng"}
+                    {"USER", "Người dùng"},
+                    {"CUSTOMER", "Khách hàng"},
+
+
             };
 
             for (String[] roleData : defaultRoles) {
