@@ -76,4 +76,12 @@ public class UserController {
                 .result(userService.updateUser(email, request))
                 .build();
     }
+
+    @DeleteMapping("/{id}")
+    ApiResponse<String> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ApiResponse.<String>builder()
+                .result("User with ID " + id + " has been deleted successfully.")
+                .build();
+    }
 }

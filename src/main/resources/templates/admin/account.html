@@ -346,6 +346,52 @@
         }
     });
 
+    function openDeleteForm() {
+        document.getElementById('deleteUserForm').style.display = 'block';
+    }
+
+    function closeDeleteForm() {
+        document.getElementById('deleteUserForm').style.display = 'none';
+    }
+
+    // Gửi yêu cầu xóa user
+    function deleteUser() {
+        const id = document.getElementById("deleteUserId").value.trim();
+
+        if (!id) {
+            alert("Vui lòng nhập ID!");
+            return;
+        }
+
+        if (!confirm(`Bạn chắc chắn muốn xóa tài khoản ID ${id}?`)) {
+            return;
+        }
+
+        fetch(`http://localhost:8080/users/${id}`, {  // dùng template string cho đẹp
+            method: "DELETE",
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Xóa tài khoản thành công!");
+
+                    document.getElementById("deleteUserId").value = "";
+                    closeDeleteForm();
+
+                    // Sau khi xóa thì load lại các danh sách
+                    loadUsers("MANAGER", "manager-form");
+                    loadUsers("STAFF", "staff-form");
+                    loadUsers("SKIN_THERAPIST", "skintherapist-form");
+                } else {
+                    return response.json().then(err => {
+                        throw new Error(err.message || "Xóa thất bại!");
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi xóa tài khoản:", error);
+                alert("Xóa tài khoản thất bại: " + error.message);
+            });
+    }
 </script>
 
 </body>

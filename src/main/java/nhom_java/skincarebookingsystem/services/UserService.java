@@ -97,4 +97,11 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
+
+    public void deleteUserById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new AppException(ErrorCode.NOT_FOUND);
+        }
+        userRepository.deleteById(id);
+    }
 }
