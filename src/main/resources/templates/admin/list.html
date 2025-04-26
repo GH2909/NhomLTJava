@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skincare Booking System</title>
-    <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/list.css}">
+    <link
+            rel="stylesheet"
+            th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}"
+    />
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/list.css}" />
 </head>
 <body>
 <div id="system">
@@ -14,14 +17,16 @@
     <div id="slidebar">
         <div th:replace="~{admin/index :: navbar}"></div>
         <div class="content">
-            <h2>
-            </h2>
+
             <div class="container">
                 <h2>Danh sách dich vụ</h2>
                 <div class="top-bar">
-                    <button class="add-service-btn" onclick="openForm()">+ Thêm Dịch Vụ</button>
-                    <button class="delete-service-btn" onclick="openDeleteForm()">Xóa Dịch Vụ</button>
-
+                    <button class="add-service-btn" onclick="openForm()">
+                        + Thêm Dịch Vụ
+                    </button>
+                    <button class="delete-service-btn" onclick="openDeleteForm()">
+                        Xóa Dịch Vụ
+                    </button>
                 </div>
 
                 <div class="container2">
@@ -48,43 +53,78 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
             <div class="form-popup" id="serviceForm">
                 <div class="form-container">
                     <span class="close-btn" onclick="closeForm()">&#10006;</span>
                     <h3>Thêm Dịch Vụ Mới</h3>
                     <label>Ảnh:</label>
-                    <input type="file" id="imageUrl" name="image" accept="image/*" required>
+                    <input
+                            type="file"
+                            id="imageUrl"
+                            name="image"
+                            accept="image/*"
+                            onchange="previewImage(event)"
+                            required
+                    />
+                    <img id="preview" src="#" alt="Ảnh xem trước" style="display: none; width: 150px; margin: 10px auto;" />
+
 
                     <label for="ServiceName">Tên dịch vụ:</label>
-                    <input type="text" id="ServiceName" placeholder="Nhập tên dịch vụ">
+                    <input
+                            type="text"
+                            id="ServiceName"
+                            placeholder="Nhập tên dịch vụ"
+                    />
 
                     <label for="Descriptions">Mô tả:</label>
-                    <input type="text" id="Descriptions" placeholder="Nhập mô tả">
+                    <input type="text" id="Descriptions" placeholder="Nhập mô tả" />
 
                     <label for="Price">Giá:</label>
-                    <input type="text" id="Price" placeholder="Nhập giá">
+                    <input type="number" id="Price" placeholder="Nhập giá" />
 
                     <label for="Duration">Thời lượng:</label>
-                    <input type="text" id="Duration" placeholder="Nhập thời lượng">
+                    <input type="number" id="Duration" placeholder="Nhập thời lượng" />
                     <!-- Nút OK -->
-                    <button class="ok-btn" type="button" onclick="addService()">OK</button>
+                    <button class="ok-btn" type="button" onclick="addService()">
+                        OK
+                    </button>
                 </div>
             </div>
             <!-- Form popup xóa dịch vụ -->
             <div class="form-popup" id="deleteServiceForm">
                 <div class="form-container">
-                    <span class="close-btn" onclick="closeDeleteForm()">&#10006;</span>
+              <span class="close-btn" onclick="closeDeleteForm()"
+              >&#10006;</span
+              >
                     <h3>Xóa Dịch Vụ</h3>
                     <label for="deleteServiceId">Nhập ID dịch vụ cần xóa:</label>
-                    <input type="number" id="deleteServiceId" placeholder="Nhập ID">
-                    <button class="ok-btn" type="button" onclick="deleteService()">Xóa</button>
+                    <input type="number" id="deleteServiceId" placeholder="Nhập ID" />
+                    <button class="ok-btn" type="button" onclick="deleteService()">
+                        Xóa
+                    </button>
                 </div>
             </div>
 
-
             <script>
+                //hiển thị preview ảnh trong form
+                function previewImage(event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById("preview");
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = "block";
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.src = "#";
+                        preview.style.display = "none";
+                    }
+                }
+
                 // Mở form để thêm dịch vụ
                 function openForm() {
                     document.getElementById("serviceForm").style.display = "block";
@@ -97,45 +137,36 @@
 
                 // Thêm dịch vụ
                 function addService() {
-                    var img = document.getElementById("imageUrl").value;
-                    localStorage.setItem("imageUrl", img);
-                    var name = document.getElementById("ServiceName").value;
-                    var description = document.getElementById("Descriptions").value;
-                    var price = document.getElementById("Price").value;
-                    var duration = document.getElementById("Duration").value;
+                    var fileInput = document.getElementById("imageUrl");
+                    var file = fileInput.files[0];
+                    if (!file) {
+                        alert("Vui lòng chọn ảnh!");
+                        return;
+                    }
+
+                    var formData = new FormData();
+                    formData.append("image", file);
+                    formData.append("name", document.getElementById("ServiceName").value);
+                    formData.append("description", document.getElementById("Descriptions").value);
+                    formData.append("price", document.getElementById("Price").value);
+                    formData.append("duration", document.getElementById("Duration").value);
 
                     // Kiểm tra nếu các trường thông tin trống
                     if (
-                        img === "" ||
-                        name === "" ||
-                        description === "" ||
-                        price === "" ||
-                        duration === ""
+                        !file ||
+                        !formData.get("name") ||
+                        !formData.get("description") ||
+                        !formData.get("price") ||
+                        !formData.get("duration")
                     ) {
                         alert("Vui lòng điền đầy đủ thông tin!");
                         return;
                     }
 
-                    // Tạo đối tượng dữ liệu dịch vụ
-                    var serviceData = {
-                        imageUrl: img,
-                        name: name,
-                        description: description,
-                        price: parseFloat(price),
-                        duration: parseInt(duration),
-                    };
-
-                    /// 👇 Dán access_token bạn lấy từ Postman vào đây
-                    //var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
-
                     // Gửi yêu cầu POST tới backend
                     fetch("http://localhost:8080/services", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            //"Authorization": accessToken
-                        },
-                        body: JSON.stringify(serviceData),
+                        body: formData,
                     })
                         .then((response) => {
                             if (response.ok) {
@@ -154,7 +185,7 @@
                             var newRow = table.insertRow();
 
                             var idCell = newRow.insertCell(0);
-                            var imgCell = newRow.insertCell(1)
+                            var imgCell = newRow.insertCell(1);
                             var nameCell = newRow.insertCell(2);
                             var descriptionCell = newRow.insertCell(3);
                             var priceCell = newRow.insertCell(4);
@@ -162,7 +193,7 @@
 
                             // Sử dụng dữ liệu từ response
                             idCell.innerHTML = newService.serviceId;
-                            imgCell.innerHTML = `<img src="/assets/img/${newService.imageUrl != null ? newService.imageUrl : 'skin.jpg'}" alt="Service Image" style="width: 100px; height: auto;">`;
+                            imgCell.innerHTML = `<img src="/assets/img/${newService.imageUrl}" alt="Service Image" style="width: 100px; height: auto;">`;
                             nameCell.innerHTML = newService.name;
                             descriptionCell.innerHTML = newService.description;
                             priceCell.innerHTML = newService.price;
@@ -230,13 +261,11 @@
                                     var durationCell = newRow.insertCell(5);
 
                                     idCell.innerHTML = service.serviceId;
-                                    imgCell.innerHTML = `<img src="/assets/img/${service.imageUrl != null ? service.imageUrl : 'skin.jpg'}" alt="Service Image" style="width: 100px; height: auto;">`;
+                                    imgCell.innerHTML = `<img src="/assets/img/${service.imageUrl}" alt="Service Image" style="width: 100px; height: auto;">`;
                                     nameCell.innerHTML = service.name;
                                     descriptionCell.innerHTML = service.description;
                                     priceCell.innerHTML = service.price;
                                     durationCell.innerHTML = service.duration;
-
-
                                 });
                             } else {
                                 alert("Không có dịch vụ nào.");
@@ -244,16 +273,84 @@
                         })
                         .catch((error) => {
                             console.error("Error loading services:", error);
-                            alert("Đã xảy ra lỗi khi tải danh sách dịch vụ: " + error.message);
+                            alert(
+                                "Đã xảy ra lỗi khi tải danh sách dịch vụ: " + error.message
+                            );
                         });
                 };
 
                 function openDeleteForm() {
-                    document.getElementById("deleteServiceForm").style.display = "block";
+                    document.getElementById("deleteServiceForm").style.display =
+                        "block";
                 }
 
                 function closeDeleteForm() {
-                    document.getElementById("deleteServiceForm").style.display = "none";
+                    //var accessToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXRAZ21haWwuY29tIiwic2NvcGUiOiIiLCJpc3MiOiJza2luY2FyZWJvb2tpbmdzeXN0ZW0ubmhvbV9qYXZhIiwiZXhwIjoxNzQ0NjQ0ODIyLCJpYXQiOjE3NDQ2NDEyMjIsImp0aSI6IjZiMzMyYmVmLWViYTUtNDMxMC1iNmZiLTYzOTE3ZDNjNDUwZSJ9.37tZTdtJezYBxSMZnfsxOb6gxjzq4hjghSeKwoHKSS_Mj7EoIyRxi0oBZ0hYHSvEy7BtLyrP2oINYwENOGbZiA";
+                    fetch("http://localhost:8080/services", {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            //"Authorization": accessToken
+                        },
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Lỗi khi tải dữ liệu: " + response.status);
+                            }
+
+                            return response.text().then((text) => {
+                                if (!text) {
+                                    throw new Error("Phản hồi rỗng từ server.");
+                                }
+                                return JSON.parse(text);
+                            });
+                        })
+                        .then((data) => {
+                            if (
+                                data.result &&
+                                Array.isArray(data.result) &&
+                                data.result.length > 0
+                            ) {
+                                var table = document.querySelector("table tbody");
+                                table.innerHTML = "";
+
+                                data.result.forEach((service) => {
+                                    var newRow = table.insertRow();
+                                    var idCell = newRow.insertCell(0);
+                                    var imgCell = newRow.insertCell(1);
+                                    var nameCell = newRow.insertCell(2);
+                                    var descriptionCell = newRow.insertCell(3);
+                                    var priceCell = newRow.insertCell(4);
+                                    var durationCell = newRow.insertCell(5);
+
+                                    idCell.innerHTML = service.serviceId;
+                                    imgCell.innerHTML = `<img src="/assets/img/${service.imageUrl}" alt="Service Image" style="width: 100px; height: auto;">`;
+                                    nameCell.innerHTML = service.name;
+                                    descriptionCell.innerHTML = service.description;
+                                    priceCell.innerHTML = service.price;
+                                    durationCell.innerHTML = service.duration;
+                                });
+                            } else {
+                                alert("Không có dịch vụ nào.");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error loading services:", error);
+                            alert(
+                                "Đã xảy ra lỗi khi tải danh sách dịch vụ: " + error.message
+                            );
+                        });
+                };
+
+                function openDeleteForm() {
+                    document.getElementById("deleteServiceForm").style.display =
+                        "block";
+                }
+
+                function closeDeleteForm() {
+
+                    document.getElementById("deleteServiceForm").style.display =
+                        "none";
                 }
 
                 function deleteService() {
@@ -269,7 +366,7 @@
                     }
 
                     fetch(`http://localhost:8080/services/${id}`, {
-                        method: "DELETE"
+                        method: "DELETE",
                     })
                         .then((response) => {
                             if (response.ok) {
@@ -284,7 +381,7 @@
                                 closeDeleteForm();
                                 alert("Xóa dịch vụ thành công!");
                             } else {
-                                return response.text().then(text => {
+                                return response.text().then((text) => {
                                     throw new Error(text || "Xóa thất bại");
                                 });
                             }
@@ -299,6 +396,5 @@
     </div>
     <div th:replace="~{admin/index :: footer}"></div>
 </div>
-
 </body>
 </html>

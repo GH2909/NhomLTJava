@@ -50,7 +50,9 @@
 
                 if (data.result && Array.isArray(data.result) && data.result.length > 0) {
                     data.result.forEach((service) => {
-                        const image = service.imageUrl || '/assets/img/skin.jpg';
+                        const image = service.imageUrl
+                            ? `/assets/img/${service.imageUrl}`
+                            : "/assets/img/skin.jpg";
                         const html = `
                         <div class="service-card">
                              <img src="${image}" alt="${service.name}">
