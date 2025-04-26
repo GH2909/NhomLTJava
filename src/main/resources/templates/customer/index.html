@@ -5,13 +5,18 @@
     <title>Skincare Booking</title>
 </head>
 <body>
-<div id="system">
-    <div id="header" th:fragment="header">
-        <div class="header-container">
-            <h1>Skincare Booking</h1>
-        </div>
+<div id="system" >
+    <div id="header-nav" th:fragment="nav">
+        <ul id="nav" >
+            <li><a th:href="@{/customer/home}">Trang chủ</a></li>
+            <li><a th:href="@{/customer/list}">Dịch vụ</a></li>
+            <li><a th:href="@{/customer/history}">Lịch sử đặt hàng</a></li>
+        </ul>
+        <ul id="logout-nav">
+            <li class="logout-btn"><a th:href="@{/}">Đăng xuất</a></li>
+        </ul>
     </div>
-    <div id="footer" th:fragment="footer"></div>
+    <div id="footer" th:fragment="footer">© 2025 Skincare Booking. All rights reserved.</div>
 </div>
 
 </body>

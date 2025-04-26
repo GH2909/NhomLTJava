@@ -24,6 +24,9 @@ body {
     height: 46px;
     z-index: 1;
     background: linear-gradient(to bottom, #FFEBE9, #FFF5E1);
+}
+
+#header{
     border-bottom: 3px solid rgba(139, 94, 131,0.5);
 }
 
@@ -35,6 +38,78 @@ body {
     font-size: 26px;
     color: #8b5e83;
 }
+
+#header-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 46px;
+    z-index: 10;
+    background: linear-gradient(to bottom, #FFEBE9, #FFF5E1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* để cái nav 1 bên, logout 1 bên */
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#nav, #logout-nav {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+#nav > li, #logout-nav > li {
+    display: inline-block;
+}
+
+#nav li, #logout-nav li {
+    position: relative;
+}
+
+#nav > li > a, #logout-nav > li > a {
+    text-transform: uppercase;
+}
+
+#nav li a, #logout-nav li a {
+    color: #8b5e83;
+    text-decoration: none;
+    line-height: 46px;
+    padding: 0 23px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Hover chung cho các mục bình thường */
+#nav > li:hover > a {
+    color: #fff;
+    background-color: #8b5e83;
+    display: block;
+    border-radius: 6px;
+}
+
+#nav li:hover a {
+    display: block;
+}
+
+/* Style riêng cho Đăng xuất */
+#logout-nav li.logout-btn a {
+    background-color: transparent; /* ban đầu không màu nền */
+    border: 1px solid #8b5e83; /* viền đỏ */
+    color: #8b5e83; /* chữ đỏ */
+    border-radius: 6px;
+}
+
+/* Hover vào Logout thì đỏ nền + trắng chữ */
+#logout-nav li.logout-btn a:hover {
+    background-color: #ff4d4d;
+    color: #fff;
+}
+
+
 
 #slidebar{
     position: absolute;
@@ -93,6 +168,14 @@ body {
 #slidebar .nav .subnav li:hover{
     background-color: #c381b7;
     display: block;
+}
+
+#footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 1rem;
+    color: #8b5e83;
+    opacity: 0.7;
 }
 
 

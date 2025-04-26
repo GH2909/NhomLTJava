@@ -13,11 +13,36 @@
     <div th:replace="~{admin/index :: header}"></div>
     <div id="slidebar">
         <div th:replace="~{admin/index :: navbar}"></div>
-
         <div class="content">
             <div class="top-bar">
                 <button class="add-users-btn" onclick="openForm()">+ Thêm Tài khoản</button>
                 <button class="delete-users-btn" onclick="openDeleteForm()">Xóa Tài khoản</button>
+            </div>
+
+            <div class="container" id="customer-form">
+                <h2>Khách hàng</h2>
+                <div class="container1">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div >
             </div>
 
             <!-- Bảng Skin Therapist -->
@@ -59,22 +84,22 @@
                 <div class="container2">
                     <table>
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Họ và tên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div >
@@ -86,22 +111,22 @@
                 <div class="container2">
                     <table>
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Họ và tên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div >
@@ -196,6 +221,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        loadUsers("CUSTOMER", "customer-form");
         loadUsers("MANAGER", "manager-form");
         loadUsers("STAFF", "staff-form");
         loadUsers("SKIN_THERAPIST", "skintherapist-form");
