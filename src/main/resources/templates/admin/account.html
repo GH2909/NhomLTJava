@@ -13,7 +13,14 @@
     <div th:replace="~{admin/index :: header}"></div>
     <div id="slidebar">
         <div th:replace="~{admin/index :: navbar}"></div>
+
         <div class="content">
+            <div class="top-bar">
+                <button class="add-users-btn" onclick="openForm()">+ Thêm Tài khoản</button>
+                <button class="delete-users-btn" onclick="openDeleteForm()">Xóa Tài khoản</button>
+            </div>
+
+            <!-- Bảng Skin Therapist -->
             <div class="container" id="skintherapist-form">
                 <h2>Chuyên gia trị liệu</h2>
                 <div class="container2">
@@ -45,52 +52,56 @@
                     </table>
                 </div >
             </div>
+
+            <!-- Bảng Staff -->
             <div class="container" id="staff-form">
                 <h2>Nhân viên</h2>
                 <div class="container2">
                     <table>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div >
             </div>
+
+            <!-- Bảng Manager -->
             <div class="container" id="manager-form">
                 <h2>Quản lý</h2>
                 <div class="container2">
                     <table>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div >
@@ -99,11 +110,99 @@
     </div>
     <div th:replace="~{admin/index :: footer}"></div>
 </div>
+
+<!-- Popup Thêm tài khoản -->
+<div class="form-popup" id="addUserForm">
+    <div class="form-container">
+        <span class="close-btn" onclick="closeForm()">&#10006;</span>
+        <h3>Thêm tài khoản</h3>
+        <form id="register-form">
+
+            <div class="form-group">
+                <label for="fullName">Họ và tên:</label>
+                <input type="text" id="fullName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Nhập lại mật khẩu:</label>
+                <input type="password" id="confirm-password" required>
+            </div>
+            <span id="confirm-error" style="color: red; display:block; text-align:center;"></span>
+
+            <div class="form-group">
+                <label for="phoneNumber">Số điện thoại:</label>
+                <input type="text" id="phoneNumber">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Địa chỉ:</label>
+                <input type="text" id="address">
+            </div>
+
+            <div class="form-group">
+                <label for="service">Chọn chức vụ:</label>
+                <select id="service" name="roles">
+                    <option>MANAGER</option>
+                    <option>STAFF</option>
+                    <option>SKIN_THERAPIST</option>
+                </select>
+            </div>
+
+            <div id="skintherapist-extra" style="display: none;">
+                <div class="form-group">
+                    <label for="specialty">Chuyên ngành:</label>
+                    <input type="text" id="specialty">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Kinh nghiệm:</label>
+                    <input type="text" id="experience">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Mô tả:</label>
+                    <textarea id="description"></textarea>
+                </div>
+            </div>
+
+            <button class="ok-btn" type="button" onclick="addUser()">Thêm</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Popup Xóa tài khoản -->
+<div class="form-popup" id="deleteUserForm">
+    <div class="form-container">
+        <span class="close-btn" onclick="closeDeleteForm()">&#10006;</span>
+        <h3>Xóa tài khoản</h3>
+        <div class="form-group">
+            <label>Nhập ID tài khoản cần xóa:</label>
+            <input type="number" id="deleteUserId" placeholder="Nhập ID">
+        </div>
+        <button class="ok-btn" type="button" onclick="deleteUser()">Xóa</button>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         loadUsers("MANAGER", "manager-form");
         loadUsers("STAFF", "staff-form");
         loadUsers("SKIN_THERAPIST", "skintherapist-form");
+
+        // Ẩn form thêm và xóa user ban đầu
+        document.getElementById('addUserForm').style.display = 'none';
+        document.getElementById('deleteUserForm').style.display = 'none';
     });
 
     function loadUsers(role, containerId) {
@@ -132,6 +231,94 @@
                 console.error("Lỗi khi tải danh sách người dùng:", error);
             });
     }
+
+    function openForm() {
+        document.getElementById('addUserForm').style.display = 'block';
+    }
+
+    function closeForm() {
+        document.getElementById('addUserForm').style.display = 'none';
+    }
+
+    // Gửi yêu cầu thêm user
+    function addUser() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+
+        if (password !== confirmPassword) {
+            document.getElementById("confirm-error").innerText = "Mật khẩu không khớp!";
+            return;
+        } else {
+            document.getElementById("confirm-error").innerText = "";
+        }
+
+        const data = {
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            phoneNumber: document.getElementById("phoneNumber").value,
+            address: document.getElementById("address").value,
+            roles: [document.getElementById("service").value]
+        };
+
+        if (data.roles[0] === "SKIN_THERAPIST") {
+            data.specialty = document.getElementById("specialty").value;
+            data.experience = document.getElementById("experience").value;
+            data.description = document.getElementById("description").value;
+        }
+
+            fetch("http://localhost:8080/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Đăng ký thành công!");
+
+                        // Làm mới dữ liệu người dùng sau khi thêm
+                        loadUsers("MANAGER", "manager-form");
+                        loadUsers("STAFF", "staff-form");
+                        loadUsers("SKIN_THERAPIST", "skintherapist-form");
+
+                        // Làm sạch các trường sau khi thêm thành công
+                        document.getElementById("fullName").value = "";
+                        document.getElementById("email").value = "";
+                        document.getElementById("password").value = "";
+                        document.getElementById("confirm-password").value = "";
+                        document.getElementById("phoneNumber").value = "";
+                        document.getElementById("address").value = "";
+                        document.getElementById("service").value = "";
+                        document.getElementById("specialty").value = "";
+                        document.getElementById("experience").value = "";
+                        document.getElementById("description").value = "";
+
+                        // Đóng form thêm tài khoản
+                        closeForm();
+                    } else {
+                        return response.json().then(err => {
+                            alert("Lỗi: " + (err.message || "Không rõ"));
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Lỗi kết nối: " + err.message);
+                });
+    }
+
+    // Hiện thêm các trường nếu chọn Skin Therapist
+    document.getElementById("service").addEventListener("change", function () {
+        const selectedRole = this.value;
+        const extraForm = document.getElementById("skintherapist-extra");
+
+        if (selectedRole === "SKIN_THERAPIST") {
+            extraForm.style.display = "block";
+        } else {
+            extraForm.style.display = "none";
+        }
+    });
 
 </script>
 

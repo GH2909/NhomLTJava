@@ -28,10 +28,9 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-      UserService userService;
+    UserService userService;
 
     @PostMapping
-
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
@@ -77,5 +76,4 @@ public class UserController {
                 .result(userService.updateUser(email, request))
                 .build();
     }
-
 }
