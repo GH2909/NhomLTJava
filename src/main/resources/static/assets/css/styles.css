@@ -16,7 +16,7 @@ body {
     position: relative;
 }
 
-#header{
+#header, #header-nav{
     position: fixed;
     top:0;
     left:0;
@@ -24,6 +24,9 @@ body {
     height: 46px;
     z-index: 1;
     background: linear-gradient(to bottom, #FFEBE9, #FFF5E1);
+}
+
+#header{
     border-bottom: 3px solid rgba(139, 94, 131,0.5);
 }
 
@@ -34,6 +37,41 @@ body {
 .header-container h1{
     font-size: 26px;
     color: #8b5e83;
+}
+
+#nav {
+    display:inline-block;
+    list-style-type: none;
+}
+
+#nav > li {
+    display: inline-block;
+}
+
+
+#nav li {
+    position: relative;
+}
+
+#nav > li > a {
+    text-transform: uppercase;
+}
+
+#nav li a {
+    color: #8b5e83;
+    text-decoration: none;
+    line-height: 46px;
+    padding: 0 23px;
+}
+
+#nav > li:hover > a {
+    color: #fff;
+    background-color: #8b5e83;
+    display: block;
+}
+
+#nav li:hover a {
+    display:block;
 }
 
 #slidebar{
