@@ -10,8 +10,15 @@ import nhom_java.skincarebookingsystem.dto.response.ServiceResponse;
 import nhom_java.skincarebookingsystem.models.ServiceEntity;
 import nhom_java.skincarebookingsystem.services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -22,13 +29,34 @@ public class ServiceController {
     @Autowired
     ServiceService serviceService;
 
-    @PostMapping
-    public ApiResponse<ServiceResponse> createService(@RequestBody @Valid ServiceRequest request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ServiceResponse> createService(
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("price") Double price,
+            @RequestParam("duration") Integer duration) throws IOException {
+        // Lưu file vào thư mục static/assets/img
+        String uploadDir = "src/main/resources/static/assets/img/";
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        String fileName = image.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir + fileName);
+        Files.write(filePath, image.getBytes());
+        // Tạo request với tên file ảnh
+        ServiceRequest request = new ServiceRequest();
+        request.setName(name);
+        request.setDescription(description);
+        request.setPrice(price);
+        request.setDuration(duration);
+        request.setImageUrl(fileName);
         return ApiResponse.<ServiceResponse>builder()
                 .result(serviceService.createService(request))
                 .build();
-    }
 
+    }
 
 //    @PutMapping("/{id}")
 //    public ApiResponse<ServiceEntity> updateService(@PathVariable Long id, @RequestBody @Valid ServiceRequest request) {
@@ -74,4 +102,5 @@ public class ServiceController {
                 .result("Service has been deleted successfully.")
                 .build();
     }
-}
+
+    }
