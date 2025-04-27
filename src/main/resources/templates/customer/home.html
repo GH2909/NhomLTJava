@@ -157,7 +157,7 @@
     <img th:src="@{/assets/img/skin.jpg}" alt="Skincare">
     <h1>Chào mừng đến với Skincare Booking</h1>
     <p>Đặt lịch chăm sóc da cao cấp, tận hưởng dịch vụ thư giãn và phục hồi làn da từ những chuyên gia thẩm mỹ hàng đầu tại Việt Nam.</p>
-    <button class="btn-book">Đặt lịch ngay</button>
+    <button id="btnBook" class="btn-book">Đặt lịch ngay</button>
 </section>
 
 <!-- About Section -->
@@ -178,11 +178,11 @@
     <h2>Bộ sưu tập dịch vụ</h2>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_co_ban.jpg}" alt="Service 1"></div>
-            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_kho.jpg}" alt="Service 2"></div>
-            <div class="swiper-slide"><img th:src="@{/assets/img/cham_soc_da_nhay_cam.jpg}" alt="Service 3"></div>
-            <div class="swiper-slide"><img th:src="@{/assets/img/lieu_trinh_tre_hoa_da.jpg}" alt="Service 4"></div>
-            <div class="swiper-slide"><img th:src="@{/assets/img/dieu_tri_nam_va_tan_nhang.jpg}" alt="Service 5"></div>
+            <div class="swiper-slide"><img class="service-img" th:src="@{/assets/img/cham_soc_da_co_ban.jpg}" alt="Service 1"></div>
+            <div class="swiper-slide"><img class="service-img" th:src="@{/assets/img/cham_soc_da_kho.jpg}" alt="Service 2"></div>
+            <div class="swiper-slide"><img class="service-img" th:src="@{/assets/img/cham_soc_da_nhay_cam.jpg}" alt="Service 3"></div>
+            <div class="swiper-slide"><img class="service-img" th:src="@{/assets/img/lieu_trinh_tre_hoa_da.jpg}" alt="Service 4"></div>
+            <div class="swiper-slide"><img class="service-img" th:src="@{/assets/img/dieu_tri_nam_va_tan_nhang.jpg}" alt="Service 5"></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -214,6 +214,15 @@
         .catch(e => {
             console.error("Lỗi khi load trang home:", e);
         });
+    document.getElementById("btnBook").addEventListener("click", function () {
+        window.location.href = "/customer/list";
+    });
+    document.querySelectorAll(".service-img").forEach(img => {
+        img.addEventListener("click", function () {
+            window.location.href = "/customer/list";
+        });
+    });
+
 
     var swiper = new Swiper(".mySwiper", {
         loop: true,
