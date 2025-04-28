@@ -71,6 +71,7 @@ public class BookingService {
         return bookings.stream()
                 .map(bookingMapper::toBookingResponse)
                 .collect(Collectors.toList());
+
     }
 
     public void deleteBooking(String email) {
@@ -78,6 +79,7 @@ public class BookingService {
             throw new AppException(ErrorCode.NOT_FOUND);
         }
         bookingRepository.deleteByEmail(email);
+
     }
 
 

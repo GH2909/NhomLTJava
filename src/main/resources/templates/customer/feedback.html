@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đánh Giá Dịch Vụ</title>
+</head>
+<link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+<!--<link rel="stylesheet" th:href="@{/assets/css/history.css}">-->
+<link rel="stylesheet" th:href="@{/assets/css/cus_feedback.css}">
+
+<body>
+<div th:replace="~{customer/index :: nav}"></div>
+
+<div id="body">
+    <h2>Nhập Email để Tra Cứu Dịch Vụ Cần Đánh Giá</h2>
+
+    <input type="email" id="email" placeholder="Nhập email" required>
+    <button onclick="searchHistory()">Tra cứu</button>
+
+    <div id="service-list">
+        <!-- Dịch vụ sẽ render ở đây -->
+    </div>
+</div>
+
+<div th:replace="~{customer/index :: footer}"></div>
+
+<script>
+    function searchHistory() {
+        const email = document.getElementById('email').value;
+        if (!email) {
+            alert("Vui lòng nhập email!");
+            return;
+        }
+
+        // Gửi yêu cầu đến submit-feedback để lấy luôn lịch sử
+        fetch('/customer/submit-feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'email=' + encodeURIComponent(email)
+        })
+            .then(response => response.json())
+            .then(data => {
+                const listDiv = document.getElementById('service-list');
+                listDiv.innerHTML = ''; // Xóa cũ
+
+                if (data.length === 0) {
+                    listDiv.innerHTML = '<p>Không tìm thấy dịch vụ nào đã đặt.</p>';
+                    return;
+                }
+
+                data.forEach(order => {
+                    const item = `
+                    <div class="order-item">
+                        <h3>${order.service.name}</h3>
+                        <p><strong>Ngày đặt:</strong> ${formatDate(order.bookingDate)}</p>
+                        <div class="stars" id="stars-${order.id}">
+  <input type="radio" id="star5-${order.id}" name="rating-${order.id}" value="5" required>
+  <label for="star5-${order.id}">★</label>
+
+  <input type="radio" id="star4-${order.id}" name="rating-${order.id}" value="4">
+  <label for="star4-${order.id}">★</label>
+
+  <input type="radio" id="star3-${order.id}" name="rating-${order.id}" value="3">
+  <label for="star3-${order.id}">★</label>
+
+  <input type="radio" id="star2-${order.id}" name="rating-${order.id}" value="2">
+  <label for="star2-${order.id}">★</label>
+
+  <input type="radio" id="star1-${order.id}" name="rating-${order.id}" value="1">
+  <label for="star1-${order.id}">★</label>
+</div>
+                        <textarea id="feedback-${order.id}" placeholder="Nhập đánh giá cho dịch vụ này..." required style="width: 715px; height: 177px;"></textarea><br>
+                        <button onclick="submitFeedback('${email}', '${order.service.name}', '${order.bookingDate}', ${order.id})">Gửi đánh giá</button>
+                    </div>
+                `;
+                    listDiv.innerHTML += item;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Lỗi khi tra cứu!");
+            });
+    }
+
+    function submitFeedback(email, serviceName, bookingDate, orderId) {
+        const feedback = document.getElementById(`feedback-${orderId}`).value.trim();
+        const rating = document.getElementById(`rating-${orderId}`).value;
+
+        if (!feedback || !rating) {
+            alert("Vui lòng nhập đầy đủ nội dung đánh giá và chọn số sao!");
+            return;
+        }
+
+        const feedbackData = {
+            email: email,
+            serviceName: serviceName,
+            bookingDate: bookingDate,
+            rating: rating,
+            feedback: feedback,
+            action: "submit" // Thêm action:submit
+        };
+
+        fetch('/customer/submit-feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(feedbackData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Gửi đánh giá thành công!');
+                    document.getElementById(`feedback-${orderId}`).value = '';
+                    document.getElementById(`rating-${orderId}`).value = '';
+                } else {
+                    alert('Có lỗi xảy ra khi gửi đánh giá!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Lỗi khi gửi đánh giá!");
+            });
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('vi-VN');
+    }
+</script>
+
+</body>
+</html>

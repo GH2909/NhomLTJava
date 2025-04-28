@@ -27,4 +27,13 @@ public class CBookingController {
         return bookingService.getBooking(email);
     }
 
+    @PostMapping("/submit-feedback")
+    public List<BookingResponse> getFeedbackByEmail(@RequestParam("email") String email) {
+        return bookingService.getBooking(email);
+    }
+
+    @PostMapping("/feedbacks")
+    public List<BookingResponse> getRCFeedbackByEmail(@RequestParam("email") String email) {
+        return bookingService.getBooking(email);
+    }
 }
