@@ -5,17 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skincare Booking</title>
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
-
-
+    <link rel="stylesheet" th:href="@{/assets/css/history.css}">
 </head>
-
 <body>
 <div th:replace="~{customer/index :: nav}"></div>
-<div id="body">
 
+<div id="body">
+    <div class="history-container">
+        <h2>Lịch sử đặt dịch vụ</h2>
+        <ul class="order-list">
+            <!-- Lặp qua danh sách orders được truyền từ controller -->
+            <li class="order-item" th:each="order : ${orders}">
+                <div class="order-image">
+                    <!-- Hiển thị ảnh dịch vụ -->
+                    <img th:src="@{${order.service.imageUrl}}" alt="Ảnh dịch vụ">
+                </div>
+                <div class="order-details">
+                    <h3 th:text="${order.service.name}">Tên dịch vụ</h3>
+                    <p><strong>Ngày đặt:</strong> <span th:text="${#dates.format(order.bookingDate, 'dd/MM/yyyy')}">25/04/2025</span></p>
+                    <p><strong>Giá:</strong> <span th:text="${#numbers.formatDecimal(order.price, 1, 'POINT', 2, 'COMMA')} + 'đ'">500,000đ</span></p>
+                    <p><strong>Trạng thái:</strong> <span th:text="${order.status}">Đã tiến hành</span></p>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div th:replace="~{customer/index :: footer}"></div>
-
 </body>
 </html>

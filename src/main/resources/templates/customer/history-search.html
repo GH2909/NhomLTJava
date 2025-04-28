@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tra cứu lịch sử</title>
+</head>
+<link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+<link rel="stylesheet" th:href="@{/assets/css/history.css}">
+
+<body>
+<div th:replace="~{customer/index :: nav}"></div>
+<div id="body">
+    <h2>Nhập Email để Tra Cứu Lịch Sử Đặt Dịch Vụ</h2>
+
+    <input type="email" id="email" placeholder="Nhập email" required>
+    <button onclick="searchHistory()">Tra cứu</button>
+
+    <div id="order-list">
+        <!-- Lịch sử sẽ render ở đây -->
+    </div>
+
+</div>
+<div th:replace="~{customer/index :: footer}"></div>
+
+<script>
+    function searchHistory() {
+        const email = document.getElementById('email').value;
+        if (!email) {
+            alert("Vui lòng nhập email!");
+            return;
+        }
+
+        fetch('/customer/history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'email=' + encodeURIComponent(email)
+        })
+            .then(response => response.json())
+            .then(data => {
+                const listDiv = document.getElementById('order-list');
+                listDiv.innerHTML = ''; // Xóa cũ
+
+                if (data.length === 0) {
+                    listDiv.innerHTML = '<p>Không tìm thấy lịch sử đặt dịch vụ.</p>';
+                    return;
+                }
+
+                data.forEach(order => {
+                    const item = `
+                    <div class="order-item">
+                        <h3>${order.service.name}</h3>
+                        <p><strong>Ngày đặt:</strong> ${formatDate(order.bookingDate)}</p>
+                        <p><strong>Giá:</strong> ${formatPrice(order.price)} đ</p>
+                        <p><strong>Trạng thái:</strong> ${order.status}</p>
+                    </div>
+                `;
+                    listDiv.innerHTML += item;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Lỗi khi tra cứu!");
+            });
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('vi-VN');
+    }
+
+    function formatPrice(price) {
+        return new Intl.NumberFormat('vi-VN').format(price);
+    }
+</script>
+
+</body>
+</html>
