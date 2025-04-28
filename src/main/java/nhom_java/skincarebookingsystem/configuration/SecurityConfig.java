@@ -29,14 +29,13 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
 
                 request
-                        .requestMatchers(HttpMethod.POST, "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users", "/booking","/services","/assets/img/*", "/customer/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users", "/booking","/services","/assets/img/*", "/customer/**", "/auth/forgot-password").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/users/**", "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/img/**", "/", "/index", "/home","/history","/booking", "/services","/assets/img/*").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/services/{id}", "/users/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/revenue/**").permitAll()//.hasRole("MANAGER")
                         .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
-
-
 
         // Xóa dòng gọi phương thức customJwtDecoder()
         httpSecurity.oauth2ResourceServer(oauth2 ->

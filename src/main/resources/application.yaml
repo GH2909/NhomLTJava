@@ -9,7 +9,6 @@ spring:
     username: root
     password: 0812181639ghjm
 
-
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -18,6 +17,17 @@ spring:
 
     show-sql: true
     open-in-view: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: systemskincarebooking@gmail.com
+    password: "cgnm vjad nldx neup"
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: smtp.gmail.com
 
 jwt:
   signerKey: "83cOZvIL67/0XUWfDO/vptHrYkL6FTxO1EGp/GU6Rjk3k3OQjBDbj58Xk8GoDQyU"
