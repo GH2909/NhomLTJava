@@ -86,7 +86,7 @@ h3 {
 /*    display: flex;*/
 /*}*/
 
-#month-select {
+#month-select, #year-select {
 
     padding: 5px 10px;
     border-radius: 8px;
@@ -98,7 +98,7 @@ h3 {
     font-size: 1.2rem;
 }
 
-.month-selector-container {
+.month-selector-container, .year-selector-container {
     display: flex;
     align-items: center;
     justify-content: center;
