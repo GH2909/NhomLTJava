@@ -30,7 +30,6 @@ public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper ;
-    UserRepository userRepository;
     ServiceRepository serviceRepository;
 
 
@@ -64,9 +63,14 @@ public class BookingService {
         return bookingRepository.findAll().stream().map(bookingMapper::toBookingResponse).toList();
     }
 
-    public BookingResponse getBooking(String email) {
-        return bookingMapper.toBookingResponse(bookingRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED)));
+    public List<BookingResponse> getBooking(String email) {
+        List<Booking> bookings = bookingRepository.findByEmail(email);
+        if (bookings.isEmpty()) {
+            throw new AppException(ErrorCode.NOT_EXISTED);
+        }
+        return bookings.stream()
+                .map(bookingMapper::toBookingResponse)
+                .collect(Collectors.toList());
     }
 
     public void deleteBooking(String email) {
@@ -75,4 +79,6 @@ public class BookingService {
         }
         bookingRepository.deleteByEmail(email);
     }
+
+
 }
