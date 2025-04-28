@@ -13,72 +13,136 @@
     }
 </style>
 <body>
-    <div id="system">
-        <div class="background-img">
-            <div class="container"> 
-                <div class="log">
-                    <form id="login-form">
-                        <div class="log-name"><h2>Đăng nhập</h2></div>
-                        <label for="email">Email: </label>
-                        <input type="email" id="email" name="email" required>
+<div id="system">
+    <div class="background-img">
+        <div class="container">
+            <div class="log">
+                <form id="login-form">
+                    <div class="log-name"><h2>Đăng nhập</h2></div>
+                    <label for="email">Email: </label>
+                    <input type="email" id="email" name="email" required>
 
-                        <label for="password">Mật khẩu: </label>
-                        <input type="password" id="password" name="password" required>
+                    <label for="password">Mật khẩu: </label>
+                    <input type="password" id="password" name="password" required>
 
-                        <div class="button-log">
-                            <button type="submit" class="button-log-in">Đăng nhập</button>
-                            <div>Chưa có tài khoản? <a th:href="@{/customer/register}" id="link-log">Đăng kí</a></div>
-                        </div>
-                    </form>
+                    <div class="button-log">
+                        <button type="submit" class="button-log-in">Đăng nhập</button>
+                        <div>Chưa có tài khoản? <a th:href="@{/customer/register}" id="link-log">Đăng kí</a></div>
+                        <div><a href="#" id="link-forgot-password">Quên mật khẩu?</a></div>
+                    </div>
+                </form>
+
+                <!-- Form Quên Mật Khẩu -->
+                <div id="forgot-password" style="display:none;">
+                    <h2>Quên mật khẩu</h2>
+                    <label for="forgot-email">Nhập email của bạn: </label>
+                    <input type="email" id="forgot-email" required>
+                    <button id="send-reset-link">Gửi liên kết đặt lại mật khẩu</button>
+                    <div><a href="#" id="back-to-login">Quay lại đăng nhập</a></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById("login-form").addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn reload trang
+<script>
+    document.getElementById("link-forgot-password").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("forgot-password").style.display = "block"; // Hiển thị form quên mật khẩu
+        document.getElementById("login-form").style.display = "none"; // Ẩn form đăng nhập
+    });
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+    document.getElementById("back-to-login").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("forgot-password").style.display = "none"; // Ẩn form quên mật khẩu
+        document.getElementById("login-form").style.display = "block"; // Hiển thị lại form đăng nhập
+    });
 
-            const data = {
-                email: email,
-                password: password
-            };
+    // ✅ Gửi email khi bấm nút "Gửi liên kết đặt lại mật khẩu"
+    document.getElementById("send-reset-link").addEventListener("click", function(event) {
+        event.preventDefault();
 
-            fetch("http://localhost:8080/auth/token", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+        const email = document.getElementById("forgot-email").value;
+
+        const data = {
+            email: email
+        };
+
+        console.log("Gửi data:", JSON.stringify(data)); // Debug data gửi đi
+
+        fetch("http://localhost:8080/auth/forgot-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)  // Đảm bảo đúng định dạng JSON
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();  // Nhận lại thông báo thành công
+                } else {
+                    return response.text().then(err => {
+                        throw new Error(err || "Gửi liên kết thất bại");
+                    });
+                }
             })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json(); // Lấy token từ response
-                    } else {
-                        return response.json().then(err => {
-                            throw new Error(err.message || "Đăng nhập thất bại");
-                        });
+            .then(result => {
+                alert(result);  // Thông báo thành công
+            })
+            .catch(err => {
+                alert("Lỗi: " + err.message);
+            });
+    });
 
-                    }
-                })
-                .then(result => {
-                    const token = result.result.token;
 
-                    // Lưu token vào localStorage (hoặc sessionStorage)
-                    localStorage.setItem("token", token);
 
-                    alert("Đăng nhập thành công!");
 
-                    window.location.href = "/customer/home";
-                })
-                .catch(err => {
-                    alert("Lỗi đăng nhập: " + err.message);
-                });
-        });
-    </script>
+
+
+
+    document.getElementById("login-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn reload trang
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const data = {
+            email: email,
+            password: password
+        };
+
+        fetch("http://localhost:8080/auth/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Lấy token từ response
+                } else {
+                    return response.json().then(err => {
+                        throw new Error(err.message || "Đăng nhập thất bại");
+                    });
+
+                }
+            })
+            .then(result => {
+                const token = result.result.token;
+
+                // Lưu token vào localStorage (hoặc sessionStorage)
+                localStorage.setItem("token", token);
+
+                alert("Đăng nhập thành công!");
+
+                window.location.href = "/customer/home";
+            })
+            .catch(err => {
+                alert("Lỗi đăng nhập: " + err.message);
+            });
+    });
+</script>
 
 </body>
 </html>
