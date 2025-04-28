@@ -108,11 +108,8 @@ public class AuthenticationController {
                 "Mật khẩu mới của bạn là: " + newPassword
         );
         System.out.println("Đã gửi email chứa mật khẩu mới đến email của người dùng.");
-
         return ResponseEntity.ok("Mật khẩu đã được gửi tới email của bạn.");
     }
-
-
 
     private String generateRandomPassword() {
         int length = 8;
