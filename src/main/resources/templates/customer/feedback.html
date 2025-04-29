@@ -93,21 +93,20 @@
             return;
         }
 
-        const feedbackData = {
-            email: email,
-            serviceName: serviceName,
-            bookingDate: bookingDate,
-            rating: rating,
-            feedback: feedback,
-            action: "submit" // Thêm action:submit
-        };
+        const params = new URLSearchParams();
+        params.append('email', email);
+        params.append('serviceName', serviceName);
+        params.append('bookingDate', bookingDate);
+        params.append('rating', rating);
+        params.append('feedback', feedback);
+        params.append('action', 'submit'); // Thêm action:submit
 
         fetch('/customer/submit-feedback', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify(feedbackData)
+            body: params.toString()
         })
             .then(response => response.json())
             .then(data => {
