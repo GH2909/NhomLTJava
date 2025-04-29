@@ -27,14 +27,14 @@
 
 .top-bar {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
     margin: 20px 0;
     gap: 10px;
 }
 
 
-.add-users-btn, .delete-users-btn {
+.delete-users-btn {
     background: #28a745;
     color: white;
     padding: 8px 15px;
@@ -43,7 +43,7 @@
     cursor: pointer;
 }
 
-.add-users-btn:hover, .delete-users-btn:hover{
+.delete-users-btn:hover{
     background: #218838;
 }
 
