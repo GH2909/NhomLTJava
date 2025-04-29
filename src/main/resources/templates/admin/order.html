@@ -2,13 +2,100 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skincare Booking System</title>
+    <title>Order Page</title>
     <link rel="stylesheet" th:href="@{/themify-icons-font/themify-icons/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
     <link rel="stylesheet" th:href="@{/assets/css/order.css}">
+    <style>
+        .dropdown {
+            position: relative;
+            width: 180px;
+        }
+
+        .dropdown-selected {
+            border: 1px solid #d9d9d9;
+            padding: 2px 6px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #fff;
+            user-select: none;
+            text-align: center;
+            font-weight: bold;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            right: 0;
+            border: 1px solid #d9d9d9;
+            border-radius: 12px;
+            background-color: #fff;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+            display: none;
+            z-index: 10;
+        }
+
+        .dropdown-list li {
+            padding: 10px 12px;
+            cursor: pointer;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-list li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-list li:hover {
+            background-color: #f2f2f2;
+        }
+
+        .dropdown.open .dropdown-list {
+            display: block;
+        }
+
+        .status-chua-thuc-hien {
+            background-color: red;
+            color: white;
+        }
+
+        .status-dang-tien-hanh {
+            background-color: orange;
+            color: white;
+        }
+
+        .status-da-tien-hanh {
+            background-color: limegreen;
+            color: white;
+        }
+
+        /* Giữ nguyên màu cho trạng thái thanh toán */
+        .payment-chua-thanh-toan {
+            background-color: red;
+            color: white;
+        }
+
+        .payment-da-thanh-toan {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .payment-thanh-toan-sau {
+            background-color: orange;
+            color: white;
+        }
+    </style>
 </head>
 <body>
+
 <div id="system">
     <div th:replace="~{admin/index :: header}"></div>
     <div id="slidebar">
@@ -27,10 +114,8 @@
                             <th>Dịch vụ</th>
                             <th>Giá tiền</th>
                             <th>Ngày đặt</th>
-                            <!--                                <th>Thời gian</th> -->
-<!--                            <th>Nhân viên phụ trách</th>-->
-<!--                            <th>Chuyên viên trị liệu</th>-->
                             <th>Trạng thái</th>
+                            <th>Trạng thái thanh toán</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -42,68 +127,137 @@
                             <td th:text="${order.service.name}"></td>
                             <td th:text="${#numbers.formatDecimal(order.service.price, 1, 'POINT', 2, 'COMMA')} + 'đ'"></td>
                             <td th:text="${order.bookingDate}"></td>
-<!--                            <td th:text="${order.assignedStaff}"></td>-->
-<!--                            <td th:text="${order.therapist}"></td>-->
+
+                            <!-- Trạng thái -->
                             <td>
-                                <div class="custom-select-wrapper">
-                                    <div class="custom-select" onclick="toggleDropdown(this)">
-                                        <span class="selected-option" th:text="${order.status}">Chọn trạng thái</span>
-                                        <ul class="options">
-                                            <li onclick="selectOption(this)" data-status="not-started">Chưa thực hiện</li>
-                                            <li onclick="selectOption(this)" data-status="in-progress">Đang tiến hành</li>
-                                            <li onclick="selectOption(this)" data-status="completed">Đã tiến hành</li>
-                                        </ul>
+                                <div class="dropdown" data-order-id="${order.id}">
+                                    <div class="dropdown-selected" data-order-id="1" onclick="toggleDropdown(this)">
+                                        <span th:switch="${order.status}">
+                                            <span th:case="'pending'">Chưa thực hiện</span>
+                                            <span th:case="'in-progress'">Đang tiến hành</span>
+                                            <span th:case="'completed'">Đã tiến hành</span>
+                                            <span th:case="*" th:text="${order.status}"></span>
+                                        </span>
                                     </div>
+                                    <ul class="dropdown-list">
+                                        <li onclick="selectStatus(this, 'pending')">Chưa thực hiện</li>
+                                        <li onclick="selectStatus(this, 'in-progress')">Đang tiến hành</li>
+                                        <li onclick="selectStatus(this, 'completed')">Đã tiến hành</li>
+                                    </ul>
                                 </div>
                             </td>
+
+
+                            <!-- Trạng thái thanh toán (Giữ nguyên như cũ) -->
+                            <td>
+                                <div class="dropdown">
+                                    <div class="dropdown-selected" onclick="toggleDropdown(this)">
+                                        <span></span>
+                                    </div>
+                                    <ul class="dropdown-list">
+                                        <li onclick="selectPaymentStatus(this)">Chưa thanh toán</li>
+                                        <li onclick="selectPaymentStatus(this)">Đã thanh toán</li>
+                                        <li onclick="selectPaymentStatus(this)">Thanh toán sau</li>
+                                    </ul>
+                                </div>
+                            </td>
+
                         </tr>
                         </tbody>
                     </table>
-                </div >
+                </div>
             </div>
         </div>
     </div>
     <div th:replace="~{admin/index :: footer}"></div>
 </div>
 
-</body>
 <script>
-    function toggleDropdown(selectElement) {
-        selectElement.classList.toggle('open');
+    function toggleDropdown(element) {
+        const dropdown = element.parentElement;
+        dropdown.classList.toggle('open');
+    }
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // Lấy CSRF token từ meta tag
+    function selectStatus(option, newStatus) {
+        const dropdown = option.closest('.dropdown');
+        const selectedDiv = dropdown.querySelector('.dropdown-selected');
+        const selectedSpan = dropdown.querySelector('.dropdown-selected span');
+        const orderId = dropdown.getAttribute('data-order-id');
+
+        console.log('Đang cập nhật bookingId:', orderId, 'status:', newStatus);
+
+        // Update giao diện trước
+        if (newStatus === 'pending') {
+            selectedSpan.innerText = 'Chưa thực hiện';
+        } else if (newStatus === 'in-progress') {
+            selectedSpan.innerText = 'Đang tiến hành';
+        } else if (newStatus === 'completed') {
+            selectedSpan.innerText = 'Đã tiến hành';
+        }
+
+        dropdown.classList.remove('open');
+        selectedDiv.classList.remove('status-chua-thuc-hien', 'status-dang-tien-hanh', 'status-da-tien-hanh');
+        if (newStatus === 'pending') {
+            selectedDiv.classList.add('status-chua-thuc-hien');
+        } else if (newStatus === 'in-progress') {
+            selectedDiv.classList.add('status-dang-tien-hanh');
+        } else if (newStatus === 'completed') {
+            selectedDiv.classList.add('status-da-tien-hanh');
+        }
+
+        // Fetch gửi PATCH (Không có CSRF token)
+        // fetch('/booking/update-status?bookingId=' + orderId + '&status=' + newStatus, {
+        //     method: 'PATCH',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     }
+        // })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             return response.text().then(text => {
+        //                 throw new Error('Cập nhật thất bại: ' + text);
+        //             });
+        //         }
+        //         return response.json();
+        //     })
+        //         .then(data => {
+        //         console.log('Cập nhật thành công:', data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Lỗi cập nhật:', error);
+        //         alert('Cập nhật thất bại!');
+        //     });
     }
 
-    function selectOption(optionElement) {
-        const selectedText = optionElement.innerText;
-        const statusClass = optionElement.getAttribute('data-status');
 
-        const wrapper = optionElement.closest('.custom-select');
-        const display = wrapper.querySelector('.selected-option');
 
-        // Cập nhật nội dung hiển thị
-        display.innerText = selectedText;
+    function selectPaymentStatus(option) {
+        const dropdown = option.closest('.dropdown');
+        const selectedSpan = dropdown.querySelector('.dropdown-selected span');
+        const selectedDiv = dropdown.querySelector('.dropdown-selected');
 
-        // Xóa class cũ và thêm class mới
-        wrapper.classList.remove('status-not-started', 'status-in-progress', 'status-completed');
-        wrapper.classList.add('status-' + statusClass);
+        selectedSpan.innerText = option.innerText;
+        dropdown.classList.remove('open');
 
-        // Đóng dropdown
-        wrapper.classList.remove('open');
+        selectedDiv.classList.remove('payment-chua-thanh-toan', 'payment-da-thanh-toan', 'payment-thanh-toan-sau');
 
-        // Xóa class 'selected' khỏi tất cả options
-        wrapper.querySelectorAll('.options li').forEach(li => li.classList.remove('selected'));
-
-        // Gán class 'selected' cho mục vừa chọn
-        optionElement.classList.add('selected');
+        if (option.innerText === 'Chưa thanh toán') {
+            selectedDiv.classList.add('payment-chua-thanh-toan');
+        } else if (option.innerText === 'Đã thanh toán') {
+            selectedDiv.classList.add('payment-da-thanh-toan');
+        } else if (option.innerText === 'Thanh toán sau') {
+            selectedDiv.classList.add('payment-thanh-toan-sau');
+        }
     }
 
-    // Tắt dropdown nếu click ra ngoài
     document.addEventListener('click', function (e) {
-        document.querySelectorAll('.custom-select').forEach(dropdown => {
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
             if (!dropdown.contains(e.target)) {
                 dropdown.classList.remove('open');
             }
         });
     });
 </script>
-
+</body>
 </html>
+

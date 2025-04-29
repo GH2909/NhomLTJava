@@ -7,14 +7,122 @@
     <link rel="stylesheet" th:href="@{/assets/themify-icons-font/themify-icons/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
     <link rel="stylesheet" th:href="@{/assets/css/cus_order.css}">
+    <style>
+        /* Modal thanh toán */
+        #paymentModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #paymentModal > div {
+            position: relative;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Nút X đẹp */
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 22px;
+            font-weight: normal;
+            color: #888;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-button:hover {
+            background-color: #f8d7da;
+            color: #e74c3c;
+        }
+
+        #paymentModal h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 80%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #qrCode {
+            display: none;
+            width: 250px; /* Khung QR nhỏ lại tùy ý bạn chỉnh */
+            height: auto;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #qrCode img {
+            width: 100%; /* Ảnh tự đầy đủ khung */
+            height: auto; /* Giữ tỷ lệ đúng gốc, không méo */
+            object-fit: contain; /* Nếu cần cực đẹp */
+        }
+
+
+        #payResult {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body>
 <div id="system">
 
     <div th:replace="~{customer/index :: nav}"></div>
-<!--    <div class="home-link">-->
-<!--        <a th:href="@{/customer/home}">← Home</a>-->
-<!--    </div>-->
+
+    <div class="home-link">
+        <a th:href="@{/customer/home}">← Home</a>
+    </div>
+
     <div class="order-container">
         <h2>Đặt Dịch Vụ</h2>
         <form id="orderForm">
@@ -47,40 +155,37 @@
         </form>
     </div>
 
-    <div th:replace="~{customer/index :: footer}"></div>
-</div>
-<script>
-    // async function loadStaffAndTherapists() {
-    //     const staffRes = await fetch("/users/by-role?roleName=STAFF");
-    //     const therapistRes = await fetch("/users/by-role?roleName=SKIN_THERAPIST");
-    //
-    //     const staffList = await staffRes.json();
-    //     const therapistList = await therapistRes.json();
-    //
-    //     const staffSelect = document.createElement("select");
-    //     staffSelect.id = "staffId";
-    //     staffSelect.innerHTML = `<option value="">-- Chọn nhân viên --</option>` +
-    //         staffList.map(user => `<option value="${user.id}">${user.fullName}</option>`).join("");
-    //
-    //     const therapistSelect = document.createElement("select");
-    //     therapistSelect.id = "therapistId";
-    //     therapistSelect.innerHTML = `<option value="">-- Chọn chuyên viên --</option>` +
-    //         therapistList.map(user => `<option value="${user.id}">${user.fullName}</option>`).join("");
-    //
-    //     const form = document.getElementById("orderForm");
-    //     form.insertBefore(staffSelect, form.querySelector("button"));
-    //     form.insertBefore(therapistSelect, form.querySelector("button"));
-    // }
-    console.log("Service ID load từ localStorage:", serviceId);
+    <!-- Modal thanh toán -->
+    <div id="paymentModal">
+        <div>
+            <span class="close-button" onclick="closeModal()">×</span>
 
+            <h3>Chọn phương thức thanh toán</h3>
+            <div class="button-group">
+                <button id="payBank">Thanh toán qua Ngân hàng</button>
+                <button id="payCash">Thanh toán tiền mặt</button>
+            </div>
+
+            <div id="qrCode">
+                <h4>Thanh toán qua QR:</h4>
+                <img src="/assets/img/mã%20qr.jpg" alt="QR Code" />
+            </div>
+
+            <div id="payResult"></div>
+        </div>
+    </div>
+
+    <div th:replace="~{customer/index :: footer}"></div>
+
+</div>
+
+<script>
     window.onload = function () {
-        // Lấy thông tin dịch vụ từ localStorage
         const serviceName = localStorage.getItem('serviceName');
         const serviceDescription = localStorage.getItem('serviceDescription');
         const servicePrice = localStorage.getItem('servicePrice');
-        const serviceId = localStorage.getItem('serviceId'); // Lấy serviceId từ localStorage
+        const serviceId = localStorage.getItem('serviceId');
 
-        // Nếu có thông tin dịch vụ, điền vào form
         if (serviceName && serviceId) {
             const serviceSelect = document.getElementById('service');
             const div = document.createElement('div');
@@ -88,11 +193,11 @@
             serviceSelect.appendChild(div);
 
             document.getElementById('serviceId').value = serviceId;
-
         }
     };
-    // loadStaffAndTherapists();
 
+    let countdownInterval;
+    let timeoutCancel;
 
     document.getElementById("orderForm").addEventListener("submit", function (e) {
         e.preventDefault();
@@ -109,8 +214,6 @@
             price: localStorage.getItem("servicePrice"),
         };
 
-        console.log("Order gửi lên:", order);
-
         fetch("http://localhost:8080/booking", {
             method: "POST",
             headers: {
@@ -118,28 +221,79 @@
             },
             body: JSON.stringify(order)
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();  // Lấy dữ liệu trả về từ server
-                } else {
-                    return res.text().then(text => {  // Lấy thông báo lỗi nếu có
-                        throw new Error(`Đặt hàng thất bại: ${text}`);
-                    });
-                }
-            })
+            .then(res => res.json())
             .then(data => {
                 alert("Đặt hàng thành công!");
-                localStorage.removeItem('serviceName');
-                localStorage.removeItem('servicePrice');
-                localStorage.removeItem('serviceDescription');
-                localStorage.removeItem('serviceId');
-                window.location.href = "/customer/home";
+                localStorage.setItem("bookingId", data.id);
+                document.getElementById("paymentModal").style.display = "flex";
             })
             .catch(error => {
-                alert(error.message);  // Hiển thị lỗi chi tiết từ server
+                alert(error.message);
             });
-
     });
+
+    document.getElementById("payBank").addEventListener("click", function () {
+        document.getElementById("qrCode").style.display = "block";
+        document.getElementById("payResult").textContent = "Vui lòng quét mã QR để thanh toán. (Hiệu lực trong 10 phút)";
+        startCountdown();
+    });
+
+    document.getElementById("payCash").addEventListener("click", function () {
+        document.getElementById("qrCode").style.display = "none";
+        document.getElementById("payResult").textContent = "Thanh toán bằng tiền mặt khi nhận dịch vụ.";
+
+        clearInterval(countdownInterval);
+        clearTimeout(timeoutCancel);
+    });
+
+    function startCountdown() {
+        clearInterval(countdownInterval);
+        clearTimeout(timeoutCancel);
+
+        let timeLeft = 120; // 10 phút
+        updateCountdownDisplay(timeLeft);
+
+        countdownInterval = setInterval(() => {
+            timeLeft--;
+            updateCountdownDisplay(timeLeft);
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+        timeoutCancel = setTimeout(cancelBooking, 120000); // 10 phút
+    }
+
+    function updateCountdownDisplay(timeInSeconds) {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+        document.getElementById("payResult").textContent =
+            `Vui lòng quét mã QR để thanh toán. Còn ${minutes}:${seconds < 10 ? '0' : ''}${seconds} phút`;
+    }
+
+    function cancelBooking() {
+        const bookingId = localStorage.getItem("bookingId");
+        if (bookingId) {
+            fetch(`http://localhost:8080/booking/${bookingId}`, {
+                method: "DELETE",
+            })
+                .then(() => {
+                    alert("Đã hủy đơn do quá hạn thanh toán!");
+                    document.getElementById("paymentModal").style.display = "none";
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }
+
+    function closeModal() {
+        document.getElementById("paymentModal").style.display = "none";
+        clearInterval(countdownInterval);
+        clearTimeout(timeoutCancel);
+    }
 </script>
+
 </body>
 </html>
