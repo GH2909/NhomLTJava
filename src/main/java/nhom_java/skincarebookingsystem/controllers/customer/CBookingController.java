@@ -15,14 +15,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/customer")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class CHistoryOrderController {
+public class CBookingController {
+    BookingService bookingService;
 
-    @GetMapping("/customer/history")
-    public String showHistoryPage() {
-        return "customer/history-search";
+    @PostMapping("/history")
+    public List<BookingResponse> getHistoryByEmail(@RequestParam("email") String email) {
+        return bookingService.getBooking(email);
     }
 
+    @PostMapping("/submit-feedback")
+    public List<BookingResponse> getFeedbackByEmail(@RequestParam("email") String email) {
+        return bookingService.getBooking(email);
+    }
+
+    @PostMapping("/feedbacks")
+    public List<BookingResponse> getRCFeedbackByEmail(@RequestParam("email") String email) {
+        return bookingService.getBooking(email);
+    }
 }

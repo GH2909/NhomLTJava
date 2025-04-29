@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản Lý Đánh Giá Khách Hàng</title>
+  <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/assets/css/ad_feedback.css}">
+</head>
+
+<body>
+<div th:replace="~{admin/index :: nav}"></div>
+
+<div id="body">
+  <h2>Danh Sách Đánh Giá Của Khách Hàng</h2>
+
+  <div id="feedback-list">
+    <!-- Các feedback sẽ render ở đây -->
+  </div>
+</div>
+
+<div th:replace="~{admin/index :: footer}"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('/admin/feedbacks')
+            .then(response => response.json())
+            .then(data => {
+              const feedbackList = document.getElementById('feedback-list');
+              feedbackList.innerHTML = '';
+
+              if (data.length === 0) {
+                feedbackList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
+                return;
+              }
+
+              data.forEach(feedback => {
+                const item = `
+                        <div class="feedback-item">
+                            <h3>Dịch vụ: ${feedback.serviceName}</h3>
+                            <p><strong>Khách hàng:</strong> ${feedback.customerEmail}</p>
+                            <p><strong>Ngày đặt:</strong> ${formatDate(feedback.bookingDate)}</p>
+                            <div class="stars">
+                                ${renderStars(feedback.rating)}
+                            </div>
+                            <p><strong>Nội dung:</strong> ${feedback.feedbackContent}</p>
+                            ${feedback.adminReply ? `<p><strong>Phản hồi Admin:</strong> ${feedback.adminReply}</p>` : ''}
+                            <button onclick="replyFeedback(${feedback.id})">Phản hồi</button>
+                            <button onclick="deleteFeedback(${feedback.id})">Xóa</button>
+                        </div>
+                    `;
+                feedbackList.innerHTML += item;
+              });
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert("Lỗi khi tải danh sách đánh giá!");
+            });
+  });
+
+  function renderStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+      stars += `<span style="color:${i <= rating ? 'gold' : 'grey'};">★</span>`;
+    }
+    return stars;
+  }
+
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('vi-VN');
+  }
+
+  function replyFeedback(feedbackId) {
+    const reply = prompt("Nhập nội dung phản hồi:");
+    if (reply) {
+      fetch('/admin/feedbacks/reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'feedbackId=' + encodeURIComponent(feedbackId) + '&reply=' + encodeURIComponent(reply)
+      })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  alert('Phản hồi thành công!');
+                  location.reload();
+                } else {
+                  alert('Có lỗi xảy ra khi phản hồi!');
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert("Lỗi khi gửi phản hồi!");
+              });
+    }
+  }
+
+  function deleteFeedback(feedbackId) {
+    if (confirm("Bạn có chắc chắn muốn xóa đánh giá này?")) {
+      fetch('/admin/feedbacks/delete/' + feedbackId, { method: 'DELETE' })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  alert('Xóa đánh giá thành công!');
+                  location.reload();
+                } else {
+                  alert('Có lỗi xảy ra khi xóa đánh giá!');
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert("Lỗi khi xóa đánh giá!");
+              });
+    }
+  }
+</script>
+
+</body>
+</html>

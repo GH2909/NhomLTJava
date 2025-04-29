@@ -45,8 +45,20 @@
                         </div>
                     </div>
                     <div class="card">
-                        <h3 id="current-year" class="date-info"></h3>
-                        <div class="amount" id="yearly-revenue">0đ</div>
+                        <div class="year-selector-container">
+                            <h3 for="year-select"><strong>Năm</strong></h3>
+                            <select id="year-select" onchange="getYearlyRevenue()">
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
+                        <div id="yearly-revenue-display">
+                            <p class="amount"><span id="yearly-revenue-2">0đ</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,14 +67,15 @@
     </div>
 </body>
 <script>
-        const token = localStorage.getItem("token");
-        if (!token) {
-            window.location.href = "/admin";
-        }
-        console.log("Token:", token);
+    //Kiểm tra đăng nhập
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "/admin";
+    }
+    console.log("Token:", token);
 
-        // Gọi API để lấy dữ liệu ban đầu cho trang home
-        fetch("http://localhost:8080/admin/home", {
+    // Gọi API để lấy dữ liệu ban đầu cho trang home
+    fetch("http://localhost:8080/admin/home", {
         method: "GET",
         // headers: {
         // "Authorization": `Bearer ${token}`}
@@ -76,102 +89,145 @@
         console.error("Lỗi khi load trang home:", e);
     });
 
-        // Cập nhật ngày hiện tại
-        const today = new Date();
-        const formattedDate = today.toLocaleDateString('vi-VN', {
+    // Cập nhật ngày hiện tại
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('vi-VN', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
-        document.getElementById("current-date").innerText = formattedDate;
+    document.getElementById("current-date").innerText = formattedDate;
 
-        const monthElement = document.getElementById("current-month");
-        if (monthElement) {
-        monthElement.innerText = "Tháng " + (today.getMonth() + 1);
+    //Hện tháng hiện tại
+    const monthDropdown = document.getElementById("month-select");
+    const currentMonth = today.getMonth() + 1;  // Lấy tháng hiện tại (1-12)
+    if (monthDropdown) {
+        // Chọn tháng hiện tại mặc định
+        monthDropdown.value = currentMonth;
+
+        // Cập nhật doanh thu cho tháng hiện tại khi trang tải
+        getMonthlyRevenue();
     }
 
-        const yearElement = document.getElementById("current-year");
-        if (yearElement) {
-        yearElement.innerText = "Năm " + today.getFullYear();
+    //Năm hiện tại
+    const yearDropdown = document.getElementById("year-select");
+    const currentYear = today.getFullYear();  // Lấy năm hiện tại
+    if (yearDropdown) {
+        // Chọn năm hiện tại mặc định
+        yearDropdown.value = currentYear;
+
+        // Cập nhật doanh thu cho năm hiện tại khi trang tải
+        getYearlyRevenue();
     }
 
-        // Gọi doanh thu theo tháng khi chọn
-        const monthSelect = document.getElementById("month-select");
-        if (monthSelect) {
+    //Gọi doanh thu theo tháng khi chọn
+    const monthSelect = document.getElementById("month-select");
+    if (monthSelect) {
         monthSelect.addEventListener('change', getMonthlyRevenue);
     }
 
-        function getMonthlyRevenue() {
+    //Lựa chọn tháng
+    function getMonthlyRevenue() {
         const selectedMonth = document.getElementById("month-select").value;
         fetch(`/api/revenue/monthly?month=${selectedMonth}`, {
-        // headers: {
-        // "Authorization": `Bearer ${token}`}
-    })
-        .then(response => response.json())
-        .then(data => {
-        if (data.revenue) {
-        document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
-    } else {
-        document.getElementById("monthly-revenue").innerText = "Không có dữ liệu doanh thu.";
+            // headers: {
+            // "Authorization": `Bearer ${token}`}
+        })
+
+            .then(response => response.json())
+            .then(data => {
+                if (data.revenue) {
+                    document.getElementById("monthly-revenue").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
+                } else {
+                    document.getElementById("monthly-revenue").innerText = "Không có dữ liệu doanh thu.";
+                }
+            })
+
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu tháng:", error);
+                document.getElementById("monthly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+            });
     }
-    })
-        .catch(error => {
-        console.error("Lỗi khi lấy doanh thu tháng:", error);
-        document.getElementById("monthly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+
+    //Lựa chọn năm
+    function getYearlyRevenue() {
+        const selectedYear = document.getElementById("year-select").value;
+        fetch(`/api/revenue/yearly?year=${selectedYear}`, {
+            // headers: {
+            //     "Authorization": `Bearer ${token}`
+            // }
+        })
+
+            .then(response => response.json())
+            .then(data => {
+                if (data.revenue) {
+                    document.getElementById("yearly-revenue-2").innerText = data.revenue.toLocaleString('vi-VN') + "đ";
+                } else {
+                    document.getElementById("yearly-revenue-2").innerText = "Không có dữ liệu doanh thu.";
+                }
+            })
+
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu năm:", error);
+                document.getElementById("yearly-revenue-2").innerText = "Lỗi khi lấy dữ liệu.";
+            });
+        }
+
+    //lấy doanh thu của ngày
+    function getDailyRevenueWithDate(date) {
+        fetch(`/api/revenue/daily?date=${date}`, {
+            // headers: {
+            //     "Authorization": `Bearer ${token}`
+            // }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("daily-revenue").innerText =
+                    data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
+            })
+
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu ngày:", error);
+                document.getElementById("daily-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+            });
+    }
+
+    //lấy doanh thu của năm
+    function getYearlyRevenueWithYear(year) {
+        fetch(`/api/revenue/yearly?year=${year}`, {
+            // headers: {
+            //     "Authorization": `Bearer ${token}`
+            // }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("yearly-revenue").innerText =
+                    data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
+            })
+
+            .catch(error => {
+                console.error("Lỗi khi lấy doanh thu năm:", error);
+                document.getElementById("yearly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
+            });
+    }
+
+    //trang web đã tải xong.
+    window.addEventListener('load', () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("date-select")?.setAttribute("value", today); // Nếu có input để chọn ngày
+
+        getDailyRevenueWithDate(today); // gọi hàm tính doanh thu hôm nay
+        getYearlyRevenueWithYear(new Date().getFullYear()); // gọi doanh thu của năm hiện tại
     });
-    }
-
-        function getDailyRevenueWithDate(date) {
-            fetch(`/api/revenue/daily?date=${date}`, {
-                // headers: {
-                //     "Authorization": `Bearer ${token}`
-                // }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("daily-revenue").innerText =
-                        data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
-                })
-                .catch(error => {
-                    console.error("Lỗi khi lấy doanh thu ngày:", error);
-                    document.getElementById("daily-revenue").innerText = "Lỗi khi lấy dữ liệu.";
-                });
-        }
-
-        function getYearlyRevenueWithYear(year) {
-            fetch(`/api/revenue/yearly?year=${year}`, {
-                // headers: {
-                //     "Authorization": `Bearer ${token}`
-                // }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("yearly-revenue").innerText =
-                        data.revenue ? data.revenue.toLocaleString('vi-VN') + "đ" : "Không có dữ liệu.";
-                })
-                .catch(error => {
-                    console.error("Lỗi khi lấy doanh thu năm:", error);
-                    document.getElementById("yearly-revenue").innerText = "Lỗi khi lấy dữ liệu.";
-                });
-        }
-
-        window.addEventListener('load', () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById("date-select")?.setAttribute("value", today); // Nếu có input để chọn ngày
-
-            getDailyRevenueWithDate(today); // gọi hàm tính doanh thu hôm nay
-            getYearlyRevenueWithYear(new Date().getFullYear()); // gọi doanh thu của năm hiện tại
-        });
 
 
-
-        // .then(response => response.text())
-        // .then(data => {
-        //     console.log(data);
-        // })
-        // .catch(e=> {
-        //     console.error("loi:",e);
+    // .then(response => response.text())
+    // .then(data => {
+    //     console.log(data);
+    // })
+    // .catch(e=> {
+    //     console.error("loi:",e);
     //});
     // console.log("a step2",token);
     //
