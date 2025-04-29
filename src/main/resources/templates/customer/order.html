@@ -257,6 +257,9 @@
             timeLeft--;
             updateCountdownDisplay(timeLeft);
 
+            if (timeLeft === 60) {  // ✨ THÊM Ở ĐÂY
+                alert("Còn 1 phút để hoàn tất thanh toán!");
+            }
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
             }
