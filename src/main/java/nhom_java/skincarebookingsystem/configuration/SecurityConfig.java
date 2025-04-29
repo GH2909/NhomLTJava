@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users", "/booking","/services","/assets/img/*", "/auth/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/**", "/admin/**", "/customer/**", "/assets/**", "/css/**", "/js/**", "/img/**", "/", "/index", "/home","/history","/booking", "/services","/assets/img/*").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/services/{id}", "/users/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/booking/update-status").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/revenue/**").permitAll()//.hasRole("MANAGER")
                         .anyRequest().authenticated());// co phep truy cap nen ko can security- requestMatchers: cau hinh cac user
@@ -51,16 +52,16 @@ public class SecurityConfig {
     }
 
     @Bean
-        JwtAuthenticationConverter jwtAuthenticationConverter() {
-            JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-            jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
-            JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-            jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-            return jwtAuthenticationConverter;
-        }
-
-        @Bean
-        PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder(10);
-        }
+    JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
     }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+}
