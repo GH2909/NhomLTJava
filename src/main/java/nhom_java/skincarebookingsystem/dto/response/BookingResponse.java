@@ -23,7 +23,8 @@ public class BookingResponse {
     LocalDate bookingDate;
     ServiceEntity service;
     Double price;
-//    User staff;
+    //    User staff;
 //    User therapist;
     String status;
+    String paymentStatus; // <-- thêm dòng này
 }

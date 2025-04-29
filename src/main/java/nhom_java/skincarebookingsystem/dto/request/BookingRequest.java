@@ -18,6 +18,7 @@ public class BookingRequest {
     String phone;
     String address;
     LocalDate bookingDate;
+    String paymentMethod;
     Long serviceId;
 //    Long staffId;
 //    Long therapistId;

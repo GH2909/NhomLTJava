@@ -7,14 +7,16 @@ import lombok.experimental.FieldDefaults;
 import nhom_java.skincarebookingsystem.dto.request.ApiResponse;
 import nhom_java.skincarebookingsystem.dto.request.BookingRequest;
 import nhom_java.skincarebookingsystem.dto.response.BookingResponse;
+import nhom_java.skincarebookingsystem.models.Booking;
 import nhom_java.skincarebookingsystem.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/booking")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingController {
@@ -22,26 +24,42 @@ public class BookingController {
     @Autowired
     BookingService bookingService;
 
-    @PostMapping("/booking")
+    @PostMapping
     public ApiResponse<BookingResponse> createBooking(@RequestBody @Valid BookingRequest request) {
         return ApiResponse.<BookingResponse>builder()
                 .result(bookingService.createBooking(request))
                 .build();
     }
 
-    @GetMapping("/booking")
+    @GetMapping
     public ApiResponse<List<BookingResponse>> getBookings() {
         return ApiResponse.<List<BookingResponse>>builder()
                 .result(bookingService.getAllBookings())
                 .build();
     }
 
+    @GetMapping("/email")
+    public ApiResponse<List<BookingResponse>> getBooking(@RequestParam String email) {
+        return ApiResponse.<List<BookingResponse>>builder()
+                .result(bookingService.getBooking(email))
+                .build();
+    }
 
-    @DeleteMapping("/booking")
+
+    @DeleteMapping
     public ApiResponse<String> deleteBooking(@PathVariable String email) {
         bookingService.deleteBooking(email);
         return ApiResponse.<String>builder()
                 .result("Booking has been deleted successfully.")
+                .build();
+    }
+
+    @PatchMapping("/update-status")
+    public ApiResponse<String> updateBookingStatus(@RequestParam Long bookingId,
+                                                   @RequestParam String status) {
+        bookingService.updateStatus(bookingId, status);
+        return ApiResponse.<String>builder()
+                .result("Cập nhật trạng thái thành công.")
                 .build();
     }
 

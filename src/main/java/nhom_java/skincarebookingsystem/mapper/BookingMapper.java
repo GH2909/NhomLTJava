@@ -19,6 +19,18 @@ import org.springframework.stereotype.Component;
 public class BookingMapper {
     @Autowired
     private ServiceRepository serviceRepository;
+    // Hàm chuyển đổi trạng thái thanh toán sang tiếng Việt
+    private String mapPaymentStatusToVietnamese(String paymentStatus) {
+        if (paymentStatus == null) {
+            return "Chưa thanh toán";
+        }
+        return switch (paymentStatus) {
+            case "UNPAID" -> "Chưa thanh toán";
+            case "PAID_LATER" -> "Thanh toán sau";
+            case "PAID" -> "Đã thanh toán";
+            default -> "Chưa thanh toán";
+        };
+    }
     public Booking toBooking(BookingRequest request){
         if (request.getServiceId() == null) {
             throw new AppException(ErrorCode.INVALID_DATA);
@@ -62,7 +74,8 @@ public class BookingMapper {
         bookingResponse.setPrice(booking.getPrice());
 //        bookingResponse.setStaff(booking.getStaff());
 //        bookingResponse.setTherapist(booking.getTherapist());
-        bookingResponse.setStatus("Chưa thực hiện");
+        bookingResponse.setStatus(booking.getStatus()); // lấy đúng từ database
+        bookingResponse.setPaymentStatus(mapPaymentStatusToVietnamese(booking.getPaymentStatus())); // Dùng hàm mới ở đây
         return bookingResponse;
     }
 

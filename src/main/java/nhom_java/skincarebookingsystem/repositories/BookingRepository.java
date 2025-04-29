@@ -13,7 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    List<Booking> findByEmail(String email);
+    Optional<Booking> findByEmail(String email);
+
     void deleteByEmail(String email);
     boolean existsByEmail(String email);
 

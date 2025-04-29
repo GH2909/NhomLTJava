@@ -16,12 +16,12 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long bookingId;
-     String fullName;
-     String email;
-     String phone;
-     String address;
-     LocalDate bookingDate;
+    Long bookingId;
+    String fullName;
+    String email;
+    String phone;
+    String address;
+    LocalDate bookingDate;
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
     ServiceEntity service;
@@ -36,4 +36,5 @@ public class Booking {
 //    User therapist;
 
     String status;
+    String paymentStatus; // trạng thái thanh toán: UNPAID / PAID_LATER / PAID
 }

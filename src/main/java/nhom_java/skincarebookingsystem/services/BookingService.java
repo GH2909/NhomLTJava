@@ -18,8 +18,10 @@ import nhom_java.skincarebookingsystem.repositories.ServiceRepository;
 import nhom_java.skincarebookingsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper ;
+    UserRepository userRepository;
     ServiceRepository serviceRepository;
 
 
@@ -41,7 +44,17 @@ public class BookingService {
                     .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
             booking.setService(service);
         }
+// Xử lý Payment Status
+        if ("BANK_TRANSFER".equalsIgnoreCase(request.getPaymentMethod())) {
+            booking.setPaymentStatus("UNPAID"); // chọn chuyển khoản
+        } else if ("CASH".equalsIgnoreCase(request.getPaymentMethod())) {
+            booking.setPaymentStatus("PAID_LATER"); // chọn tiền mặt
+        } else {
+            booking.setPaymentStatus("UNKNOWN"); // phòng khi dữ liệu lỗi
+        }
 
+        // Gán trạng thái booking mặc định
+        booking.setStatus("Chưa thực hiện");
         // Tìm và gán Staff nếu có
 //        if (request.getStaffId() != null) {
 //            User staff = userRepository.findById(request.getStaffId())
@@ -64,23 +77,45 @@ public class BookingService {
     }
 
     public List<BookingResponse> getBooking(String email) {
-        List<Booking> bookings = bookingRepository.findByEmail(email);
-        if (bookings.isEmpty()) {
-            throw new AppException(ErrorCode.NOT_EXISTED);
-        }
-        return bookings.stream()
+        // Tìm booking theo email
+        BookingResponse bookingResponse = bookingRepository.findByEmail(email)
                 .map(bookingMapper::toBookingResponse)
-                .collect(Collectors.toList());
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
 
+        // Trả về danh sách chứa một phần tử
+        return List.of(bookingResponse);
     }
+
 
     public void deleteBooking(String email) {
         if (!bookingRepository.existsByEmail(email)) {
             throw new AppException(ErrorCode.NOT_FOUND);
         }
         bookingRepository.deleteByEmail(email);
-
     }
+
+    public void updateStatus(Long bookingId, String newStatus) {
+        System.out.println("Đang cập nhật trạng thái cho bookingId: " + bookingId + " với trạng thái mới: " + newStatus);
+
+        // Kiểm tra xem có tìm thấy booking hay không
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+        if (optionalBooking.isPresent()) {
+            System.out.println("Booking tìm thấy với ID: " + bookingId);
+
+            // Lấy đối tượng Booking và cập nhật trạng thái
+            Booking booking = optionalBooking.get();
+            booking.setStatus(newStatus);
+
+            // Lưu lại booking với trạng thái mới
+            bookingRepository.save(booking);
+            System.out.println("Cập nhật trạng thái thành công cho bookingId: " + bookingId);
+        } else {
+            // Nếu không tìm thấy booking
+            System.out.println("Không tìm thấy booking với id: " + bookingId);
+            throw new RuntimeException("Booking not found with id: " + bookingId);
+        }
+    }
+
 
 
 }
